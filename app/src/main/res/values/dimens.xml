@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="line_spacing_extra_normal">4dp</dimen>
+    <dimen name="line_spacing_extra_headline_small">5dp</dimen>
+    <dimen name="line_spacing_extra_headline_medium">6dp</dimen>
+    <dimen name="line_padding_extra_normal">2dp</dimen>
+
+</resources>

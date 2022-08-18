@@ -1,0 +1,115 @@
+apply from: "versions.gradle"
+
+ext.deps = [
+        'plugin': [
+                'gradle': "com.android.tools.build:gradle:${versions.gradle}",
+                'matrix': "com.tencent.matrix:matrix-gradle-plugin:${versions.matrix}",
+                'arouter': "com.alibaba:arouter-register:${versions.arouter.register}",
+                'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin.core}"
+        ],
+        'kotlin': [
+                'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.core}",
+                'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin.core}",
+                'coroutines': [
+                        'core': "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin.coroutines}",
+                        'android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}"
+                ]
+        ],
+        'test': [
+                'junit': "junit:junit:${versions.test.junit}",
+        ],
+        'android': [
+                'appcompat': "androidx.appcompat:appcompat:${versions.android.appcompat}",
+                'material': "com.google.android.material:material:${versions.android.material}",
+                'constraintlayout': "androidx.constraintlayout:constraintlayout:${versions.android.constraintlayout}",
+                'test': [
+                        'junit': "androidx.test.ext:junit:${versions.android.test.junit}",
+                        'espresso': [
+                                'core': "androidx.test.espresso:espresso-core:${versions.android.test.espresso.core}",
+                        ],
+                ],
+                'flexbox': "com.google.android.flexbox:flexbox:${versions.android.flexbox}",
+        ],
+        'jetpack': [
+                'startup': "androidx.startup:startup-runtime:${versions.jetpack.startup}",
+                'lifecycle': "androidx.lifecycle:lifecycle-extensions:${versions.jetpack.lifecycle}",
+                'room': [
+                        'runtime': "androidx.room:room-runtime:${versions.jetpack.room}",
+                        'compiler': "androidx.room:room-compiler:${versions.jetpack.room}"
+                ],
+        ],
+        'sqlite_jdbc': "org.xerial:sqlite-jdbc:${versions.sqlite_jdbc}",
+        'rxjava2': [
+                'rxjava': "io.reactivex.rxjava2:rxjava:${versions.rxjava2.rxjava}",
+                'rxandroid': "io.reactivex.rxjava2:rxandroid:${versions.rxjava2.rxandroid}",
+        ],
+        'matrix': [
+                'core': "com.tencent.matrix:matrix-android-lib:${versions.matrix}",
+                'trace_canary': "com.tencent.matrix:matrix-trace-canary:${versions.matrix}",
+        ],
+        'ijkplayer': "tv.danmaku.ijk.media:ijkplayer-java:${versions.ijkplayer}",
+        'smart_refresh': "com.scwang.smartrefresh:SmartRefreshLayout:${versions.smart_refresh}",
+
+        'smart_refresh_new': [
+                'core': "io.github.scwang90:refresh-layout-kernel:${versions.smart_refresh_new}",
+                'classics_header': "io.github.scwang90:refresh-header-classics:${versions.smart_refresh_new}",
+                'classics_footer': "io.github.scwang90:refresh-footer-classics:${versions.smart_refresh_new}"
+        ],
+        'toast': "com.hjq:toast:${versions.toast}",
+        'glide': "com.github.bumptech.glide:glide:${versions.glide}",
+        'okhttp': "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+        'retrofit2': [
+                'retrofit': "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                'converter_gson': "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                'adapter_rxjava2': "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}",
+        ],
+        'gson': "com.google.code.gson:gson:${versions.gson}",
+        'xxpermissions': "com.hjq:xxpermissions:${versions.xxpermissions}",
+        'walle': "com.meituan.android.walle:library:${versions.walle}",
+        'eventbus': "org.greenrobot:eventbus:${versions.eventbus}",
+        'lottie':  "com.airbnb.android:lottie:${versions.lottie}",
+        'wechat_sdk_without_mta': "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:${versions.wechat_sdk_without_mta}",
+        'discrete_scrollview': "com.yarolegovich:discrete-scrollview:${versions.discrete_scrollview}",
+
+        'bugly': [
+                'upgrade': "com.tencent.bugly:crashreport_upgrade:${versions.bugly.upgrade}",
+                'ndk': "com.tencent.bugly:nativecrashreport:${versions.bugly.ndk}",
+        ],
+        'tbs': "com.tencent.tbs:tbssdk:${versions.tbs}",
+        'geetest': "com.geetest.sensebot:sensebot:${versions.geetest}",
+        'one_login': "com.geetest.android:onelogin:${versions.one_login}",
+        'svga_player': "com.github.yyued:SVGAPlayer-Android:${versions.svga_player}",
+        'scan_kit': "com.huawei.hms:scanplus:${versions.scan_kit}",
+        'arouter': [
+                'core': "com.alibaba:arouter-api:${versions.arouter.core}",
+                'compiler': "com.alibaba:arouter-compiler:${versions.arouter.compiler}",
+        ],
+        'ktx': [
+                'core': "androidx.core:core-ktx:${versions.ktx.core}",
+                'collection': "androidx.collection:collection-ktx:${versions.ktx.collection}",
+                'fragment': "androidx.fragment:fragment-ktx:${versions.ktx.fragment}",
+                'activity': "androidx.activity:activity-ktx:${versions.ktx.activity}",
+                'lifecycle': [
+                        'runtime': "androidx.lifecycle:lifecycle-runtime-ktx:${versions.ktx.lifecycle}",
+                        'livedata': "androidx.lifecycle:lifecycle-livedata-ktx:${versions.ktx.lifecycle}",
+                        'viewmodel': "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.ktx.lifecycle}",
+                ],
+        ],
+        'camerax': [
+                'core': "androidx.camera:camera-core:${versions.camerax}",
+                'camera2': "androidx.camera:camera-camera2:${versions.camerax}",
+                'lifecycle': "androidx.camera:camera-lifecycle:${versions.camerax}",
+                'view': "androidx.camera:camera-view:${versions.camerax}",
+        ],
+        'netty': [
+                'common': "io.netty:netty-common:${versions.netty}",
+                'handler': "io.netty:netty-handler:${versions.netty}",
+                'codec': "io.netty:netty-codec:${versions.netty}",
+                'transport': "io.netty:netty-transport:${versions.netty}",
+                'buffer': "io.netty:netty-buffer:${versions.netty}",
+        ],
+        'debug_db': [
+                'core': "com.amitshekhar.android:debug-db:${versions.debug_db}",
+                'encrypt': "com.amitshekhar.android:debug-db-encrypt:${versions.debug_db}",
+        ]
+]

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.seewo.brick.app">
+    <uses-sdk tools:overrideLibrary="club.andnext.markdown"/>
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BrickUI"
+        tools:targetApi="31">
+        <activity
+            android:name=".extra.counter.CounterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BrickUI" />
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".component.layout.LayoutActivity" />
+        <activity android:name=".component.extra.ExtraComponentActivity" />
+        <activity android:name=".component.list.simple.SimpleListActivity" />
+        <activity android:name=".component.list.list.ListActivity" />
+        <activity android:name=".component.pager.PagerActivity" />
+        <activity android:name=".helper.clip.ClipAndShadowHelperActivity" />
+        <activity android:name=".helper.color.ColorAndDrawableHelperActivity" />
+        <activity android:name=".helper.spannable.SpannableHelperActivity" />
+        <activity android:name=".helper.animator.AnimatorHelperActivity" />
+        <activity android:name=".extra.list.LongListActivity" />
+        <activity android:name=".extra.about.AboutActivity" />
+    </application>
+
+</manifest>

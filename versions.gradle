@@ -1,0 +1,106 @@
+ext.versions = [
+        'gradle': '4.1.3',
+        'matrix': '2.0.2',
+        'kotlin': [
+                'core': '1.7.10',
+                'coroutines': '1.6.1'
+        ],
+        'test': [
+                'junit': '4.13.2',
+        ],
+        'android': [
+                'appcompat': '1.4.1',
+                'material': '1.6.1',
+                'constraintlayout': '2.1.4',
+                'test': [
+                        'junit': '1.1.3',
+                        'espresso': [
+                                'core': '3.4.0',
+                        ],
+                ],
+                'flexbox': '3.0.0',
+        ],
+        'jetpack': [
+                'startup': "1.1.1",
+                'lifecycle': '2.5.0',
+                'room': '2.2.5',
+        ],
+        'sqlite_jdbc': '3.34.0', // for aarch64
+        'okhttp': '3.12.0',
+        'retrofit': '2.9.0',
+        'glide': '4.12.0',
+        'ijkplayer': '0.8.8',
+        'smart_refresh': '1.1.0-alpha-14',
+        'smart_refresh_new': '2.0.5',
+        'gson': '2.8.9',
+        'lottie':  "2.7.0",
+        'xxpermissions': '6.0',
+        'walle': '1.1.6',
+        'bugly': [
+          'upgrade': '1.6.1',
+          'ndk': '3.9.2'
+        ],
+        'tbs': '44199',
+        'wechat_sdk_without_mta': '5.4.3',
+        'discrete_scrollview': "1.4.9",
+        'geetest': '4.3.4.6',
+        'one_login': '2.7.5.1',
+        'scan_kit': '2.6.0.300',
+        'svga_player': "2.5.12",
+        'eventbus': '3.1.1',
+        'toast': "8.0",
+        'arouter': [
+                'core': '1.5.2',
+                'register': '1.0.2',
+                'compiler': '1.2.2',
+        ],
+        'debug_db': '1.0.6',
+        'rxjava2': [
+                'rxjava': '2.2.6',
+                'rxandroid': '2.1.1',
+        ],
+        'camerax': '1.2.0-alpha02',
+        'netty': '4.1.69.Final',
+        'ktx': [
+                'core': "1.7.0",
+                'collection': "1.2.0",
+                'fragment': "1.4.1",
+                'activity': "1.2.3",
+                'lifecycle': "2.5.1",
+        ],
+        'lib': [
+                'utils': '2.0.69',
+                'common': '2.1.6',
+                'log': '1.0.12',
+                'screen_camera': '2.2.5',
+                'mirror': "0.1.2",
+                'signal': [
+                        'sia': "0.1.2",
+                ],
+                'venom': '1.0.7',
+                'friday': '1.2.16',
+                'ijkplayer': '0.8.8-b930dc3',
+                'audio': "1.0.11",
+                'js': "1.1.0",
+                'http_server': "1.0.1",
+                'imageset': "1.1.0",
+        ],
+
+        'rtmq': [
+                'base': '1.0.20',
+                'push': '1.0.7',
+                'im': '1.0.12.d'
+        ],
+
+        'en': [
+                'apm': [
+                        'core': '2.1.14',
+                        'seewo_tracer': '3.0.7',
+                ],
+                'domain': [
+                        'signal': '0.3.2'
+                ],
+
+
+        ]
+]

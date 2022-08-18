@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation rootProject.ext.deps.kotlin.coroutines.core
+    implementation rootProject.ext.deps.kotlin.coroutines.android
+
+    implementation rootProject.ext.deps.android.appcompat
+    implementation rootProject.ext.deps.android.material
+
+    implementation rootProject.ext.deps.jetpack.startup
+    implementation rootProject.ext.deps.ktx.core
+    implementation rootProject.ext.deps.ktx.activity
+
+    implementation rootProject.ext.deps.smart_refresh_new.core
+    implementation rootProject.ext.deps.smart_refresh_new.classics_header
+    implementation rootProject.ext.deps.smart_refresh_new.classics_footer
+
+    implementation rootProject.ext.deps.android.flexbox
+}
+
+try {
+    // Jenkins 打包时会调用这里
+    apply from: "${project.rootDir}/gradles/jfrog-push.gradle"
+} catch(Exception ignored) {
+}

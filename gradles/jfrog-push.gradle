@@ -1,0 +1,67 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    getArchiveClassifier().set('javadoc')
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    getArchiveClassifier().set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifactoryPublish.dependsOn('build')
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId POM_GROUP
+            version POM_VERSION_NAME + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
+            artifactId POM_ARTIFACT_ID
+            artifact "$buildDir/outputs/aar/${project.name}-release.aar"
+            artifact androidSourcesJar
+
+            pom.withXml {
+                asNode().appendNode('description', POM_DESCRIPTION + ' Git commit:' + getGitSha())
+                final depsNode = asNode().appendNode('dependencies')
+
+                def compileDeps = configurations.api.getAllDependencies()
+//                compileDeps += configurations.compile.getAllDependencies()
+
+                def runtimeDeps = configurations.implementation.getAllDependencies()
+                runtimeDeps -= compileDeps
+
+                compileDeps.each { dep -> addPomDependency(depsNode, dep, "compile") }
+                runtimeDeps.each { dep -> addPomDependency(depsNode, dep, "runtime") }
+                if (depsNode.children().size() == 0) {
+                    asNode().remove(depsNode)
+                }
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "https://artifactory.gz.cvte.cn/artifactory"
+    publish {
+        repository {
+            repoKey = Boolean.valueOf(System.getProperty("snapshot")) ? "SR_maven_snapshots_local" : "SR_maven_releases_local"
+            username = System.getProperty("username")
+            password = System.getProperty("password")
+        }
+        defaults {
+            publications('aar')
+            properties = ['gitlab_url': GITLAB_URL, 'vcs.revision': System.getProperty("vcs")]
+        }
+    }
+}
+
+artifacts {
+    archives androidSourcesJar
+}

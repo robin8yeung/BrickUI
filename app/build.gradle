@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.seewo.brick.app"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    implementation(name: 'andnext_markdown-debug', ext: 'aar')
+    implementation rootProject.ext.deps.kotlin.coroutines.core
+    implementation rootProject.ext.deps.kotlin.coroutines.android
+
+    implementation rootProject.ext.deps.android.appcompat
+    implementation rootProject.ext.deps.android.material
+    implementation rootProject.ext.deps.android.constraintlayout
+
+    implementation rootProject.ext.deps.toast
+
+    // KTX
+    implementation rootProject.ext.deps.ktx.core
+    implementation rootProject.ext.deps.ktx.collection
+    implementation rootProject.ext.deps.ktx.fragment
+    implementation project(':core')
+    implementation project(':live')
+    implementation project(':glide')
+    implementation rootProject.ext.deps.glide
+
+    implementation rootProject.ext.deps.android.flexbox
+
+    implementation rootProject.ext.deps.smart_refresh_new.core
+    implementation rootProject.ext.deps.smart_refresh_new.classics_header
+    implementation rootProject.ext.deps.smart_refresh_new.classics_footer
+}

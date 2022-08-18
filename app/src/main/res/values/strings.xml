@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BrickUI</string>
+
+    <string name="request_permission">授权</string>
+    <string name="me">我</string>
+    <string name="counter">计数器</string>
+    <string name="hello">Hello %1$s</string>
+</resources>
