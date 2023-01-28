@@ -1,6 +1,7 @@
 # BrickUI
 
 [![](https://jitpack.io/v/robin8yeung/BrickUI.svg)](https://jitpack.io/#robin8yeung/BrickUI)
+[![license](http://img.shields.io/badge/license-Apache2.0-brightgreen.svg?style=flat)](./LICENSE)
 
 受JetpackCompose启发，通过组合和声明的方式去搭建UI，就像用砖头垒出来的一样自然。
 
@@ -351,3 +352,7 @@ class MainPage(context: Context, attributeSet: AttributeSet?): BrickPreview(cont
 
 - 整体实现 [BrickUI实现](doc/BrickUI.md)
 - RecyclerView实现 [RecyclerView实现](doc/RecylerView.md)
+
+
+## License
+BrickUI is [Apache v2.0 licensed](./LICENSE).
