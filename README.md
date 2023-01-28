@@ -13,6 +13,7 @@ BrickUI是一套Kotlin实现的基于原生View体系的声明式UI框架。与�
 ### 引入
 
 > VERSION 查阅 [CHANGELOG.md](CHANGELOG.md)
+> [![](https://jitpack.io/v/robin8yeung/BrickUI.svg)](https://jitpack.io/#robin8yeung/BrickUI)
 
 Add it in your root build.gradle at the end of repositories:
 ```groovy
