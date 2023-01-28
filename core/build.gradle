@@ -48,6 +48,7 @@ dependencies {
 
 try {
     // Jenkins 打包时会调用这里
+    apply from: "${project.rootDir}/gradles/jitpack-push.gradle"
     apply from: "${project.rootDir}/gradles/jfrog-push.gradle"
 } catch(Exception ignored) {
 }

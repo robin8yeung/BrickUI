@@ -1,0 +1,14 @@
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = POM_GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = POM_VERSION_NAME + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
+            }
+        }
+    }
+}
