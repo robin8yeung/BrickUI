@@ -16,20 +16,20 @@ BrickUI是一套Kotlin实现的基于原生View体系的声明式UI框架。与�
 
 Add it in your root build.gradle at the end of repositories:
 ```groovy
-	allprojects {
-		repositories {
-			// ...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		// ...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 Step 2. Add the dependency
 ```groovy
-	dependencies {
-	        implementation 'com.github.robin8yeung.BrickUI:brick-ui:{VERSION}'
-	        implementation 'com.github.robin8yeung.BrickUI:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
-	        implementation 'com.github.robin8yeung.BrickUI:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
-	}
+dependencies {
+        implementation 'com.github.robin8yeung.BrickUI:brick-ui:{VERSION}'
+        implementation 'com.github.robin8yeung.BrickUI:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
+        implementation 'com.github.robin8yeung.BrickUI:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
+}
 ```
 
 ## Demo下载
