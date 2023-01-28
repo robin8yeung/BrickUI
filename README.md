@@ -1,5 +1,7 @@
 # BrickUI
 
+[![](https://jitpack.io/v/robin8yeung/BrickUI.svg)](https://jitpack.io/#robin8yeung/BrickUI)
+
 受JetpackCompose启发，通过组合和声明的方式去搭建UI，就像用砖头垒出来的一样自然。
 
 ![LOGO](app/src/main/res/mipmap/ic_launcher.webp)
@@ -11,10 +13,23 @@ BrickUI是一套Kotlin实现的基于原生View体系的声明式UI框架。与�
 ### 引入
 
 > VERSION 查阅 [CHANGELOG.md](CHANGELOG.md)
+
+Add it in your root build.gradle at the end of repositories:
 ```groovy
-implement 'com.seewo.ui:brick-ui:{VERSION}'
-implement 'com.seewo.ui:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
-implement 'com.seewo.ui:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
+	allprojects {
+		repositories {
+			// ...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+Step 2. Add the dependency
+```groovy
+	dependencies {
+	        implementation 'com.github.robin8yeung.BrickUI:brick-ui:{VERSION}'
+	        implementation 'com.github.robin8yeung.BrickUI:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
+	        implementation 'com.github.robin8yeung.BrickUI:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
+	}
 ```
 
 ## Demo下载
