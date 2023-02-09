@@ -32,7 +32,7 @@ publishing {
                 final depsNode = asNode().appendNode('dependencies')
 
                 def compileDeps = configurations.api.getAllDependencies()
-//                compileDeps += configurations.compile.getAllDependencies()
+                compileDeps += configurations.compile.getAllDependencies()
 
                 def runtimeDeps = configurations.implementation.getAllDependencies()
                 runtimeDeps -= compileDeps

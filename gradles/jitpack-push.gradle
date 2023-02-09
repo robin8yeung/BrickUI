@@ -3,11 +3,29 @@ apply plugin: 'maven-publish'
 afterEvaluate {
     publishing {
         publications {
-            release(MavenPublication) {
+            aar(MavenPublication) {
                 from components.release
                 groupId = POM_GROUP
                 artifactId = POM_ARTIFACT_ID
+                artifact androidSourcesJar
                 version = POM_VERSION_NAME + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
+
+                pom.withXml {
+                    asNode().appendNode('description', POM_DESCRIPTION + ' Git commit:' + getGitSha())
+                    final depsNode = asNode().appendNode('dependencies')
+
+                    def compileDeps = configurations.api.getAllDependencies()
+                    compileDeps += configurations.compile.getAllDependencies()
+
+                    def runtimeDeps = configurations.implementation.getAllDependencies()
+                    runtimeDeps -= compileDeps
+
+                    compileDeps.each { dep -> addPomDependency(depsNode, dep, "compile") }
+                    runtimeDeps.each { dep -> addPomDependency(depsNode, dep, "runtime") }
+                    if (depsNode.children().size() == 0) {
+                        asNode().remove(depsNode)
+                    }
+                }
             }
         }
     }
