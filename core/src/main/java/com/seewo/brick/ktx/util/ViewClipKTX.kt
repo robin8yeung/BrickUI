@@ -14,10 +14,10 @@ import android.view.ViewOutlineProvider
  *
  * 注意：关闭硬件加速将无法生效
  */
-fun ViewGroup.roundRectClip(
+fun <T: ViewGroup> T.roundRectClip(
     rect: Rect? = null,
     radius: Int? = null,
-    block: ViewGroup.() -> View
+    block: T.() -> View
 ) = block().apply {
     outlineProvider = object : ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline?) {
@@ -35,9 +35,9 @@ fun ViewGroup.roundRectClip(
  *
  * 注意：关闭硬件加速将无法生效
  */
-fun ViewGroup.ovalClip(
+fun <T: ViewGroup> T.ovalClip(
     rect: Rect? = null,
-    block: ViewGroup.() -> View
+    block: T.() -> View
 ) = block().apply {
     outlineProvider = object : ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline?) {

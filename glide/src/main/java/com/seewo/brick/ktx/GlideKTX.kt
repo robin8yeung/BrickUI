@@ -18,14 +18,14 @@ import com.seewo.brick.glide.exception.GlideBlurTransformation
 import com.seewo.brick.params.CornerRadius
 
 @SuppressLint("CheckResult")
-fun ViewGroup.glideImage(
+fun <T: ViewGroup> T.glideImage(
     urlOrPath: String,
     transition: DrawableTransitionOptions? = null,
     requestListener: RequestListener<Drawable>? = null,
     onLoadFailed: ((GlideException?) -> Unit)? = null,
     onResourceReady: ((Drawable) -> Unit)? = null,
     requestOptions: RequestOptions? = null,
-    block: ViewGroup.() -> ImageView,
+    block: T.() -> ImageView,
 ) = block().apply {
     Glide.with(this)
         .load(urlOrPath)
@@ -61,12 +61,12 @@ fun ViewGroup.glideImage(
         .into(this)
 }
 
-fun ViewGroup.glideGif(
+fun  <T: ViewGroup> T.glideGif(
     urlOrPath: String,
     requestListener: RequestListener<GifDrawable>? = null,
     onLoadFailed: ((GlideException?) -> Unit)? = null,
     onResourceReady: ((GifDrawable) -> Unit)? = null,
-    block: ViewGroup.() -> ImageView
+    block: T.() -> ImageView
 ) = block().apply {
     Glide.with(this)
         .asGif()
