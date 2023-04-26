@@ -86,6 +86,41 @@ fun ViewGroup.liveColumn(
 /**
  * 构建行布局（线性布局水平方向）
  */
+fun Context.liveRow(
+    width: Int = WRAP_CONTENT,
+    height: Int = WRAP_CONTENT,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    isSelected: LiveData<Boolean>? = null,
+    onClick: View.OnClickListener? = null,
+    fitsSystemWindows: Boolean = false,
+
+    gravity: Int = Gravity.CENTER_VERTICAL,
+    block: (LinearLayout.() -> Unit)? = null
+) = row(
+    width, height, style, id, tag, background, padding,
+    onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
+    block = block
+).apply {
+    context.inMyLifecycle {
+        visibility?.bind(this) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(this) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    }
+}
+
+/**
+ * 构建行布局（线性布局水平方向）
+ */
 fun ViewGroup.liveRow(
     width: Int = WRAP_CONTENT,
     height: Int = WRAP_CONTENT,
@@ -104,6 +139,48 @@ fun ViewGroup.liveRow(
 ) = row(
     width, height, style, id, tag, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
+    block = block
+).apply {
+    context.inMyLifecycle {
+        visibility?.bind(this) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(this) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    }
+}
+
+/**
+ * 构建约束布局
+ *
+ * @param id 需要配置id，用于声明与父布局的关系
+ */
+fun Context.liveConstraintLayout(
+    width: Int = WRAP_CONTENT,
+    height: Int = WRAP_CONTENT,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    isSelected: LiveData<Boolean>? = null,
+    onClick: View.OnClickListener? = null,
+    fitsSystemWindows: Boolean = false,
+    block: (ConstraintLayout.() -> Unit)? = null
+) = constraintLayout(
+    width,
+    height,
+    style,
+    id,
+    tag,
+    background,
+    padding,
+    onClick = onClick,
+    fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
     context.inMyLifecycle {
@@ -163,6 +240,39 @@ fun ViewGroup.liveConstraintLayout(
 /**
  * 构建相对布局
  */
+fun Context.liveRelativeLayout(
+    width: Int = WRAP_CONTENT,
+    height: Int = WRAP_CONTENT,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    isSelected: LiveData<Boolean>? = null,
+    onClick: View.OnClickListener? = null,
+    fitsSystemWindows: Boolean = false,
+
+    block: (RelativeLayout.() -> Unit)? = null
+) = relativeLayout(
+    width, height, style, id, tag, background, padding,
+    onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
+).apply {
+    context.inMyLifecycle {
+        visibility?.bind(this) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(this) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    }
+}
+
+/**
+ * 构建相对布局
+ */
 fun ViewGroup.liveRelativeLayout(
     width: Int = WRAP_CONTENT,
     height: Int = WRAP_CONTENT,
@@ -180,6 +290,40 @@ fun ViewGroup.liveRelativeLayout(
 ) = relativeLayout(
     width, height, style, id, tag, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
+).apply {
+    context.inMyLifecycle {
+        visibility?.bind(this) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(this) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    }
+}
+
+/**
+ * 构建帧布局
+ */
+fun Context.liveFrameLayout(
+    width: Int = WRAP_CONTENT,
+    height: Int = WRAP_CONTENT,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    isSelected: LiveData<Boolean>? = null,
+    onClick: View.OnClickListener? = null,
+    fitsSystemWindows: Boolean = false,
+
+    block: (FrameLayout.() -> Unit)? = null
+) = frameLayout(
+    width, height, style, id, tag, background, padding,
+    onClick = onClick, fitsSystemWindows = fitsSystemWindows,
+    block = block
 ).apply {
     context.inMyLifecycle {
         visibility?.bind(this) {

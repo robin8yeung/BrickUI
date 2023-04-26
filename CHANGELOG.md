@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.7
+
+- Improve: 补充LiveLayoutKTX中几个Context的扩展布局函数
+
 ### 0.2.6
 
 - Improve: 对几种Widget引入泛型，避免丢类型
