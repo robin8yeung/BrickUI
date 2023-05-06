@@ -168,15 +168,20 @@ fun <T> Context.tabLayout(
  * 必须把tabLayoutMediator直接嵌套在要绑定的viewPager和tabLayout外（layoutParams一类除外）
  * 它会从直接嵌套的下一级子View中找ViewPager2和TabLayout，如果找不到则不生效，如果找到多个，只有第一个生效
  *
+ * @param viewPagerId 需要绑定的ViewPager2控件的id，当且仅当能在block的第一层级（layoutParams一类除外）能找到ViewPager2的情况可为空
+ * @param tabLayoutId 需要绑定的TabLayout控件的id，当且仅当能在block的第一层级（layoutParams一类除外）能找到TabLayout的情况可为空
+ *
  * @see viewPager
  * @see tabLayout
  */
 fun ViewGroup.tabLayoutMediator(
+    viewPagerId: Int? = null,
+    tabLayoutId: Int? = null,
     block: (ViewGroup.() -> Unit)? = null,
 ) {
     block?.let { it() }
-    val tabLayout = children.firstOrNull { it is TabLayout } as? TabLayout ?: return
-    val viewPager2 = children.firstOrNull { it is ViewPager2 } as? ViewPager2 ?: return
+    val tabLayout = (if (tabLayoutId == null) children.firstOrNull { it is TabLayout } as? TabLayout else findViewById(tabLayoutId)) ?: return
+    val viewPager2 = (if (viewPagerId == null) children.firstOrNull { it is ViewPager2 } as? ViewPager2 else findViewById(viewPagerId)) ?: return
     val views = buildList {
         for (i in 0 until  tabLayout.tabCount) {
             add(tabLayout.getTabAt(i)?.customView)
