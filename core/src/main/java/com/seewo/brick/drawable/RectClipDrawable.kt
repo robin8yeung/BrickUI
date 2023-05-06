@@ -3,7 +3,6 @@ package com.seewo.brick.drawable
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 
@@ -25,7 +24,6 @@ class RectClipDrawable(private val drawable: Drawable, private val radius: Float
 
     //绘制
     override fun draw(canvas: Canvas) {
-        Log.e("brick", "radius = $radius rect = $mRectF")
         canvas.drawRoundRect(mRectF, radius, radius, mPaint)
     }
 
