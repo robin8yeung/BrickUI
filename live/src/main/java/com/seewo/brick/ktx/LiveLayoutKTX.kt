@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.ScrollView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -398,6 +399,38 @@ fun ViewGroup.liveGridLayout(
 ) = gridLayout(
     width, height, style, id, tag, background, padding,
     orientation = orientation, rowCount = rowCount, columnCount = columnCount,
+    block = block
+).apply {
+    context.inMyLifecycle {
+        visibility?.bind(this) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(this) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    }
+}
+
+/**
+ * 构建滚动
+ */
+fun ViewGroup.liveScrollView(
+    width: Int = WRAP_CONTENT,
+    height: Int = WRAP_CONTENT,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    isSelected: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean = false,
+    block: (ScrollView.() -> Unit)? = null
+) = scrollView(
+    width, height, style, id, tag, background, padding,
+    fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
     context.inMyLifecycle {
