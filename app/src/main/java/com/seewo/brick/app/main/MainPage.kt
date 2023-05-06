@@ -9,11 +9,25 @@ import com.seewo.brick.app.R
 import com.seewo.brick.app.component.ComponentPage
 import com.seewo.brick.app.extra.ExtraPage
 import com.seewo.brick.app.helper.HelperPage
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.colorDrawable
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.divider
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.drawable
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.layoutParams
+import com.seewo.brick.ktx.live
+import com.seewo.brick.ktx.liveTabLayout
+import com.seewo.brick.ktx.liveViewPager
+import com.seewo.brick.ktx.static
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
 import com.seewo.brick.params.CompoundDrawables
 import com.seewo.brick.params.EdgeInsets
 
-class MainPage(context: Context, attributeSet: AttributeSet?): BrickPreview(context, attributeSet) {
+class MainPage(context: Context, attributeSet: AttributeSet?) :
+    BrickPreview(context, attributeSet) {
     override fun preview(context: Context) {
         view {
             context.mainPage()
@@ -26,12 +40,15 @@ fun Context.mainPage() = column(
     fitsSystemWindows = true
 ) {
     val currentIndex = 0.live
-    layoutParams(
-        weight = 1f
-    ) {
+    val tabs = listOf(
+        Pair(R.drawable.selector_icon_tabbar_component, "控件"),
+        Pair(R.drawable.selector_icon_tabbar_util, "工具"),
+        Pair(R.drawable.selector_icon_tabbar_expand, "扩展"),
+    )
+    expand {
         liveViewPager(
             MATCH_PARENT, MATCH_PARENT,
-            data = listOf(1, 2, 3).static,
+            data = tabs.static,
             currentIndex = currentIndex,
             smoothScroll = false,
             isUserInputEnable = false,
@@ -44,34 +61,23 @@ fun Context.mainPage() = column(
         }
     }
     divider(height = 1.dp, background = R.color.grey_e4.colorDrawable)
-    row(
-        MATCH_PARENT, WRAP_CONTENT,
-        padding = EdgeInsets.symmetric(horizontal = 44.dp),
-        gravity = Gravity.CENTER,
+    layoutParams(
+        margins = EdgeInsets.symmetric(horizontal = 44.dp)
     ) {
-        val list = listOf(
-            Pair(R.drawable.selector_icon_tabbar_component, "控件"),
-            Pair(R.drawable.selector_icon_tabbar_util, "工具"),
-            Pair(R.drawable.selector_icon_tabbar_expand, "扩展"),
-        )
-        for (index in list.indices) {
-            val item = list[index]
-            layoutParams(
-                weight = 1f, gravity = Gravity.CENTER
-            ) {
-                liveText(0, WRAP_CONTENT,
-                    text = item.second.static,
-                    isSelected = currentIndex.map { it == index },
-                    style = R.style.TabStyle,
-                    compoundDrawables = CompoundDrawables(
-                        top = item.first.drawable
-                    ).static,
-                    textStyle = Typeface.BOLD,
-                    onClick = {
-                        currentIndex.value = index
-                    }
-                )
-            }
+        liveTabLayout(
+            MATCH_PARENT, 64.dp,
+            data = tabs,
+            currentIndex = currentIndex,
+        ) { _, item ->
+            textView(
+                text = item.second,
+                style = R.style.TabStyle,
+                compoundDrawables = CompoundDrawables(
+                    top = item.first.drawable
+                ),
+                textStyle = Typeface.BOLD,
+                gravity = Gravity.CENTER,
+            )
         }
     }
 }

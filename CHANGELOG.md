@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.8
+
+- New: 增加TabLayout相关的支持
+
 ### 0.2.7
 
 - Improve: 补充LiveLayoutKTX中几个Context的扩展布局函数

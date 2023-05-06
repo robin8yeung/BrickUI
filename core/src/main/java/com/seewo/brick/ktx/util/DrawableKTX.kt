@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import android.os.Build
 import androidx.annotation.ColorInt
 import com.seewo.brick.drawable.OvalClipDrawable
 import com.seewo.brick.drawable.RectClipDrawable
@@ -103,6 +105,20 @@ val Drawable.clipOval: Drawable
  * Drawable裁剪为圆角矩形
  */
 fun Drawable.clipRect(radius: Int) = RectClipDrawable(this, radius.toFloat())
+
+
+fun layerDrawable(
+    layers: Array<Drawable>,
+    layerWidth: Int? = null,
+    layerHeight: Int? = null,
+    layerGravity: Int? = null,
+): LayerDrawable = LayerDrawable(layers).apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        layerWidth?.let { setLayerWidth(0, it) }
+        layerHeight?.let { setLayerHeight(0, it) }
+        layerGravity?.let { setLayerGravity(0, it) }
+    }
+}
 
 /**
  * 等效于selector

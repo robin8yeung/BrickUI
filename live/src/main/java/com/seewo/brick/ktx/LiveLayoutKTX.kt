@@ -2,14 +2,21 @@ package com.seewo.brick.ktx
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.GridLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
+import com.google.android.material.tabs.TabLayout
 import com.seewo.brick.params.EdgeInsets
 
 
@@ -406,33 +413,65 @@ fun ViewGroup.liveGridLayout(
 }
 
 /**
- * 构建滚动
+ * 构建TabLayout
+ *
+ * @param data 传入一个列表用于构造TabLayout
+ * @param selectedTabIndicator 自定义选中下划线样式，仅Android 5.1以上支持自定义。建议用layerDrawable来构造，但需要Android M以上才能很好支持。如果考虑Android 5.1，建议使用selectedTabIndicatorRes
+ * @param selectedTabIndicatorRes 自定义选中下划线样式，仅Android 5.1以上支持自定义。
+ * @param block 为data的每一项创建一个TabView
+ *
+ * @see layerDrawable
  */
-fun ViewGroup.liveScrollView(
+fun <T> ViewGroup.liveTabLayout(
     width: Int = WRAP_CONTENT,
     height: Int = WRAP_CONTENT,
+
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
-    isSelected: LiveData<Boolean>? = null,
     fitsSystemWindows: Boolean = false,
-    block: (ScrollView.() -> Unit)? = null
-) = scrollView(
+
+    data: List<T> = listOf(),
+    currentIndex: LiveData<Int> = 0.static,
+    @TabLayout.Mode tabMode: Int? = null,
+    @TabLayout.TabIndicatorGravity tabIndicatorGravity: Int? = null,
+    @ColorInt tabIndicatorColor: Int? = null,
+    selectedTabIndicator: LayerDrawable? = null,
+    @DrawableRes selectedTabIndicatorRes: Int? = null,
+    @TabLayout.TabGravity tabGravity: Int? = null,
+    onTabSelected: ((TabLayout.Tab) -> Unit)? = null,
+    onTabUnselected: ((TabLayout.Tab) -> Unit)? = null,
+    onTabReleased: ((TabLayout.Tab) -> Unit)? = null,
+    block: (Context.(index: Int, item: T) -> View)? = null
+) = tabLayout(
     width, height, style, id, tag, background, padding,
     fitsSystemWindows = fitsSystemWindows,
-    block = block
+    data = data,
+    tabMode = tabMode,
+    tabIndicatorGravity = tabIndicatorGravity,
+    tabIndicatorColor = tabIndicatorColor,
+    selectedTabIndicator = selectedTabIndicator,
+    selectedTabIndicatorRes = selectedTabIndicatorRes,
+    tabGravity = tabGravity,
+    onTabSelected = {
+        onTabSelected?.invoke(it)
+        currentIndex.data = it.position
+    },
+    onTabUnselected = onTabUnselected,
+    onTabReleased = onTabReleased,
+    block = block,
 ).apply {
     context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
+        visibility?.bindNotNull(this) {
             this@apply.visibility = it
         }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
+        currentIndex.bindNotNull(this) {
+            if (this@apply.selectedTabPosition != it) {
+                this@apply.selectTab(this@apply.getTabAt(it))
+            }
         }
     }
 }
