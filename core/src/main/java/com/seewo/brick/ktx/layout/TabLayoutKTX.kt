@@ -54,7 +54,7 @@ fun <T> ViewGroup.tabLayout(
     @TabGravity tabGravity: Int? = null,
     onTabSelected: ((Tab) -> Unit)? = null,
     onTabUnselected: ((Tab) -> Unit)? = null,
-    onTabReleased: ((Tab) -> Unit)? = null,
+    onTabReselected: ((Tab) -> Unit)? = null,
     block: (Context.(index: Int, item: T) -> View)? = null
 ) = context.tabLayout(
     width,
@@ -75,7 +75,7 @@ fun <T> ViewGroup.tabLayout(
     tabGravity,
     onTabSelected,
     onTabUnselected,
-    onTabReleased,
+    onTabReselected,
     block,
 ).also {
     addView(it)
@@ -112,7 +112,7 @@ fun <T> Context.tabLayout(
     @TabGravity tabGravity: Int? = null,
     onTabSelected: ((Tab) -> Unit)? = null,
     onTabUnselected: ((Tab) -> Unit)? = null,
-    onTabReleased: ((Tab) -> Unit)? = null,
+    onTabReselected: ((Tab) -> Unit)? = null,
     block: (Context.(index: Int, item: T) -> View)? = null
 ) = TabLayout(this, null, style).apply {
     setup(
@@ -157,7 +157,7 @@ fun <T> Context.tabLayout(
         }
 
         override fun onTabReselected(tab: Tab) {
-            onTabReleased?.invoke(tab)
+            onTabReselected?.invoke(tab)
         }
     })
 }

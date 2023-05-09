@@ -50,7 +50,12 @@ fun <T> ViewGroup.viewPager(
     )
     itemDecoration?.let { addItemDecoration(it) }
     loadData(viewHolder, data ?: listOf(), block)
-    overScrollMode?.let { this.overScrollMode = it }
+    overScrollMode?.let {
+        this.overScrollMode = it
+        this.runCatching {
+            (getChildAt(0) as? RecyclerView)?.overScrollMode = it
+        }
+    }
     offscreenPageLimit?.let { this.offscreenPageLimit = it }
     isUserInputEnable?.let { this.isUserInputEnabled = it }
     registerOnPageChangeCallback(object : OnPageChangeCallback() {

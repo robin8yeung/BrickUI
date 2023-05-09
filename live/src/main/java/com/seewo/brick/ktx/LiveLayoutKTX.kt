@@ -494,7 +494,7 @@ fun <T> ViewGroup.liveTabLayout(
         currentIndex.data = it.position
     },
     onTabUnselected = onTabUnselected,
-    onTabReleased = onTabReleased,
+    onTabReselected = onTabReleased,
     block = block,
 ).apply {
     context.inMyLifecycle {

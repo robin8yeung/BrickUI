@@ -3,6 +3,7 @@ package com.seewo.brick.app.component.pager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.seewo.brick.app.component.pager.page.FragmentPagerPage
+import com.seewo.brick.app.component.pager.page.TabLayoutViewPagerPage
 import com.seewo.brick.app.component.pager.page.ViewPagerPage
 import com.seewo.brick.app.widget.multiTabViewPager
 import com.seewo.brick.ktx.MATCH_PARENT
@@ -17,12 +18,14 @@ class PagerActivity : AppCompatActivity() {
         setContentView(multiTabViewPager(
             data = listOf(
                 "分页切换",
-                "分页切换(基于Fragment)",
+                "Fragment分页切换",
+                "TabLayout分页切换",
             ),
             viewPagerBuilder = { _, index ->
                 when (index) {
                     0 -> ViewPagerPage()
                     1 -> FragmentPagerPage()
+                    2 -> TabLayoutViewPagerPage()
                     else -> frameLayout(
                         MATCH_PARENT, MATCH_PARENT,
                     )

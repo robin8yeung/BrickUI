@@ -49,7 +49,12 @@ fun <T> Context.fragmentPager(
     )
     itemDecoration?.let { addItemDecoration(it) }
     loadData(context as FragmentActivity, data ?: listOf(), block)
-    overScrollMode?.let { this.overScrollMode = it }
+    overScrollMode?.let {
+        this.overScrollMode = it
+        this.runCatching {
+            (getChildAt(0) as? RecyclerView)?.overScrollMode = it
+        }
+    }
     offscreenPageLimit?.let { this.offscreenPageLimit = it }
     isUserInputEnable?.let { this.isUserInputEnabled = it }
     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -105,7 +110,9 @@ fun <T> ViewGroup.fragmentPager(
     )
     itemDecoration?.let { addItemDecoration(it) }
     loadData(context as FragmentActivity, data ?: listOf(), block)
-    overScrollMode?.let { this.overScrollMode = it }
+    overScrollMode?.let {
+        this.overScrollMode = it
+    }
     offscreenPageLimit?.let { this.offscreenPageLimit = it }
     isUserInputEnable?.let { this.isUserInputEnabled = it }
     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
