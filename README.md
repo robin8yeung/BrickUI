@@ -222,7 +222,7 @@ class SomewhatActivity : AppCompatActivity() {
 }
 ```
 
-### LiveData 力大砖飞
+### LiveData 力(Live)大砖(Brick)飞
 
 brick-ui-live 基于LiveData的数据绑定，让BrickUI动起来
 
