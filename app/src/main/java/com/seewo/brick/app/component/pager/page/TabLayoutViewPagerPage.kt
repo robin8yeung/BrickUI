@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.google.android.material.tabs.TabLayout
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
@@ -70,6 +71,13 @@ private fun LinearLayout.ViewPager() {
                 ),
                 tabIndicatorColor = R.color.primary.color,
                 tabMode = TabLayout.MODE_SCROLLABLE,
+                onTabSelected = {
+                    // 此处不要使用setTypeface来加粗，会导致Indicator动画异常
+                    (it.customView as? TextView)?.paint?.isFakeBoldText = true
+                },
+                onTabUnselected = {
+                    (it.customView as? TextView)?.paint?.isFakeBoldText = false
+                }
             ) { _, item ->
                 textView(
                     text = item,
@@ -148,6 +156,13 @@ private fun LinearLayout.ViewPager() {
                 ),
                 tabIndicatorColor = R.color.primary.color,
                 tabMode = TabLayout.MODE_SCROLLABLE,
+                onTabSelected = {
+                    // 此处不要使用setTypeface来加粗，会导致Indicator动画异常
+                    (it.customView as? TextView)?.paint?.isFakeBoldText = true
+                },
+                onTabUnselected = {
+                    (it.customView as? TextView)?.paint?.isFakeBoldText = false
+                }
             ) { _, item ->
                 textView(
                     text = item,
