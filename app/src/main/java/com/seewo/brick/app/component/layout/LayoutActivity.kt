@@ -2,7 +2,11 @@ package com.seewo.brick.app.component.layout
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.seewo.brick.app.component.layout.page.*
+import com.seewo.brick.app.component.layout.page.ColumnPage
+import com.seewo.brick.app.component.layout.page.ConstraintPage
+import com.seewo.brick.app.component.layout.page.FlexboxPage
+import com.seewo.brick.app.component.layout.page.RelativePage
+import com.seewo.brick.app.component.layout.page.RowPage
 import com.seewo.brick.app.widget.multiTabViewPager
 import com.seewo.brick.ktx.MATCH_PARENT
 import com.seewo.brick.ktx.frameLayout

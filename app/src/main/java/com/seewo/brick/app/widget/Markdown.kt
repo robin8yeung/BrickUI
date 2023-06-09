@@ -1,5 +1,6 @@
 package com.seewo.brick.app.widget
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import club.andnext.markdown.MarkdownWebView
@@ -19,5 +20,15 @@ fun ViewGroup.Markdown(
             init(MATCH_PARENT, MATCH_PARENT)
             setText(text)
         }
+    }
+}
+
+fun Context.Markdown(
+    text: String
+): View {
+    return MarkdownWebView(this).apply {
+        // 初始化宽高
+        init(MATCH_PARENT, MATCH_PARENT)
+        setText(text)
     }
 }

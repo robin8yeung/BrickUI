@@ -174,10 +174,10 @@ fun <T> Context.tabLayout(
  * @see viewPager
  * @see tabLayout
  */
-fun ViewGroup.tabLayoutMediator(
+fun <T: ViewGroup> T.tabLayoutMediator(
     viewPagerId: Int? = null,
     tabLayoutId: Int? = null,
-    block: (ViewGroup.() -> Unit)? = null,
+    block: (T.() -> Unit)? = null,
 ) {
     block?.let { it() }
     val tabLayout = (if (tabLayoutId == null) children.firstOrNull { it is TabLayout } as? TabLayout else findViewById(tabLayoutId)) ?: return

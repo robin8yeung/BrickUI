@@ -14,8 +14,16 @@ import android.util.TypedValue
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Switch
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
@@ -38,10 +46,12 @@ fun ViewGroup.divider(
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
-    onClick: View.OnClickListener? = null,
+    onClick: OnClickListener? = null,
 ) = View(context, null, 0, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected,
-        onClick = onClick)
+    setup(
+        width, height, id, tag, background, padding, visibility, isSelected,
+        onClick = onClick
+    )
 }.also { addView(it) }
 
 /**
@@ -58,12 +68,25 @@ fun ViewGroup.imageView(
     visibility: Int? = null,
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     scaleType: ImageView.ScaleType? = null,
     drawable: Drawable? = null,
-    onClick: View.OnClickListener? = null,
+    onClick: OnClickListener? = null,
 ) = ImageView(context, null, 0, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled, onClick)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        onClick,
+        fitsSystemWindows = fitsSystemWindows
+    )
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
     scaleType?.let { setScaleType(it) }
     drawable?.let { setImageDrawable(it) }
@@ -83,6 +106,7 @@ fun ViewGroup.textView(
     visibility: Int? = null,
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -99,7 +123,19 @@ fun ViewGroup.textView(
     highLightColor: Int? = null,
     onClick: OnClickListener? = null,
 ) = TextView(context, null, 0, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled, onClick)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        onClick,
+        fitsSystemWindows
+    )
     includeFontPadding = false
     textSize?.let { setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat()) }
     textAlignment?.let { this.textAlignment = textAlignment }
@@ -135,6 +171,7 @@ fun ViewGroup.edittext(
     visibility: Int? = null,
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -161,7 +198,18 @@ fun ViewGroup.edittext(
     this.isEnabled = true
     this.isFocusable = true
     this.isFocusableInTouchMode = true
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        fitsSystemWindows = fitsSystemWindows
+    )
 
     textSize?.let { setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat()) }
     textAlignment?.let { this.textAlignment = textAlignment }
@@ -196,7 +244,7 @@ fun ViewGroup.edittext(
         setText(it)
         setSelection(getText().length)
     }
-    textColor?.let {  setTextColor(it) }
+    textColor?.let { setTextColor(it) }
     textColorList?.let { setTextColor(it) }
 
     if (beforeTextChanged != null || onTextChanged != null || afterTextChanged != null) {
@@ -231,6 +279,7 @@ fun ViewGroup.checkbox(
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
     isChecked: Boolean = false,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -244,7 +293,18 @@ fun ViewGroup.checkbox(
     compoundDrawables: CompoundDrawables? = null,
     onCheckedChange: CompoundButton.OnCheckedChangeListener? = null
 ) = CheckBox(context, null, android.R.attr.checkboxStyle, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        fitsSystemWindows = fitsSystemWindows
+    )
     includeFontPadding = false
     textSize?.let { setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat()) }
     textAlignment?.let { this.textAlignment = textAlignment }
@@ -253,8 +313,8 @@ fun ViewGroup.checkbox(
     gravity?.let { setGravity(it) }
     maxLines?.let { this.maxLines = it }
     ellipsize?.let { this.ellipsize = it }
-    text?.let {  this.text = it }
-    textColor?.let {  setTextColor(it) }
+    text?.let { this.text = it }
+    textColor?.let { setTextColor(it) }
     compoundDrawables?.let {
         setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
     }
@@ -275,11 +335,21 @@ fun ViewGroup.switch(
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     isChecked: Boolean = false,
     onCheckedChange: CompoundButton.OnCheckedChangeListener? = null
 ) = Switch(context, null, android.R.attr.switchStyle, style).apply {
-    setup(width, height, id, tag, isEnabled = isEnabled, padding = padding, visibility = visibility)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        isEnabled = isEnabled,
+        padding = padding,
+        visibility = visibility,
+        fitsSystemWindows = fitsSystemWindows
+    )
     this.isChecked = isChecked
     onCheckedChange?.let { setOnCheckedChangeListener(it) }
 }.also { addView(it) }
@@ -316,6 +386,7 @@ fun ViewGroup.horizontalProgressBar(
     visibility: Int? = null,
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     progress: Int = 0,
     progressType: Int = PROGRESS_TYPE_SCALE,
@@ -323,16 +394,28 @@ fun ViewGroup.horizontalProgressBar(
     progressDrawable: Drawable? = null,
     progressBackground: Drawable? = null,
 ) = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        fitsSystemWindows = fitsSystemWindows
+    )
     this.progress = progress
     max?.let { this.max = it }
     progressDrawable?.let {
-        this.progressDrawable = LayerDrawable(arrayOf(
-            progressBackground ?: rectDrawable(
-                fillColor = Color.TRANSPARENT
-            ),
-            JavaDrawableUtils.getDrawableWrapper(it, progressType),
-        )
+        this.progressDrawable = LayerDrawable(
+            arrayOf(
+                progressBackground ?: rectDrawable(
+                    fillColor = Color.TRANSPARENT
+                ),
+                JavaDrawableUtils.getDrawableWrapper(it, progressType),
+            )
         ).apply {
             setId(0, android.R.id.background)
             setId(1, android.R.id.progress)
@@ -360,6 +443,7 @@ fun ViewGroup.seekBar(
     visibility: Int? = null,
     isSelected: Boolean? = null,
     isEnabled: Boolean? = null,
+    fitsSystemWindows: Boolean? = null,
 
     minHeight: Int? = null,
     maxHeight: Int? = null,
@@ -373,7 +457,18 @@ fun ViewGroup.seekBar(
     onStopTrackingTouch: ((SeekBar) -> Unit)? = null,
     onProgressChanged: ((seekBar: SeekBar, progress: Int, fromUser: Boolean) -> Unit)? = null,
 ) = SeekBar(context, null, 0, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected, isEnabled)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        isSelected,
+        isEnabled,
+        fitsSystemWindows = fitsSystemWindows
+    )
     max?.let { this.max = it }
     progressDrawable?.let {
         this.progressDrawable = LayerDrawable(
@@ -432,10 +527,20 @@ fun ViewGroup.placeholder(
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
+    fitsSystemWindows: Boolean? = null,
     onClick: OnClickListener? = null,
 ) = View(context).apply {
-    setup(width, height, id, tag, background, padding, visibility)
-    setOnClickListener(onClick)
+    setup(
+        width,
+        height,
+        id,
+        tag,
+        background,
+        padding,
+        visibility,
+        onClick = onClick,
+        fitsSystemWindows = fitsSystemWindows
+    )
 }.also {
     addView(it)
 }

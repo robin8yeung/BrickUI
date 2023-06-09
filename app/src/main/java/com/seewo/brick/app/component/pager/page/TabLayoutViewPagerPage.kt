@@ -73,10 +73,16 @@ private fun LinearLayout.ViewPager() {
                 tabMode = TabLayout.MODE_SCROLLABLE,
                 onTabSelected = {
                     // 此处不要使用setTypeface来加粗，会导致Indicator动画异常
-                    (it.customView as? TextView)?.paint?.isFakeBoldText = true
+                    (it.customView as? TextView)?.run {
+                        paint?.isFakeBoldText = true
+                        invalidate()
+                    }
                 },
                 onTabUnselected = {
-                    (it.customView as? TextView)?.paint?.isFakeBoldText = false
+                    (it.customView as? TextView)?.run {
+                        paint?.isFakeBoldText = false
+                        invalidate()
+                    }
                 }
             ) { _, item ->
                 textView(

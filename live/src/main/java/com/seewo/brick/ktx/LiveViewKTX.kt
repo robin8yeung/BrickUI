@@ -36,13 +36,14 @@ fun ViewGroup.liveImage(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     scaleType: ImageView.ScaleType? = null,
     drawable: LiveData<Drawable>? = null,
     onClick: View.OnClickListener? = null,
 ) = imageView(
     width, height, style, id, tag, background, padding,
-    onClick = onClick, scaleType = scaleType
+    onClick = onClick, scaleType = scaleType, fitsSystemWindows = fitsSystemWindows,
 ).apply {
     context.inMyLifecycle {
         drawable?.bind(this) {
@@ -76,6 +77,7 @@ fun ViewGroup.liveText(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     isEnabled: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -94,11 +96,23 @@ fun ViewGroup.liveText(
 ) = textView(
     width,
     height,
-    style, id, tag, background, padding,
-    onClick = onClick, textStyle = textStyle, textAlignment = textAlignment,
-    textSize = textSize, drawablePadding = drawablePadding, gravity = gravity,
-    maxLines = maxLines, ellipsize = ellipsize, textColorList = textColorList,
-    movementMethod = movementMethod, highLightColor = highLightColor,
+    style,
+    id,
+    tag,
+    background,
+    padding,
+    onClick = onClick,
+    textStyle = textStyle,
+    textAlignment = textAlignment,
+    textSize = textSize,
+    drawablePadding = drawablePadding,
+    gravity = gravity,
+    maxLines = maxLines,
+    ellipsize = ellipsize,
+    textColorList = textColorList,
+    movementMethod = movementMethod,
+    highLightColor = highLightColor,
+    fitsSystemWindows = fitsSystemWindows
 ).apply {
     context.inMyLifecycle {
         visibility?.bindNotNull(this) {
@@ -126,7 +140,14 @@ fun ViewGroup.liveText(
         isEnabled?.value?.let { this.isEnabled = it }
         text?.value?.let { this.text = it }
         textColor?.value?.let { setTextColor(it) }
-        compoundDrawables?.value?.let { setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom) }
+        compoundDrawables?.value?.let {
+            setCompoundDrawablesWithIntrinsicBounds(
+                it.start,
+                it.top,
+                it.end,
+                it.bottom
+            )
+        }
     }
 }
 
@@ -146,6 +167,7 @@ fun ViewGroup.liveEdit(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -176,7 +198,7 @@ fun ViewGroup.liveEdit(
     gravity = gravity, maxLines = maxLines, hint = hint, hintTextColor = hintTextColor,
     imeOptions = imeOptions, inputType = inputType, cursorDrawable = cursorDrawable,
     onEditorAction = onEditorAction, textColorList = textColorList, maxLength = maxLength,
-    inputFilters = inputFilters,
+    inputFilters = inputFilters, fitsSystemWindows = fitsSystemWindows,
 ).apply {
     val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -239,6 +261,7 @@ fun ViewGroup.liveCheckbox(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     isChecked: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     textStyle: Int? = null,
     textAlignment: Int? = null,
@@ -258,6 +281,7 @@ fun ViewGroup.liveCheckbox(
     textStyle = textStyle, textAlignment = textAlignment,
     textSize = textSize, drawablePadding = drawablePadding, gravity = gravity,
     maxLines = maxLines, ellipsize = ellipsize, isChecked = isChecked?.value == true,
+    fitsSystemWindows = fitsSystemWindows,
 ).apply {
     val onCheckedChangeListener = CompoundButton.OnCheckedChangeListener { v, checked ->
         if (isChecked != null && isChecked.data != checked) {
@@ -294,7 +318,14 @@ fun ViewGroup.liveCheckbox(
         isSelected?.value?.let { this.isSelected = it }
         text?.value?.let { this.text = it }
         textColor?.value?.let { setTextColor(it) }
-        compoundDrawables?.value?.let { setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom) }
+        compoundDrawables?.value?.let {
+            setCompoundDrawablesWithIntrinsicBounds(
+                it.start,
+                it.top,
+                it.end,
+                it.bottom
+            )
+        }
     }
 }
 
@@ -313,8 +344,9 @@ fun ViewGroup.liveSwitch(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isChecked: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
     onCheckedChange: CompoundButton.OnCheckedChangeListener? = null
-) = switch(width, height, style, id, tag, padding).apply {
+) = switch(width, height, style, id, tag, padding, fitsSystemWindows = fitsSystemWindows).apply {
     val onCheckedChangeListener = CompoundButton.OnCheckedChangeListener { v, checked ->
         if (isChecked is MutableLiveData<Boolean>) {
             isChecked.value = checked
@@ -362,6 +394,7 @@ fun ViewGroup.liveHorizontalProgressBar(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     isEnabled: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     progress: LiveData<Int>? = null,
     progressType: Int = PROGRESS_TYPE_SCALE,
@@ -382,6 +415,7 @@ fun ViewGroup.liveHorizontalProgressBar(
     progressType = progressType,
     progressDrawable = progressDrawable,
     progressBackground = progressBackground,
+    fitsSystemWindows = fitsSystemWindows,
 ).apply {
     var animator: Animator? = null
     context.inMyLifecycle {
@@ -425,8 +459,8 @@ fun ViewGroup.liveHorizontalProgressBar(
     if (isInEditMode) {
         progress?.value?.let { this.progress = it }
         visibility?.value?.let { this.visibility = it }
-        isSelected?.value?.let {  this.isSelected = it }
-        isEnabled?.value?.let {  this.isEnabled = it }
+        isSelected?.value?.let { this.isSelected = it }
+        isEnabled?.value?.let { this.isEnabled = it }
     }
 }
 
@@ -452,6 +486,7 @@ fun ViewGroup.liveSeekBar(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     isEnabled: LiveData<Boolean>? = null,
+    fitsSystemWindows: Boolean? = null,
 
     minHeight: Int? = null,
     maxHeight: Int? = null,
@@ -488,7 +523,8 @@ fun ViewGroup.liveSeekBar(
             }
         }
         onProgressChanged?.invoke(seekBar, currentProgress, fromUser)
-    }
+    },
+    fitsSystemWindows = fitsSystemWindows,
 ).apply {
     context.inMyLifecycle {
         visibility?.bindNotNull(this) {
@@ -507,8 +543,8 @@ fun ViewGroup.liveSeekBar(
     if (isInEditMode) {
         progress?.value?.let { this.progress = it }
         visibility?.value?.let { this.visibility = it }
-        isSelected?.value?.let {  this.isSelected = it }
-        isEnabled?.value?.let {  this.isEnabled = it }
+        isSelected?.value?.let { this.isSelected = it }
+        isEnabled?.value?.let { this.isEnabled = it }
     }
 }
 
@@ -540,6 +576,6 @@ fun ViewGroup.liveDivider(
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
-        isSelected?.value?.let {  this.isSelected = it }
+        isSelected?.value?.let { this.isSelected = it }
     }
 }

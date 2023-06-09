@@ -5,5 +5,8 @@
     <dimen name="line_spacing_extra_headline_small">5dp</dimen>
     <dimen name="line_spacing_extra_headline_medium">6dp</dimen>
     <dimen name="line_padding_extra_normal">2dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

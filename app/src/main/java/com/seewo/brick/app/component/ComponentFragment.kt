@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
+import com.seewo.brick.app.component.coordinator.CoordinatorLayoutActivity1
+import com.seewo.brick.app.component.coordinator.CoordinatorLayoutActivity2
 import com.seewo.brick.app.component.extra.ExtraComponentActivity
 import com.seewo.brick.app.component.layout.LayoutActivity
 import com.seewo.brick.app.component.list.list.ListActivity
@@ -29,6 +31,12 @@ fun Context.ComponentPage() = mainFragmentList(
     listOf(
         MainItemBean("控件与布局", R.drawable.ic_widget_layout.drawable) {
             startActivity<LayoutActivity>()
+        },
+        MainItemBean("吸顶布局", R.drawable.ic_widget_titlebar.drawable) {
+            startActivity<CoordinatorLayoutActivity1>()
+        },
+        MainItemBean("折叠布局", R.drawable.ic_widget_titlebar.drawable) {
+            startActivity<CoordinatorLayoutActivity2>()
         },
         MainItemBean("增强控件", R.drawable.icon_tabbar_expand_selected.drawable) {
             startActivity<ExtraComponentActivity>()

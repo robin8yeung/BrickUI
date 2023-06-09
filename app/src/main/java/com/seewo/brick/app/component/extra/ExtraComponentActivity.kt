@@ -21,16 +21,15 @@ class ExtraComponentActivity : AppCompatActivity() {
                 "下拉加载",
                 "原生控件嵌入",
             ),
-            viewPagerBuilder = { _, index ->
-                when (index) {
-                    0 -> GlidePage()
-                    1 -> SmartRefreshPage()
-                    2 -> EmbededPage()
-                    else -> frameLayout(
-                        MATCH_PARENT, MATCH_PARENT,
-                    )
-                }
+        ) { _, index ->
+            when (index) {
+                0 -> GlidePage()
+                1 -> SmartRefreshPage()
+                2 -> EmbededPage()
+                else -> frameLayout(
+                    MATCH_PARENT, MATCH_PARENT,
+                )
             }
-        ))
+        })
     }
 }

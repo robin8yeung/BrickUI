@@ -7,7 +7,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
+import androidx.core.view.WindowCompat
 
 /**
  * Activity设置全屏
@@ -43,8 +45,32 @@ fun Activity.setStatusBarTransparent(lightStatusBar: Boolean) {
             }
         }
     }
+    setNavigationBarBtnColor(window, lightStatusBar)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        window.attributes.layoutInDisplayCutoutMode =
+            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+    }
 }
-
+fun Activity.setSystemBarTransparent(light: Boolean) {
+    setStatusBarTransparent(light)
+    if (Build.VERSION.SDK_INT >= 31) {
+        val window = window
+        WindowCompat.getInsetsController(window, window.decorView)?.run {
+            isAppearanceLightStatusBars = light
+            isAppearanceLightNavigationBars = light
+        }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+    }
+}
+private fun setNavigationBarBtnColor(window: Window, light: Boolean) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val decorView = window.decorView
+        var systemUiVisibility = decorView.systemUiVisibility
+        systemUiVisibility =
+            if (light) systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+        decorView.systemUiVisibility = systemUiVisibility
+    }
+}
 /**
  * 启动指定Activity
  */

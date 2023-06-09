@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.12
+
+- New: 增加CoordinatorLayout相关的支持
+
 ### 0.2.11
 
 - New: 增加TabLayout相关的支持
