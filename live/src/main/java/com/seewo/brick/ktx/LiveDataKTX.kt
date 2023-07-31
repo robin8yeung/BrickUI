@@ -3,6 +3,7 @@ package com.seewo.brick.ktx
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.seewo.brick.live.params.StaticData
@@ -28,13 +29,19 @@ fun <I, O> LiveData<I>.map(mapper: (I) -> O) =
         mapper(it)
     }
 
+fun <I1, I2, O> LiveData<I1>.combine(liveData: LiveData<I2>, block: (I1?, I2?) -> O): LiveData<O> =
+    MediatorLiveData<O>().apply {
+        addSource(this@combine) { value = block(it, liveData.value) }
+        addSource(liveData) { value = block(this@combine.value, it) }
+    }
+
 val <T> T.live: MutableLiveData<T>
     get() = MutableLiveData(this)
 
 val <T> T?.static: LiveData<T>
     get() = StaticData(this)
 
-fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, binder: (T?)->Unit) {
+fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, binder: (T?) -> Unit) {
     if (this is StaticData) {
         binder(value)
     } else {
@@ -44,7 +51,8 @@ fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, binder: (T?)->Unit) {
     }
 }
 
-fun <T> LiveData<T>.bindNotNull(lifecycleOwner: LifecycleOwner, binder: (T)->Unit) = bind(lifecycleOwner) {
-    it ?: return@bind
-    binder(it)
-}
+fun <T> LiveData<T>.bindNotNull(lifecycleOwner: LifecycleOwner, binder: (T) -> Unit) =
+    bind(lifecycleOwner) {
+        it ?: return@bind
+        binder(it)
+    }

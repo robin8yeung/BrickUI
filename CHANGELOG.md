@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.14
+
+- Improve: 为LiveData增加combine扩展函数，方便合并2个LiveData的值来处理UI状态
+
 ### 0.2.13
 
 - Improve: 允许RecyclerView类控件接受非RecyclerItemData类型的数据，但仍然强烈建议传入RecyclerItemData类型的数据，以使用DiffUtil来更新RecyclerView
