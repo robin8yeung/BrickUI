@@ -66,12 +66,12 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
  * 构造RecyclerView，构建方法较简单，但基本无法利用RecyclerView的重用特性，滚动会造成内存都懂。谨慎使用
  *
  * @param viewHolderCreator ViewHolder默认宽为MATCH_PARENT，若不满足需求，可通过此参数自行创建（如横向RecyclerView）
- * @param data 列表数据
+ * @param data 列表数据【建议数据实现RecyclerItemData接口，这样可以借助DiffUtil自动判断数据是否变化，减少不必要的刷新】
  * @param block 针对每一个Item的数据到创建ItemView。回调输入为数据列表，列表index。不需要包裹recyclerItem。
  *
  * @see ViewGroup.recyclerView 性能开销更少
  */
-fun <T: RecyclerItemData> ViewGroup.liveSimpleRecyclerView(
+fun <T> ViewGroup.liveSimpleRecyclerView(
     width: Int, height: Int,
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,

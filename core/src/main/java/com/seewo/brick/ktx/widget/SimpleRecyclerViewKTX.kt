@@ -19,12 +19,12 @@ import com.seewo.brick.params.RecyclerItemData
  * 构造RecyclerView，构建方法较简单，但基本无法利用RecyclerView的重用特性，滚动会造成内存抖动，但范围可控。
  *
  * @param viewHolderCreator ViewHolder默认宽为MATCH_PARENT，若不满足需求，可通过此参数自行创建（如横向RecyclerView）
- * @param data 列表数据
+ * @param data 列表数据 【建议数据实现RecyclerItemData接口，这样可以借助DiffUtil自动判断数据是否变化，减少不必要的刷新】
  * @param block 针对每一个Item的数据到创建ItemView。回调输入为数据列表，列表index
  *
  * @see ViewGroup.recyclerView 性能开销更少，但使用复杂不灵活，更建议使用simpleRecyclerView
  */
-fun <T: RecyclerItemData> ViewGroup.simpleRecyclerView(
+fun <T> ViewGroup.simpleRecyclerView(
     width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT,
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
@@ -55,7 +55,7 @@ fun <T: RecyclerItemData> ViewGroup.simpleRecyclerView(
     this@simpleRecyclerView.addView(this)
 }
 
-private fun <T: RecyclerItemData> RecyclerView.loadData(
+private fun <T> RecyclerView.loadData(
     viewHolderCreator: (Context.() -> ViewGroup)?,
     data: List<T>,
     block: ViewGroup.(List<T>, Int) -> Unit,
@@ -67,7 +67,7 @@ private fun <T: RecyclerItemData> RecyclerView.loadData(
     }
 }
 
-private class SimpleAdapter<T: RecyclerItemData>(
+private class SimpleAdapter<T>(
     private val viewHolderCreator: (Context.() -> ViewGroup)?,
     private var data: List<T>,
     private val block: ViewGroup.(List<T>, Int) -> Unit,
@@ -94,6 +94,15 @@ private class SimpleAdapter<T: RecyclerItemData>(
     override fun update(data: List<T>) {
         val oldData = this.data
         this.data = data
-        DiffUtil.calculateDiff(DiffCallback(oldData, data)).dispatchUpdatesTo(this)
+        if (data.firstOrNull() is RecyclerItemData) {
+            DiffUtil.calculateDiff(
+                DiffCallback(
+                    oldData as List<RecyclerItemData>,
+                    data as List<RecyclerItemData>,
+                )
+            ).dispatchUpdatesTo(this)
+        } else {
+            notifyDataSetChanged()
+        }
     }
 }

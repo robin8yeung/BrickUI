@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.13
+
+- Improve: 允许RecyclerView类控件接受非RecyclerItemData类型的数据，但仍然强烈建议传入RecyclerItemData类型的数据，以使用DiffUtil来更新RecyclerView
+
 ### 0.2.12
 
 - New: 增加CoordinatorLayout相关的支持

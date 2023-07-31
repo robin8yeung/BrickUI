@@ -45,14 +45,14 @@ fun gridSpaceDecoration(
 /**
  * 构造RecyclerView，构建方法较复杂，但可以充分利用RecyclerView的重用特性，性能高
  *
- * @param data 列表数据
+ * @param data 列表数据。【建议数据实现RecyclerItemData接口，这样可以借助DiffUtil自动判断数据是否变化，减少不必要的刷新】
  * @param viewTypeBuilder 列表index与ViewType的映射关系。如果列表只存在一种ItemView可以不传
  * @param viewBuilder ViewType与View的映射关系，这里的View将作为复用模板。ItemView模板必须用recyclerItem包裹，否则会抛异常
  * @param dataBinder 绑定每一个Item的数据到ItemView模板。回调输入为数据列表，列表index和viewBuilder所创建的View模板
  *
  * @see ViewGroup.simpleRecyclerView 构造方法更简单
  */
-fun <T: RecyclerItemData> ViewGroup.recyclerView(
+fun <T> ViewGroup.recyclerView(
     width: Int, height: Int,
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
@@ -64,7 +64,8 @@ fun <T: RecyclerItemData> ViewGroup.recyclerView(
 
     overScrollMode: Int? = null,
     layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
-        context, LinearLayoutManager.VERTICAL, false),
+        context, LinearLayoutManager.VERTICAL, false
+    ),
     itemDecoration: RecyclerView.ItemDecoration? = null,
     data: List<T>? = null,
     onClick: View.OnClickListener? = null,
@@ -84,7 +85,7 @@ fun <T: RecyclerItemData> ViewGroup.recyclerView(
     this@recyclerView.addView(this)
 }
 
-private fun <T: RecyclerItemData> RecyclerView.loadData(
+private fun <T> RecyclerView.loadData(
     data: List<T>,
     viewTypeBuilder: (Int) -> Int,
     viewBuilder: Context.(Int) -> View,
@@ -97,12 +98,12 @@ private fun <T: RecyclerItemData> RecyclerView.loadData(
     }
 }
 
-private class Adapter<T: RecyclerItemData> (
+private class Adapter<T>(
     private var data: List<T>,
     private val viewTypeBuilder: (Int) -> Int,
     private val viewBuilder: Context.(Int) -> View,
     private val dataBinder: (List<T>, Int, View) -> Unit,
-): RecyclerView.Adapter<RecyclerView.ViewHolder>(), BrickRecyclerViewAdapter<T> {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BrickRecyclerViewAdapter<T> {
 
     override fun getItemViewType(position: Int) = viewTypeBuilder(position)
 
@@ -121,7 +122,16 @@ private class Adapter<T: RecyclerItemData> (
     override fun update(data: List<T>) {
         val oldData = this.data
         this.data = data
-        DiffUtil.calculateDiff(DiffCallback(oldData, data)).dispatchUpdatesTo(this)
+        if (data.firstOrNull() is RecyclerItemData) {
+            DiffUtil.calculateDiff(
+                DiffCallback(
+                    oldData as List<RecyclerItemData>,
+                    data as List<RecyclerItemData>
+                ),
+            ).dispatchUpdatesTo(this)
+        } else {
+            notifyDataSetChanged()
+        }
     }
 }
 
@@ -129,10 +139,10 @@ interface BrickRecyclerViewAdapter<T> {
     fun update(data: List<T>)
 }
 
-class DiffCallback<T: RecyclerItemData>(
+class DiffCallback<T : RecyclerItemData>(
     private val oldList: List<T>,
     private val newList: List<T>,
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
     override fun getNewListSize(): Int = newList.size
