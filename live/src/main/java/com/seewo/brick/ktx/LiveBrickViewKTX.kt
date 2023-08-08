@@ -24,6 +24,7 @@ fun Context.liveShadowBox(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -36,7 +37,7 @@ fun Context.liveShadowBox(
 
     block: (ViewGroup.() -> Unit)? = null
 ) = shadowBox(
-    width, height, id, tag, background, padding,
+    width, height, id, tag, foreground, background, padding,
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {
@@ -63,6 +64,7 @@ fun ViewGroup.liveShadowBox(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -75,7 +77,7 @@ fun ViewGroup.liveShadowBox(
 
     block: (ShadowLayout.() -> Unit)? = null
 ) = shadowBox(
-    width, height, id, tag, background, padding,
+    width, height, id, tag, foreground, background, padding,
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {

@@ -26,6 +26,7 @@ fun <T> Context.fragmentPager(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -44,7 +45,7 @@ fun <T> Context.fragmentPager(
     block: Context.(List<T>, Int) -> Fragment,
 ) = ViewPager2(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }
@@ -70,6 +71,7 @@ fun <T> Fragment.fragmentPager(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -88,7 +90,7 @@ fun <T> Fragment.fragmentPager(
     block: Context.(List<T>, Int) -> Fragment,
 ) = ViewPager2(requireContext(), null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }
@@ -114,6 +116,7 @@ fun <T> ViewGroup.fragmentPager(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -132,7 +135,7 @@ fun <T> ViewGroup.fragmentPager(
     block: Context.(List<T>, Int) -> Fragment,
 ) = ViewPager2(context, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }

@@ -26,6 +26,7 @@ fun <T> ViewGroup.viewPager(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -45,7 +46,7 @@ fun <T> ViewGroup.viewPager(
     block: Context.(List<T>, Int) -> View,
 ) = ViewPager2(context, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }

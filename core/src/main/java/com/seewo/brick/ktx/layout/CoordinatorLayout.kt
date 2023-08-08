@@ -17,6 +17,7 @@ fun Context.coordinatorLayout(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -27,7 +28,7 @@ fun Context.coordinatorLayout(
     block: (CoordinatorLayout.() -> Unit)? = null
 ) = CoordinatorLayout(this).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)
@@ -38,6 +39,7 @@ fun <T : ViewGroup> T.coordinatorLayout(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -51,6 +53,7 @@ fun <T : ViewGroup> T.coordinatorLayout(
     height,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -92,6 +95,7 @@ fun CoordinatorLayout.appBarLayout(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -103,7 +107,7 @@ fun CoordinatorLayout.appBarLayout(
     block: (AppBarLayout.() -> Unit)? = null
 ) = AppBarLayout(context).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
     this.background = background

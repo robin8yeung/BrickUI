@@ -24,6 +24,7 @@ fun ViewGroup.constraintLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -37,6 +38,7 @@ fun ViewGroup.constraintLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -59,6 +61,7 @@ fun Context.constraintLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -69,7 +72,7 @@ fun Context.constraintLayout(
     block: (ConstraintLayout.() -> Unit)? = null
 ) = ConstraintLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)

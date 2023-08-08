@@ -2,6 +2,7 @@ package com.seewo.brick.ktx // 包名别改
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -21,6 +22,7 @@ fun ViewGroup.frameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -35,6 +37,7 @@ fun ViewGroup.frameLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -55,6 +58,7 @@ fun Context.frameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -65,7 +69,7 @@ fun Context.frameLayout(
     block: (FrameLayout.() -> Unit)? = null
 ) = FrameLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)
@@ -81,6 +85,7 @@ fun ViewGroup.windowInsetsFrameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -95,6 +100,7 @@ fun ViewGroup.windowInsetsFrameLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -117,6 +123,7 @@ fun Context.windowInsetsFrameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -127,10 +134,23 @@ fun Context.windowInsetsFrameLayout(
     block: (WindowInsetsFrameLayout.() -> Unit)? = null
 ) = WindowInsetsFrameLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)
+
+/**
+ * 声明帧布局居中的布局属性
+ */
+fun FrameLayout.center(
+    margins: EdgeInsets? = null,
+    block: (FrameLayout.() -> View)? = null
+) = attach(block)?.apply {
+    layoutParams = FrameLayout.LayoutParams(layoutParams).apply {
+        this.gravity = Gravity.CENTER
+        margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
+    }
+}
 
 /**
  * 声明帧布局的布局属性

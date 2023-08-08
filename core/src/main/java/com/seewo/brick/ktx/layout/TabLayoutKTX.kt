@@ -40,6 +40,7 @@ fun <T> ViewGroup.tabLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -62,6 +63,7 @@ fun <T> ViewGroup.tabLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -98,6 +100,7 @@ fun <T> Context.tabLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -116,7 +119,7 @@ fun <T> Context.tabLayout(
     block: (Context.(index: Int, item: T) -> View)? = null
 ) = TabLayout(this, null, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows
     )
     tabGravity?.let { setTabGravity(it) }

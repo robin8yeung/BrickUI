@@ -21,6 +21,7 @@ fun ViewGroup.gridLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -36,6 +37,7 @@ fun ViewGroup.gridLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -57,6 +59,7 @@ fun Context.gridLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -67,7 +70,7 @@ fun Context.gridLayout(
     columnCount: Int? = null,
     block: (GridLayout.() -> Unit)? = null
 ) = GridLayout(this, null, 0, style).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected)
+    setup(width, height, id, tag, foreground, background, padding, visibility, isSelected)
     this.orientation = orientation
     this.rowCount = rowCount
     columnCount?.let { this.columnCount = it }

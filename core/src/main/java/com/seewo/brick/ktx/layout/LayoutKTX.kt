@@ -10,7 +10,6 @@ import android.widget.ScrollView
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
-import com.google.android.flexbox.*
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.Shadow
@@ -18,7 +17,7 @@ import com.seewo.brick.view.ShadowLayout
 
 
 /**
- * 构建滚动
+ * 构建scrollView
  */
 fun ViewGroup.scrollView(
     width: Int = WRAP_CONTENT,
@@ -26,6 +25,7 @@ fun ViewGroup.scrollView(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -39,6 +39,7 @@ fun ViewGroup.scrollView(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -49,7 +50,7 @@ fun ViewGroup.scrollView(
 ).also { addView(it) }
 
 /**
- * 构建滚动
+ * 构建scrollView
  */
 fun Context.scrollView(
     width: Int = WRAP_CONTENT,
@@ -57,6 +58,7 @@ fun Context.scrollView(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -66,7 +68,7 @@ fun Context.scrollView(
     block: (ScrollView.() -> Unit)? = null
 ) = ScrollView(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         fitsSystemWindows = fitsSystemWindows
     )
     overScrollMode?.let { this.overScrollMode = it }
@@ -88,6 +90,7 @@ fun Context.shadowBox(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -100,7 +103,7 @@ fun Context.shadowBox(
 
     block: (ViewGroup.() -> Unit)? = null
 ) = ShadowLayout(this).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected,
+    setup(width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick)
 
     backgroundRadius = radius.toFloat()
@@ -127,6 +130,7 @@ fun ViewGroup.shadowBox(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -139,7 +143,7 @@ fun ViewGroup.shadowBox(
 
     block: (ShadowLayout.() -> Unit)? = null
 ) = ShadowLayout(context).apply {
-    setup(width, height, id, tag, background, padding, visibility, isSelected,
+    setup(width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick)
 
     backgroundRadius = radius.toFloat()
@@ -156,13 +160,4 @@ internal fun <T : ViewGroup> T.attach(block: (T.() -> Unit)?): T = apply {
 
 internal fun <T : ViewGroup, R : View> T.attach(block: (T.() -> R)?): R? = run {
     block?.let { it() }
-}
-
-fun <T : ViewGroup, R : View> T.margins(
-    margins: EdgeInsets? = null,
-    block: (T.() -> R)? = null
-) = attach(block)?.apply {
-    layoutParams = MarginLayoutParams(layoutParams).apply {
-        margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
-    }
 }

@@ -22,6 +22,7 @@ fun AppBarLayout.collapsingToolbarLayout(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -46,7 +47,7 @@ fun AppBarLayout.collapsingToolbarLayout(
     block: (CollapsingToolbarLayout.() -> Unit)? = null
 ) = CollapsingToolbarLayout(context).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
     toolbarId?.let {

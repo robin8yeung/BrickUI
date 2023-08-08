@@ -28,6 +28,7 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -44,7 +45,7 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     viewBuilder: Context.(Int) -> View,
     dataBinder: (List<T>, Int, View) -> Unit,
 ) = recyclerView(
-    width, height, attr, id, tag, background, padding,
+    width, height, attr, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows, layoutManager = layoutManager,
     itemDecoration = itemDecoration,
     viewTypeBuilder = viewTypeBuilder, viewBuilder = viewBuilder,
@@ -76,6 +77,7 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -90,7 +92,7 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     onClick: View.OnClickListener? = null,
     block: ViewGroup.(List<T>, Int) -> Unit,
 ) = simpleRecyclerView(
-    width, height, attr, id, tag, background, padding,
+    width, height, attr, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows, layoutManager = layoutManager,
     itemDecoration = itemDecoration, block = block, onClick = onClick,
     overScrollMode = overScrollMode, viewHolderCreator = viewHolderCreator,

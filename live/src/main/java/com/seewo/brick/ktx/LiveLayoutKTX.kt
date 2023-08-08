@@ -30,6 +30,7 @@ fun Context.liveColumn(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -40,7 +41,7 @@ fun Context.liveColumn(
     gravity: Int? = null,
     block: (LinearLayout.() -> Unit)? = null
 ) = column (
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
@@ -65,6 +66,7 @@ fun ViewGroup.liveColumn(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -75,7 +77,7 @@ fun ViewGroup.liveColumn(
     gravity: Int? = null,
     block: (LinearLayout.() -> Unit)? = null
 ) = column (
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
@@ -100,6 +102,7 @@ fun Context.liveRow(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -110,7 +113,7 @@ fun Context.liveRow(
     gravity: Int = Gravity.CENTER_VERTICAL,
     block: (LinearLayout.() -> Unit)? = null
 ) = row(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
@@ -135,6 +138,7 @@ fun ViewGroup.liveRow(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -145,7 +149,7 @@ fun ViewGroup.liveRow(
     gravity: Int = Gravity.CENTER_VERTICAL,
     block: (LinearLayout.() -> Unit)? = null
 ) = row(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
@@ -172,6 +176,7 @@ fun Context.liveConstraintLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -185,6 +190,7 @@ fun Context.liveConstraintLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     onClick = onClick,
@@ -214,6 +220,7 @@ fun ViewGroup.liveConstraintLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -227,6 +234,7 @@ fun ViewGroup.liveConstraintLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     onClick = onClick,
@@ -254,6 +262,7 @@ fun Context.liveRelativeLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -263,7 +272,7 @@ fun Context.liveRelativeLayout(
 
     block: (RelativeLayout.() -> Unit)? = null
 ) = relativeLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
     context.inMyLifecycle {
@@ -287,6 +296,7 @@ fun ViewGroup.liveRelativeLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -296,7 +306,7 @@ fun ViewGroup.liveRelativeLayout(
 
     block: (RelativeLayout.() -> Unit)? = null
 ) = relativeLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
     context.inMyLifecycle {
@@ -320,6 +330,7 @@ fun Context.liveFrameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -329,7 +340,7 @@ fun Context.liveFrameLayout(
 
     block: (FrameLayout.() -> Unit)? = null
 ) = frameLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
@@ -354,6 +365,7 @@ fun ViewGroup.liveFrameLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -363,7 +375,7 @@ fun ViewGroup.liveFrameLayout(
 
     block: (FrameLayout.() -> Unit)? = null
 ) = frameLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
@@ -388,6 +400,7 @@ fun ViewGroup.liveGridLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -397,7 +410,7 @@ fun ViewGroup.liveGridLayout(
     columnCount: Int? = null,
     block: (GridLayout.() -> Unit)? = null
 ) = gridLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     orientation = orientation, rowCount = rowCount, columnCount = columnCount,
     block = block
 ).apply {
@@ -422,6 +435,7 @@ fun ViewGroup.liveScrollView(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -429,7 +443,7 @@ fun ViewGroup.liveScrollView(
     fitsSystemWindows: Boolean = false,
     block: (ScrollView.() -> Unit)? = null
 ) = scrollView(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
@@ -462,6 +476,7 @@ fun <T> ViewGroup.liveTabLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -480,7 +495,7 @@ fun <T> ViewGroup.liveTabLayout(
     onTabReleased: ((TabLayout.Tab) -> Unit)? = null,
     block: (Context.(index: Int, item: T) -> View)? = null
 ) = tabLayout(
-    width, height, style, id, tag, background, padding,
+    width, height, style, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows,
     data = data,
     tabMode = tabMode,

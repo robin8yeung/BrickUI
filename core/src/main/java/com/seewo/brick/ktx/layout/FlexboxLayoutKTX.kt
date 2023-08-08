@@ -29,6 +29,7 @@ fun ViewGroup.flexboxLayout(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -47,6 +48,7 @@ fun ViewGroup.flexboxLayout(
     height,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -81,6 +83,7 @@ fun Context.flexboxLayout(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -96,7 +99,7 @@ fun Context.flexboxLayout(
     block: (LimitLinesFlexboxLayout.() -> Unit)? = null
 ) = LimitLinesFlexboxLayout(this).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
     maxLine?.let {

@@ -1,6 +1,7 @@
 package com.seewo.brick.init
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.View
 import androidx.annotation.IdRes
 import com.seewo.brick.ktx.WRAP_CONTENT
@@ -12,6 +13,7 @@ internal fun View.setup(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -23,6 +25,11 @@ internal fun View.setup(
     init(width, height)
     id?.let { this.id = it }
     tag?.let { this.tag = it }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        foreground?.let {
+            this.foreground = it
+        }
+    }
     background?.let { this.background = it }
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
     visibility?.let {  this.visibility = it }

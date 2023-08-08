@@ -21,6 +21,7 @@ fun ViewGroup.relativeLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -35,6 +36,7 @@ fun ViewGroup.relativeLayout(
     style,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,
@@ -56,6 +58,7 @@ fun Context.relativeLayout(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -66,7 +69,7 @@ fun Context.relativeLayout(
     block: (RelativeLayout.() -> Unit)? = null
 ) = RelativeLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)

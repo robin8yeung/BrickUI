@@ -27,6 +27,7 @@ fun <T> Context.simpleStatelessRecyclerView(
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -43,7 +44,7 @@ fun <T> Context.simpleStatelessRecyclerView(
     block: ViewGroup.(List<T>, Int) -> Unit,
 ) = RecyclerView(this, null, attr).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     this.layoutManager = layoutManager
@@ -66,6 +67,7 @@ fun <T> ViewGroup.simpleStatelessRecyclerView(
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -86,6 +88,7 @@ fun <T> ViewGroup.simpleStatelessRecyclerView(
     attr,
     id,
     tag,
+    foreground,
     background,
     padding,
     visibility,

@@ -29,6 +29,7 @@ fun <T> ViewGroup.simpleRecyclerView(
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -45,7 +46,7 @@ fun <T> ViewGroup.simpleRecyclerView(
     block: ViewGroup.(List<T>, Int) -> Unit,
 ) = RecyclerView(context, null, attr).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     this.layoutManager = layoutManager

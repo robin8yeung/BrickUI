@@ -21,6 +21,7 @@ fun ViewGroup.liveSmartRefresh(
     width: Int = MATCH_PARENT, height: Int = MATCH_PARENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
@@ -37,7 +38,7 @@ fun ViewGroup.liveSmartRefresh(
     footerHeight: Int? = null,
     block: (Context.() -> View)? = null
 ) = smartRefresh(
-    width, height, id, tag, background, padding,
+    width, height, id, tag, foreground, background, padding,
     autoLoadMore = autoLoadMore,
     onRefresh = onRefresh, onLoadMore = onLoadMore,
     refreshHeader = refreshHeader, headerHeight = headerHeight,

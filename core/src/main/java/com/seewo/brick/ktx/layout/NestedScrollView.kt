@@ -14,6 +14,7 @@ fun <T: ViewGroup> T.nestedScrollView(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -21,7 +22,7 @@ fun <T: ViewGroup> T.nestedScrollView(
 
     block: (NestedScrollView.() -> Unit)? = null
 ) = context.nestedScrollView(
-    width, height, id, tag, background, padding, visibility, fitsSystemWindows, block
+    width, height, id, tag, foreground, background, padding, visibility, fitsSystemWindows, block
 ).also { addView(it) }
 
 fun Context.nestedScrollView(
@@ -30,6 +31,7 @@ fun Context.nestedScrollView(
 
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -38,7 +40,7 @@ fun Context.nestedScrollView(
     block: (NestedScrollView.() -> Unit)? = null
 ) = NestedScrollView(this).apply {
     setup(
-        width, height, id, tag, background, padding, visibility,
+        width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)

@@ -2,6 +2,7 @@ package com.seewo.brick.ktx // 包名别改
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
@@ -18,6 +19,7 @@ fun ViewGroup.smartRefresh(
     width: Int = MATCH_PARENT, height: Int = MATCH_PARENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -36,7 +38,9 @@ fun ViewGroup.smartRefresh(
 ) = SmartRefreshLayout(context).apply {
     setup(
         width, height,
-        id = id, tag = tag, background = background, padding = padding, visibility = visibility,
+        id = id, tag = tag,
+        foreground = foreground, background = background,
+        padding = padding, visibility = visibility,
     )
     refreshHeader?.let { setRefreshHeader(it) }
     headerHeight?.let { setHeaderHeightPx(it) }
@@ -58,6 +62,7 @@ private inline fun View.setup(
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    foreground: Drawable? = null,
     background: Drawable? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
@@ -69,10 +74,15 @@ private inline fun View.setup(
     init(width, height)
     id?.let { this.id = it }
     tag?.let { this.tag = it }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        foreground?.let {
+            this.foreground = it
+        }
+    }
     background?.let { this.background = it }
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
-    visibility?.let {  this.visibility = it }
-    isSelected?.let {  this.isSelected = it }
+    visibility?.let { this.visibility = it }
+    isSelected?.let { this.isSelected = it }
     isEnabled?.let { this.isEnabled = it }
     onClick?.let { setOnClickListener(it) }
     fitsSystemWindows?.let { this.fitsSystemWindows = fitsSystemWindows }
