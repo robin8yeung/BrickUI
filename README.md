@@ -30,6 +30,7 @@ Step 2. Add the dependency
 ```groovy
 dependencies {
         implementation 'com.github.robin8yeung.BrickUI:brick-ui:{VERSION}'
+        implementation 'com.github.robin8yeung.BrickUI:brick-ui-smart-refresh:{VERSION}' // 非必须 基于BrickUI封装了SmartRefreshLayout
         implementation 'com.github.robin8yeung.BrickUI:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
         implementation 'com.github.robin8yeung.BrickUI:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
 }

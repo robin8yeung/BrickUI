@@ -36,6 +36,7 @@ dependencies {
     implementation rootProject.ext.deps.android.material
 
     compileOnly project(':core')
+    compileOnly project(':smart-refresh')
 
     def lifecycle_version = "2.5.1"
 

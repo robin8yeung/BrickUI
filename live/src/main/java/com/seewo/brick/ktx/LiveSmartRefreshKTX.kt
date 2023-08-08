@@ -13,6 +13,9 @@ import com.seewo.brick.params.EdgeInsets
 
 /**
  * SmartRefresh的BrickUI封装
+ *
+ * 注意：使用时必须保证项目中引入了以下依赖:
+ * implementation 'com.github.robin8yeung.BrickUI:brick-ui-smart-refresh:{VERSION}'
  */
 fun ViewGroup.liveSmartRefresh(
     width: Int = MATCH_PARENT, height: Int = MATCH_PARENT,

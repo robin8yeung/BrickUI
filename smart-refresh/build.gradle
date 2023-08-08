@@ -35,11 +35,12 @@ dependencies {
     implementation rootProject.ext.deps.android.appcompat
     implementation rootProject.ext.deps.android.material
 
-    implementation rootProject.ext.deps.jetpack.startup
-    implementation rootProject.ext.deps.ktx.core
-    implementation rootProject.ext.deps.ktx.activity
+    implementation rootProject.ext.deps.smart_refresh_new.core
+    implementation rootProject.ext.deps.smart_refresh_new.classics_header
+    implementation rootProject.ext.deps.smart_refresh_new.classics_footer
 
-    implementation rootProject.ext.deps.android.flexbox
+    compileOnly project(':core')
+
 }
 
 try {
