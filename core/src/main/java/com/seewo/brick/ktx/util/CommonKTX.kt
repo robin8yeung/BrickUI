@@ -29,7 +29,7 @@ fun View.init(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT) {
  * 如果View已经有父布局了，不要使用本函数嵌入，否则会抛以下异常
  * java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child's parent first.
  */
-fun <T: ViewGroup> T.view(
+inline fun <T: ViewGroup> T.view(
     block: (T).() -> View
 ): View = block().also { addView(it) }
 
