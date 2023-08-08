@@ -558,7 +558,36 @@ fun ViewGroup.liveSeekBar(
 }
 
 /**
- * 构造ImageView
+ * 构造占位View
+ */
+fun ViewGroup.livePlaceHolder(
+    width: Int = 0,
+    height: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    fitsSystemWindows: Boolean? = null,
+    onClick: View.OnClickListener? = null,
+) = placeholder(
+    width, height, id, tag, foreground, background, padding,
+    fitsSystemWindows = fitsSystemWindows,
+    onClick = onClick,
+).apply {
+    context.inMyLifecycle {
+        visibility?.bindNotNull(this) {
+            this@apply.visibility = it
+        }
+    }
+    if (isInEditMode) {
+        visibility?.value?.let { this.visibility = it }
+    }
+}
+
+/**
+ * 构造Divider
  */
 fun ViewGroup.liveDivider(
     width: Int = MATCH_PARENT,
