@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.seewo.brick.params.EdgeInsets
 import kotlin.math.abs
@@ -95,7 +96,95 @@ fun <T> ViewGroup.liveViewPager(
 }
 
 /**
- * ViewPager的LiveData封装
+ * ViewPager的LiveData封装(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
+ *
+ * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
+ * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
+ * @param currentIndex 当前页控制
+ * @param smoothScroll 当currentIndex变化时，是否展示动画滑动效果。
+ *
+ * @see ViewGroup.fragmentPager
+ */
+fun <T> Context.liveFragmentPager(
+    width: Int, height: Int,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    fitsSystemWindows: Boolean = false,
+
+    isUserInputEnable: Boolean? = null,
+    offscreenPageLimit: Int? = null,
+    overScrollMode: Int? = null,
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    currentIndex: LiveData<Int>? = null,
+    smoothScroll: Boolean = true,
+    data: LiveData<List<T>>? = null,
+    onClick: View.OnClickListener? = null,
+
+    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
+    onPageSelected: ((position: Int) -> Unit)? = null,
+    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
+    block: Context.(List<T>, Int) -> Fragment,
+) = fragmentPager(
+    width, height, style, id, tag, background, padding,
+    fitsSystemWindows = fitsSystemWindows,
+    isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
+    overScrollMode = overScrollMode, itemDecoration = itemDecoration,
+    onClick = onClick, block = block,
+).initLiveFragmentPager(
+    data, visibility, currentIndex, smoothScroll,
+    onPageScrolled, onPageSelected, onPageScrollStateChanged,
+)
+
+/**
+ * ViewPager的LiveData封装(从属于fragment.getChildFragmentManager()，生命周期跟随指定Fragment)
+ *
+ * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
+ * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
+ * @param currentIndex 当前页控制
+ * @param smoothScroll 当currentIndex变化时，是否展示动画滑动效果。
+ *
+ * @see ViewGroup.fragmentPager
+ */
+fun <T> Fragment.liveFragmentPager(
+    width: Int, height: Int,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    fitsSystemWindows: Boolean = false,
+
+    isUserInputEnable: Boolean? = null,
+    offscreenPageLimit: Int? = null,
+    overScrollMode: Int? = null,
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    currentIndex: LiveData<Int>? = null,
+    smoothScroll: Boolean = true,
+    data: LiveData<List<T>>? = null,
+    onClick: View.OnClickListener? = null,
+
+    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
+    onPageSelected: ((position: Int) -> Unit)? = null,
+    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
+    block: Context.(List<T>, Int) -> Fragment,
+) = fragmentPager(
+    width, height, style, id, tag, background, padding,
+    fitsSystemWindows = fitsSystemWindows,
+    isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
+    overScrollMode = overScrollMode, itemDecoration = itemDecoration,
+    onClick = onClick, block = block,
+).initLiveFragmentPager(
+    data, visibility, currentIndex, smoothScroll,
+    onPageScrolled, onPageSelected, onPageScrollStateChanged,
+)
+
+/**
+ * ViewPager的LiveData封装(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
  *
  * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
@@ -133,7 +222,20 @@ fun <T> ViewGroup.liveFragmentPager(
     isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,
     onClick = onClick, block = block,
-).apply {
+).initLiveFragmentPager(
+    data, visibility, currentIndex, smoothScroll,
+    onPageScrolled, onPageSelected, onPageScrollStateChanged,
+)
+
+private fun <T> ViewPager2.initLiveFragmentPager(
+    data: LiveData<List<T>>? = null,
+    visibility: LiveData<Int>? = null,
+    currentIndex: LiveData<Int>? = null,
+    smoothScroll: Boolean = true,
+    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
+    onPageSelected: ((position: Int) -> Unit)? = null,
+    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
+) = apply {
     context.inMyLifecycle {
         data?.bind(this) {
             it ?: return@bind
