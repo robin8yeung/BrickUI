@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ScrollView
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
@@ -155,4 +156,13 @@ internal fun <T : ViewGroup> T.attach(block: (T.() -> Unit)?): T = apply {
 
 internal fun <T : ViewGroup, R : View> T.attach(block: (T.() -> R)?): R? = run {
     block?.let { it() }
+}
+
+fun <T : ViewGroup, R : View> T.margins(
+    margins: EdgeInsets? = null,
+    block: (T.() -> R)? = null
+) = attach(block)?.apply {
+    layoutParams = MarginLayoutParams(layoutParams).apply {
+        margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
+    }
 }
