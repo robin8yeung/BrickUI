@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.17
+
+- feature: 统一为ViewGroup构造的View添加`margin`参数
+
 ### 0.2.16
 
 - Improve: 移除`Fragment.fragmentPager()`方法，改用参数`parentFragment`参数来实现此功能
