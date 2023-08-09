@@ -1,5 +1,12 @@
 # Change LOG
 
+### 0.2.15
+
+- Improve: `smartRefresh`提到单独module：com.github.robin8yeung.BrickUI:brick-ui-smart-refresh。**（注意：用到smartRefresh的话必须引入此依赖）**
+- feature: 添加`Fragment.fragmentPager()`方法，来构造基于Fragment生命周期的fragmentPager
+- feature: 统一增加`foreground`属性
+- feature: 提供`livePlaceHolder()`构造占位View
+
 ### 0.2.14
 
 - Improve: 为LiveData增加combine扩展函数，方便合并2个LiveData的值来处理UI状态
