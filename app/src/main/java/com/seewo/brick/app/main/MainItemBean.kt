@@ -10,7 +10,14 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.drawable
+import com.seewo.brick.ktx.imageView
+import com.seewo.brick.ktx.rectDrawable
+import com.seewo.brick.ktx.stateListDrawable
+import com.seewo.brick.ktx.textView
 import com.seewo.brick.params.EdgeInsets
 
 class PreviewMainItem(context: Context, attrs: AttributeSet? = null): BrickPreview(context, attrs) {
@@ -49,11 +56,10 @@ fun ViewGroup.MainItemWidget(
         48.dp, 48.dp,
         drawable = drawable,
     )
-    layoutParams(margins = EdgeInsets.all(8.dp)) {
-        textView(
-            text = text,
-            maxLines = 1,
-            ellipsize = TextUtils.TruncateAt.END,
-        )
-    }
+    textView(
+        text = text,
+        maxLines = 1,
+        ellipsize = TextUtils.TruncateAt.END,
+        margin = EdgeInsets.all(8.dp),
+    )
 }

@@ -8,6 +8,7 @@ import androidx.annotation.IdRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -41,6 +42,7 @@ fun <T : ViewGroup> T.coordinatorLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -61,7 +63,7 @@ fun <T : ViewGroup> T.coordinatorLayout(
     onClick,
     fitsSystemWindows,
     block
-).also { addView(it) }
+).also { addView(it) }.applyMargin(margin)
 
 fun CoordinatorLayout.layoutParams(
     behavior: CoordinatorLayout.Behavior<*>? = null,
@@ -70,7 +72,11 @@ fun CoordinatorLayout.layoutParams(
     apply: (CoordinatorLayout.LayoutParams.() -> Unit)? = null,
     block: (CoordinatorLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = CoordinatorLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is CoordinatorLayout.LayoutParams -> layoutParams as CoordinatorLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> CoordinatorLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> CoordinatorLayout.LayoutParams(layoutParams)
+    }.apply {
         apply?.let {
             it()
         }
@@ -97,6 +103,7 @@ fun CoordinatorLayout.appBarLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -107,21 +114,26 @@ fun CoordinatorLayout.appBarLayout(
     block: (AppBarLayout.() -> Unit)? = null
 ) = AppBarLayout(context).apply {
     setup(
-        width, height, id, tag, foreground, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background, padding,
+        visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
     this.background = background
     elevation = 0f
     outlineProvider = null
     onOffsetChanged?.let { addOnOffsetChangedListener(it) }
-}.also { addView(it) }.attach(block)
+}.also { addView(it) }.attach(block).applyMargin(margin)
 
 fun AppBarLayout.layoutParams(
     scrollFlags: Int? = null,
     apply: (AppBarLayout.LayoutParams.() -> Unit)? = null,
     block: (AppBarLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = AppBarLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is AppBarLayout.LayoutParams -> layoutParams as AppBarLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> AppBarLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> AppBarLayout.LayoutParams(layoutParams)
+    }.apply {
         apply?.let {
             it()
         }

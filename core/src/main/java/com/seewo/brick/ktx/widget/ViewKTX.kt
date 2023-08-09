@@ -28,6 +28,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import com.seewo.brick.JavaDrawableUtils
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.CompoundDrawables
 import com.seewo.brick.params.EdgeInsets
@@ -44,6 +45,7 @@ fun ViewGroup.divider(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -53,7 +55,7 @@ fun ViewGroup.divider(
         width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick
     )
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * 构造ImageView
@@ -66,6 +68,7 @@ fun ViewGroup.imageView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -93,7 +96,7 @@ fun ViewGroup.imageView(
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
     scaleType?.let { setScaleType(it) }
     drawable?.let { setImageDrawable(it) }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * 构造TextView
@@ -106,6 +109,7 @@ fun ViewGroup.textView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -160,7 +164,7 @@ fun ViewGroup.textView(
         setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
     }
 
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * 构造EditText
@@ -173,6 +177,7 @@ fun ViewGroup.edittext(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -269,7 +274,7 @@ fun ViewGroup.edittext(
             }
         })
     }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * Checkbox控件
@@ -282,6 +287,7 @@ fun ViewGroup.checkbox(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -330,7 +336,7 @@ fun ViewGroup.checkbox(
     this.isChecked = isChecked
 
     onCheckedChange?.let { setOnCheckedChangeListener(it) }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * Switch控件
@@ -341,6 +347,7 @@ fun ViewGroup.switch(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isEnabled: Boolean? = null,
@@ -361,7 +368,7 @@ fun ViewGroup.switch(
     )
     this.isChecked = isChecked
     onCheckedChange?.let { setOnCheckedChangeListener(it) }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 const val PROGRESS_TYPE_SCALE = 0
 const val PROGRESS_TYPE_CLIP = 1
@@ -392,6 +399,7 @@ fun ViewGroup.horizontalProgressBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -432,7 +440,7 @@ fun ViewGroup.horizontalProgressBar(
             setId(1, android.R.id.progress)
         }
     }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * @param minHeight 进度条的最小高度，系统版本29以上才支持，低版本通过style传入
@@ -451,6 +459,7 @@ fun ViewGroup.seekBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -519,7 +528,7 @@ fun ViewGroup.seekBar(
             onStopTrackingTouch?.invoke(seekBar)
         }
     })
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 /**
  * 构造Expend，用于在线性布局中作为PlaceHolder占满空间
@@ -539,6 +548,7 @@ fun ViewGroup.placeholder(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean? = null,
@@ -558,4 +568,4 @@ fun ViewGroup.placeholder(
     )
 }.also {
     addView(it)
-}
+}.applyMargin(margin)

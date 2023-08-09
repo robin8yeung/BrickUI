@@ -21,6 +21,7 @@ fun ViewGroup.smartRefresh(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
 
@@ -55,7 +56,15 @@ fun ViewGroup.smartRefresh(
     refreshEnable?.let { setEnableRefresh(it) }
     loadMoreEnable?.let { setEnableLoadMore(it) }
     noMoreData?.let { setNoMoreData(it) }
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
+
+private inline fun <T: View> T.applyMargin(
+    margin: EdgeInsets?
+): T = apply {
+    margin?.let { (layoutParams as? ViewGroup.MarginLayoutParams)?.setMargins(
+        it.start, it.top, it.end, it.bottom)
+    }
+}
 
 private inline fun View.setup(
     width: Int = WRAP_CONTENT,

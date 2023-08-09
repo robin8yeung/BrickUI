@@ -143,18 +143,16 @@ rectDrawable(
 ```
 ### Margin/Padding属性
 
-类似Flutter的EdgeInsets。但需要注意的是padding属于View自身属性，margin则属于View的布局属性。所以设置的地方有点区别
+类似Flutter的EdgeInsets。但需要注意的是padding属于View自身属性，margin则属于View的布局属性，所以只有通过ViewGroup构造的View才能设置margin
+
 ```kotlin
-layoutParams(
-    margin = EdgeInsets.all(8.dp)
-) {
-    textView(
-        text = "你好",
-        textColor = Color.BLACK.static,
-        padding = EdgeInsets.all(8.dp),
-        textSize = 16.dp,
-    )
-}
+textView(
+    text = "你好",
+    textColor = Color.BLACK.static,
+    margin = EdgeInsets.all(8.dp),
+    padding = EdgeInsets.all(8.dp),
+    textSize = 16.dp,
+)
 ```
 
 ### shadowBox：外阴影

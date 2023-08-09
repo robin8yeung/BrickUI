@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import com.google.android.flexbox.*
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.view.LimitLinesFlexboxLayout
@@ -31,6 +32,7 @@ fun ViewGroup.flexboxLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -63,7 +65,7 @@ fun ViewGroup.flexboxLayout(
     block,
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建流式布局
@@ -99,7 +101,8 @@ fun Context.flexboxLayout(
     block: (LimitLinesFlexboxLayout.() -> Unit)? = null
 ) = LimitLinesFlexboxLayout(this).apply {
     setup(
-        width, height, id, tag, foreground, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background,
+        padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
     maxLine?.let {
@@ -114,6 +117,7 @@ fun Context.flexboxLayout(
 /**
  * 简单设置flexbox布局的布局属性
  */
+@Deprecated("使用 limitLinesFlexboxLayout自身的margin参数")
 fun LimitLinesFlexboxLayout.margins(
     margins: EdgeInsets? = null,
     block: (LimitLinesFlexboxLayout.() -> View)? = null
@@ -131,7 +135,11 @@ fun LimitLinesFlexboxLayout.layoutParams(
     block: (LimitLinesFlexboxLayout.() -> View)? = null
 ) = attach(block)?.apply {
     apply?.let {
-        layoutParams = FlexboxLayout.LayoutParams(layoutParams).apply {
+        layoutParams = when(layoutParams) {
+            is FlexboxLayout.LayoutParams -> layoutParams as FlexboxLayout.LayoutParams
+            is ViewGroup.MarginLayoutParams -> FlexboxLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+            else -> FlexboxLayout.LayoutParams(layoutParams)
+        }.apply {
             it()
         }
     }
@@ -144,7 +152,11 @@ fun LimitLinesFlexboxLayout.layoutParams(
 fun <T: View> T.inFlexboxLayout(
     margins: EdgeInsets? = null,
 ) = apply {
-    layoutParams = FlexboxLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is FlexboxLayout.LayoutParams -> layoutParams as FlexboxLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> FlexboxLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> FlexboxLayout.LayoutParams(layoutParams)
+    }.apply {
         margins?.let { setMargins(margins.start, margins.top, margins.end, margins.bottom) }
     }
 }

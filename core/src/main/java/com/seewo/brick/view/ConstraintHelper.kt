@@ -9,6 +9,7 @@ import androidx.transition.TransitionManager
 val View.parentId: Int
     get() = (parent as? View)?.id ?: 0
 
+@Deprecated("使用ConstraintLayout.layoutParams()")
 class ConstraintHelper(private val constraintLayout: ConstraintLayout) {
     private var begin: Editor? = null
     private val applyConstraintSet = ConstraintSet()

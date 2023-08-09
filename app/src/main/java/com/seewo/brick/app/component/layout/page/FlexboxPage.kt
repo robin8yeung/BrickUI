@@ -6,7 +6,15 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.widget.Markdown
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.flexboxLayout
+import com.seewo.brick.ktx.rectDrawable
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
+import com.seewo.brick.ktx.withAlpha
 import com.seewo.brick.params.CornerRadius
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.view.LimitLinesFlexboxLayout
@@ -42,20 +50,17 @@ private fun LinearLayout.Chips() {
 }
 
 private fun LimitLinesFlexboxLayout.Chip(it: Int) {
-    margins(
-        margins = EdgeInsets.all(4.dp)
-    ) {
-        textView(
-            background = rectDrawable(
-                corners = CornerRadius.all(4.dp),
-                fillColor = Color.GRAY.withAlpha(0.7f),
-            ),
-            padding = EdgeInsets.symmetric(2.dp, 6.dp),
-            text = "TAG $it",
-            textColor = Color.WHITE,
-            textSize = 12.dp,
-        )
-    }
+    textView(
+        background = rectDrawable(
+            corners = CornerRadius.all(4.dp),
+            fillColor = Color.GRAY.withAlpha(0.7f),
+        ),
+        margin = EdgeInsets.all(4.dp),
+        padding = EdgeInsets.symmetric(2.dp, 6.dp),
+        text = "TAG $it",
+        textColor = Color.WHITE,
+        textSize = 12.dp,
+    )
 }
 
 private fun LinearLayout.ShowMarkDown() {
@@ -80,20 +85,17 @@ private fun LinearLayout.Chips() {
 }
 
 private fun LimitLinesFlexboxLayout.Chip(it: Int) {
-    layoutParams(
-        margins = EdgeInsets.all(4.dp)
-    ) {
-        textView(
-            background = rectDrawable(
-                corners = CornerRadius.all(4.dp),
-                fillColor = Color.GRAY.withAlpha(0.7f),
-            ),
-            padding = EdgeInsets.symmetric(2.dp, 6.dp),
-            text = "TAG $${'$'}it",
-            textColor = Color.WHITE,
-            textSize = 12.dp,
-        )
-    }
+    textView(
+        background = rectDrawable(
+            corners = CornerRadius.all(4.dp),
+            fillColor = Color.GRAY.withAlpha(0.7f),
+        ),
+        margin = EdgeInsets.all(4.dp),
+        padding = EdgeInsets.symmetric(2.dp, 6.dp),
+        text = "TAG ${'$'}it",
+        textColor = Color.WHITE,
+        textSize = 12.dp,
+    )
 }
 ```
                 """.trimIndent()

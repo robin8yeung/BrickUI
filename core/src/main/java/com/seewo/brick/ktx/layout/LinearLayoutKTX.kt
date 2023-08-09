@@ -6,10 +6,13 @@ import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.LinearLayoutCompat
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -66,6 +69,7 @@ fun ViewGroup.column(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -83,6 +87,7 @@ fun ViewGroup.column(
     tag,
     foreground,
     background,
+    margin,
     padding,
     visibility,
     isSelected,
@@ -146,6 +151,7 @@ fun ViewGroup.row(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -163,6 +169,7 @@ fun ViewGroup.row(
     tag,
     foreground,
     background,
+    margin,
     padding,
     visibility,
     isSelected,
@@ -214,6 +221,7 @@ private fun ViewGroup.linearLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -241,17 +249,21 @@ private fun ViewGroup.linearLayout(
     gravity,
     animateLayoutChanges,
     block
-).also { addView(it) }
+).also { addView(it) }.applyMargin(margin)
 
 /**
  * 声明线性布局的布局属性
  */
 fun LinearLayout.layoutParams(
-    apply: (LinearLayout.LayoutParams.() -> Unit)? = null,
+    apply: (LayoutParams.() -> Unit)? = null,
     block: (LinearLayout.() -> View)? = null
 ) = attach(block)?.apply {
     apply?.let {
-        layoutParams = LinearLayout.LayoutParams(layoutParams).apply {
+        layoutParams = when(layoutParams) {
+            is LayoutParams -> layoutParams as LayoutParams
+            is MarginLayoutParams -> LayoutParams(layoutParams as MarginLayoutParams)
+            else -> LayoutParams(layoutParams)
+        }.apply {
             it()
         }
     }
@@ -266,7 +278,11 @@ fun LinearLayout.layoutParams(
     margins: EdgeInsets? = null,
     block: (LinearLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = LinearLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is LayoutParams -> layoutParams as LayoutParams
+        is MarginLayoutParams -> LayoutParams(layoutParams as MarginLayoutParams)
+        else -> LayoutParams(layoutParams)
+    }.apply {
         gravity?.let { this.gravity = it }
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
         weight?.let { this.weight = weight }
@@ -296,7 +312,11 @@ fun <T: View> T.inLinearLayout(
     gravity: Int? = null,
     margins: EdgeInsets? = null,
 ) = apply {
-    layoutParams = LinearLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is LayoutParams -> layoutParams as LayoutParams
+        is MarginLayoutParams -> LayoutParams(layoutParams as MarginLayoutParams)
+        else -> LayoutParams(layoutParams)
+    }.apply {
         gravity?.let { this.gravity = it }
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
         weight?.let { this.weight = weight }

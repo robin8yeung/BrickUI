@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -80,6 +81,7 @@ fun <T> ViewGroup.fragmentPager(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
@@ -115,7 +117,7 @@ fun <T> ViewGroup.fragmentPager(
         onPageSelected,
         onPageScrollStateChanged
     )
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 private fun <T> ViewPager2.loadData(
     activity: FragmentActivity,

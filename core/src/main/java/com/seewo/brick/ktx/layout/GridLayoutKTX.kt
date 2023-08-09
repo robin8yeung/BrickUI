@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -23,6 +24,7 @@ fun ViewGroup.gridLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -48,7 +50,7 @@ fun ViewGroup.gridLayout(
     block
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建网格布局（实验）
@@ -70,7 +72,8 @@ fun Context.gridLayout(
     columnCount: Int? = null,
     block: (GridLayout.() -> Unit)? = null
 ) = GridLayout(this, null, 0, style).apply {
-    setup(width, height, id, tag, foreground, background, padding, visibility, isSelected)
+    setup(width, height, id, tag, foreground, background,
+        padding, visibility, isSelected)
     this.orientation = orientation
     this.rowCount = rowCount
     columnCount?.let { this.columnCount = it }
@@ -107,7 +110,11 @@ fun GridLayout.layoutParams(
     block: (GridLayout.() -> View)? = null
 ) = attach(block)?.apply {
     apply?.let {
-        layoutParams = GridLayout.LayoutParams(layoutParams).apply {
+        layoutParams = when(layoutParams) {
+            is GridLayout.LayoutParams -> layoutParams as GridLayout.LayoutParams
+            is ViewGroup.MarginLayoutParams -> GridLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+            else -> GridLayout.LayoutParams(layoutParams)
+        }.apply {
             it()
         }
     }
@@ -126,7 +133,11 @@ fun <T: View> T.inGridLayout(
     rowWeight: Float = 0f,
     gravity: Int = Gravity.NO_GRAVITY,
 ) = apply {
-    layoutParams = GridLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is GridLayout.LayoutParams -> layoutParams as GridLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> GridLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> GridLayout.LayoutParams(layoutParams)
+    }.apply {
         val columnAlignment = getAlignment(gravity, true)
         val rowAlignment = getAlignment(gravity, false)
         columnSpec = if (columnAlignment == null) GridLayout.spec(column, columnSpan, columnWeight)

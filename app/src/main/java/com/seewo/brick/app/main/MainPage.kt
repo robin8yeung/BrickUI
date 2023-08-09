@@ -16,7 +16,6 @@ import com.seewo.brick.ktx.divider
 import com.seewo.brick.ktx.dp
 import com.seewo.brick.ktx.drawable
 import com.seewo.brick.ktx.expand
-import com.seewo.brick.ktx.layoutParams
 import com.seewo.brick.ktx.live
 import com.seewo.brick.ktx.liveTabLayout
 import com.seewo.brick.ktx.liveViewPager
@@ -61,23 +60,20 @@ fun Context.mainPage() = column(
         }
     }
     divider(height = 1.dp, background = R.color.grey_e4.colorDrawable)
-    layoutParams(
-        margins = EdgeInsets.symmetric(horizontal = 44.dp)
-    ) {
-        liveTabLayout(
-            MATCH_PARENT, 64.dp,
-            data = tabs,
-            currentIndex = currentIndex,
-        ) { _, item ->
-            textView(
-                text = item.second,
-                style = R.style.TabStyle,
-                compoundDrawables = CompoundDrawables(
-                    top = item.first.drawable
-                ),
-                textStyle = Typeface.BOLD,
-                gravity = Gravity.CENTER,
-            )
-        }
+    liveTabLayout(
+        MATCH_PARENT, 64.dp,
+        data = tabs,
+        margin = EdgeInsets.symmetric(horizontal = 44.dp),
+        currentIndex = currentIndex,
+    ) { _, item ->
+        textView(
+            text = item.second,
+            style = R.style.TabStyle,
+            compoundDrawables = CompoundDrawables(
+                top = item.first.drawable
+            ),
+            textStyle = Typeface.BOLD,
+            gravity = Gravity.CENTER,
+        )
     }
 }

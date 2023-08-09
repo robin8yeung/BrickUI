@@ -3,6 +3,7 @@ package com.seewo.brick.init
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.IdRes
 import com.seewo.brick.ktx.WRAP_CONTENT
 import com.seewo.brick.ktx.init
@@ -32,9 +33,19 @@ internal fun View.setup(
     }
     background?.let { this.background = it }
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
-    visibility?.let {  this.visibility = it }
-    isSelected?.let {  this.isSelected = it }
+    visibility?.let { this.visibility = it }
+    isSelected?.let { this.isSelected = it }
     isEnabled?.let { this.isEnabled = it }
     onClick?.let { setOnClickListener(it) }
     fitsSystemWindows?.let { this.fitsSystemWindows = fitsSystemWindows }
+}
+
+internal fun <T : View> T.applyMargin(
+    margin: EdgeInsets? = null,
+): T = apply {
+    margin?.let {
+        (layoutParams as? MarginLayoutParams)?.setMargins(
+            it.start, it.top, it.end, it.bottom
+        )
+    }
 }

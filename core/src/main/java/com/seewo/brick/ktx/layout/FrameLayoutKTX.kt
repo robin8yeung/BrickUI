@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.view.WindowInsetsFrameLayout
@@ -24,6 +25,7 @@ fun ViewGroup.frameLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -47,7 +49,7 @@ fun ViewGroup.frameLayout(
     block
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建帧布局
@@ -69,7 +71,8 @@ fun Context.frameLayout(
     block: (FrameLayout.() -> Unit)? = null
 ) = FrameLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, foreground, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background,
+        padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)
@@ -87,6 +90,7 @@ fun ViewGroup.windowInsetsFrameLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -110,7 +114,7 @@ fun ViewGroup.windowInsetsFrameLayout(
     block
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建可分发WindowInsets的帧布局
@@ -134,7 +138,8 @@ fun Context.windowInsetsFrameLayout(
     block: (WindowInsetsFrameLayout.() -> Unit)? = null
 ) = WindowInsetsFrameLayout(this, null, 0, style).apply {
     setup(
-        width, height, id, tag, foreground, background, padding, visibility, isSelected,
+        width, height, id, tag, foreground, background,
+        padding, visibility, isSelected,
         onClick = onClick, fitsSystemWindows = fitsSystemWindows
     )
 }.attach(block)
@@ -146,7 +151,11 @@ fun FrameLayout.center(
     margins: EdgeInsets? = null,
     block: (FrameLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = FrameLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is FrameLayout.LayoutParams -> layoutParams as FrameLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> FrameLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> FrameLayout.LayoutParams(layoutParams)
+    }.apply {
         this.gravity = Gravity.CENTER
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
     }
@@ -160,7 +169,11 @@ fun FrameLayout.layoutParams(
     margins: EdgeInsets? = null,
     block: (FrameLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = FrameLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is FrameLayout.LayoutParams -> layoutParams as FrameLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> FrameLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> FrameLayout.LayoutParams(layoutParams)
+    }.apply {
         gravity?.let { this.gravity = it }
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
     }
@@ -174,7 +187,11 @@ fun FrameLayout.layoutParams(
     block: (FrameLayout.() -> View)? = null
 ) = attach(block)?.apply {
     apply?.let {
-        layoutParams = FrameLayout.LayoutParams(layoutParams).apply {
+        layoutParams = when(layoutParams) {
+            is FrameLayout.LayoutParams -> layoutParams as FrameLayout.LayoutParams
+            is ViewGroup.MarginLayoutParams -> FrameLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+            else -> FrameLayout.LayoutParams(layoutParams)
+        }.apply {
             it()
         }
     }
@@ -188,7 +205,11 @@ fun <T: View> T.inFrameLayout(
     gravity: Int? = null,
     margins: EdgeInsets? = null
 ) = apply {
-    layoutParams = FrameLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is FrameLayout.LayoutParams -> layoutParams as FrameLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> FrameLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> FrameLayout.LayoutParams(layoutParams)
+    }.apply {
         gravity?.let { this.gravity = it }
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
     }

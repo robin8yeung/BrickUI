@@ -11,6 +11,7 @@ import androidx.annotation.IdRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.RecyclerItemData
@@ -31,6 +32,7 @@ fun <T> ViewGroup.simpleRecyclerView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
@@ -54,7 +56,7 @@ fun <T> ViewGroup.simpleRecyclerView(
     loadData(viewHolderCreator, data ?: listOf(), block)
     overScrollMode?.let { this.overScrollMode = it }
     this@simpleRecyclerView.addView(this)
-}
+}.applyMargin(margin)
 
 private fun <T> RecyclerView.loadData(
     viewHolderCreator: (Context.() -> ViewGroup)?,

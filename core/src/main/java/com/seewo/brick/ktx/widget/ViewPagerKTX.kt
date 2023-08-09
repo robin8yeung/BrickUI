@@ -11,6 +11,7 @@ import androidx.annotation.StyleRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -28,6 +29,7 @@ fun <T> ViewGroup.viewPager(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
@@ -76,7 +78,7 @@ fun <T> ViewGroup.viewPager(
             onPageScrollStateChanged?.invoke(state)
         }
     })
-}.also { addView(it) }
+}.also { addView(it) }.applyMargin(margin)
 
 private fun <T> ViewPager2.loadData(
     viewHolderView: ViewGroup?,

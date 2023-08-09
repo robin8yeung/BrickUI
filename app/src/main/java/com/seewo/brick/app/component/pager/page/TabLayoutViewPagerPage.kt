@@ -12,6 +12,7 @@ import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
 import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.center
 import com.seewo.brick.ktx.color
 import com.seewo.brick.ktx.colorDrawable
 import com.seewo.brick.ktx.column
@@ -19,7 +20,6 @@ import com.seewo.brick.ktx.dp
 import com.seewo.brick.ktx.expand
 import com.seewo.brick.ktx.frameLayout
 import com.seewo.brick.ktx.layerDrawable
-import com.seewo.brick.ktx.layoutParams
 import com.seewo.brick.ktx.rectDrawable
 import com.seewo.brick.ktx.stateListColor
 import com.seewo.brick.ktx.tabLayout
@@ -111,9 +111,7 @@ private fun LinearLayout.ViewPager() {
                             else -> R.color.purple_700.colorDrawable
                         },
                     ) {
-                        layoutParams(
-                            gravity = Gravity.CENTER
-                        ) {
+                        center {
                             textView(
                                 text = data[index],
                                 textColor = Color.WHITE,
@@ -196,9 +194,7 @@ private fun LinearLayout.ViewPager() {
                             else -> R.color.purple_700.colorDrawable
                         },
                     ) {
-                        layoutParams(
-                            gravity = Gravity.CENTER
-                        ) {
+                        center {
                             textView(
                                 text = data[index],
                                 textColor = Color.WHITE,

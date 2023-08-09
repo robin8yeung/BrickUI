@@ -5,12 +5,14 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.IntRange
 import androidx.annotation.StyleRes
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.CollapseMode
 import com.seewo.brick.params.EdgeInsets
@@ -24,6 +26,7 @@ fun AppBarLayout.collapsingToolbarLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -79,7 +82,7 @@ fun AppBarLayout.collapsingToolbarLayout(
     expandedTitleMargin?.let { setExpandedTitleMargin(it.start, it.top, it.end, it.bottom) }
     maxLines?.let { this.maxLines = it }
     scrimAnimationDuration?.let { setScrimAnimationDuration(it) }
-}.also { addView(it) }.attach(block)
+}.also { addView(it) }.attach(block).applyMargin(margin)
 
 class TitleStyle(
     @StyleRes val textAppearance: Int? = null,
@@ -95,7 +98,11 @@ fun CollapsingToolbarLayout.layoutParams(
     apply: (CollapsingToolbarLayout.LayoutParams.() -> Unit)? = null,
     block: (CollapsingToolbarLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = CollapsingToolbarLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is CollapsingToolbarLayout.LayoutParams -> layoutParams as CollapsingToolbarLayout.LayoutParams
+        is MarginLayoutParams -> CollapsingToolbarLayout.LayoutParams(layoutParams as MarginLayoutParams)
+        else -> CollapsingToolbarLayout.LayoutParams(layoutParams)
+    }.apply {
         apply?.let {
             it()
         }

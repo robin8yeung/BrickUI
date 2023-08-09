@@ -188,7 +188,7 @@ fun<T> T.createAnimator(
     this.interpolator = interpolator
     block?.let {
         addUpdateListener {
-            it(it.animatedValue as Float)
+            block(it.animatedValue as Float)
         }
     }
 }

@@ -9,7 +9,27 @@ import android.widget.LinearLayout
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.center
+import com.seewo.brick.ktx.color
+import com.seewo.brick.ktx.colorDrawable
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.data
+import com.seewo.brick.ktx.divider
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.fragment
+import com.seewo.brick.ktx.frameLayout
+import com.seewo.brick.ktx.layoutParams
+import com.seewo.brick.ktx.live
+import com.seewo.brick.ktx.liveFragmentPager
+import com.seewo.brick.ktx.liveText
+import com.seewo.brick.ktx.map
+import com.seewo.brick.ktx.row
+import com.seewo.brick.ktx.stateListColor
+import com.seewo.brick.ktx.static
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
 
 private class FragmentPagerPage(context: Context, attrs: AttributeSet? = null) :
     BrickPreview(context, attrs) {
@@ -49,9 +69,7 @@ private fun LinearLayout.ViewPager() {
                             else -> R.color.purple_700.colorDrawable
                         },
                     ) {
-                        layoutParams(
-                            gravity = Gravity.CENTER
-                        ) {
+                        center {
                             textView(
                                 text = data[index].toString(),
                                 textColor = Color.WHITE,
@@ -121,9 +139,7 @@ private fun LinearLayout.ViewPager() {
                             else -> R.color.purple_700.colorDrawable
                         },
                     ) {
-                        layoutParams(
-                            gravity = Gravity.CENTER
-                        ) {
+                        center {
                             textView(
                                 text = data[index].toString(),
                                 textColor = Color.WHITE,

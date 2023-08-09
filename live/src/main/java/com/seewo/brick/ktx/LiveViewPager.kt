@@ -35,6 +35,7 @@ fun <T> ViewGroup.liveViewPager(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
@@ -54,7 +55,7 @@ fun <T> ViewGroup.liveViewPager(
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
     block: Context.(List<T>, Int) -> View,
 ) = viewPager(
-    width, height, style, id, tag, foreground, background, padding,
+    width, height, style, id, tag, foreground, background, margin, padding,
     fitsSystemWindows = fitsSystemWindows,
     isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode, itemDecoration = itemDecoration, viewHolder = viewHolder,
@@ -161,6 +162,7 @@ fun <T> ViewGroup.liveFragmentPager(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
@@ -180,7 +182,7 @@ fun <T> ViewGroup.liveFragmentPager(
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
     block: Context.(List<T>, Int) -> Fragment,
 ) = fragmentPager(
-    width, height, style, id, tag, foreground, background, padding,
+    width, height, style, id, tag, foreground, background, margin, padding,
     fitsSystemWindows = fitsSystemWindows, parentFragment = parentFragment,
     isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,

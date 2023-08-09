@@ -12,7 +12,18 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.WRAP_CONTENT
+import com.seewo.brick.ktx.colorDrawable
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.drawable
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.imageView
+import com.seewo.brick.ktx.roundRectClip
+import com.seewo.brick.ktx.smartRefresh
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
 import com.seewo.brick.params.EdgeInsets
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -73,15 +84,12 @@ private fun LinearLayout.RefreshLayout() {
             MATCH_PARENT, MATCH_PARENT,
             gravity = Gravity.CENTER_HORIZONTAL,
         ) {
-            layoutParams(
-                margins = EdgeInsets.only(top = 16.dp, bottom = 8.dp)
-            ) {
-                roundRectClip(radius = 4.dp) {
-                    imageView(
-                        64.dp, 64.dp,
-                        drawable = R.mipmap.ic_launcher.drawable,
-                    )
-                }
+            roundRectClip(radius = 4.dp) {
+                imageView(
+                    64.dp, 64.dp,
+                    drawable = R.mipmap.ic_launcher.drawable,
+                    margin = EdgeInsets.only(top = 16.dp, bottom = 8.dp),
+                )
             }
 
             textView(
@@ -145,15 +153,12 @@ private fun LinearLayout.RefreshLayout() {
             MATCH_PARENT, MATCH_PARENT,
             gravity = Gravity.CENTER_HORIZONTAL,
         ) {
-            layoutParams(
-                margins = EdgeInsets.only(top = 16.dp, bottom = 8.dp)
-            ) {
-                roundRectClip(radius = 4.dp) {
-                    imageView(
-                        64.dp, 64.dp,
-                        drawable = R.mipmap.ic_launcher.drawable,
-                    )
-                }
+            roundRectClip(radius = 4.dp) {
+                imageView(
+                    64.dp, 64.dp,
+                    drawable = R.mipmap.ic_launcher.drawable,
+                    margin = EdgeInsets.only(top = 16.dp, bottom = 8.dp),
+                )
             }
 
             textView(

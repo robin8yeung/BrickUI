@@ -34,6 +34,7 @@ fun ViewGroup.liveImage(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -43,7 +44,7 @@ fun ViewGroup.liveImage(
     drawable: LiveData<Drawable>? = null,
     onClick: View.OnClickListener? = null,
 ) = imageView(
-    width, height, style, id, tag, foreground, background, padding,
+    width, height, style, id, tag, foreground, background, margin, padding,
     onClick = onClick, scaleType = scaleType, fitsSystemWindows = fitsSystemWindows,
 ).apply {
     context.inMyLifecycle {
@@ -75,6 +76,7 @@ fun ViewGroup.liveText(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -103,6 +105,7 @@ fun ViewGroup.liveText(
     tag,
     foreground,
     background,
+    margin,
     padding,
     onClick = onClick,
     textStyle = textStyle,
@@ -168,6 +171,7 @@ fun ViewGroup.liveEdit(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -197,7 +201,7 @@ fun ViewGroup.liveEdit(
 ) = edittext(
     width,
     height,
-    style, id, tag, foreground, background, padding,
+    style, id, tag, foreground, background, margin, padding,
     textStyle = textStyle, textAlignment = textAlignment, textSize = textSize,
     gravity = gravity, maxLines = maxLines, hint = hint, hintTextColor = hintTextColor,
     imeOptions = imeOptions, inputType = inputType, cursorDrawable = cursorDrawable,
@@ -262,6 +266,7 @@ fun ViewGroup.liveCheckbox(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -282,7 +287,7 @@ fun ViewGroup.liveCheckbox(
 ) = checkbox(
     width,
     height,
-    style, id, tag, foreground, background, padding,
+    style, id, tag, foreground, background, margin, padding,
     textStyle = textStyle, textAlignment = textAlignment,
     textSize = textSize, drawablePadding = drawablePadding, gravity = gravity,
     maxLines = maxLines, ellipsize = ellipsize, isChecked = isChecked?.value == true,
@@ -346,12 +351,16 @@ fun ViewGroup.liveSwitch(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isChecked: LiveData<Boolean>? = null,
     fitsSystemWindows: Boolean? = null,
     onCheckedChange: CompoundButton.OnCheckedChangeListener? = null
-) = switch(width, height, style, id, tag, padding, fitsSystemWindows = fitsSystemWindows).apply {
+) = switch(
+    width, height, style, id, tag, margin, padding,
+    fitsSystemWindows = fitsSystemWindows
+).apply {
     val onCheckedChangeListener = CompoundButton.OnCheckedChangeListener { v, checked ->
         if (isChecked is MutableLiveData<Boolean>) {
             isChecked.value = checked
@@ -396,6 +405,7 @@ fun ViewGroup.liveHorizontalProgressBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -417,6 +427,7 @@ fun ViewGroup.liveHorizontalProgressBar(
     tag,
     foreground,
     background,
+    margin,
     padding,
     max = max,
     progressType = progressType,
@@ -490,6 +501,7 @@ fun ViewGroup.liveSeekBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -515,6 +527,7 @@ fun ViewGroup.liveSeekBar(
     tag,
     foreground,
     background,
+    margin,
     padding,
     max = max,
     minHeight = minHeight,
@@ -567,12 +580,13 @@ fun ViewGroup.livePlaceHolder(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean? = null,
     onClick: View.OnClickListener? = null,
 ) = placeholder(
-    width, height, id, tag, foreground, background, padding,
+    width, height, id, tag, foreground, background, margin, padding,
     fitsSystemWindows = fitsSystemWindows,
     onClick = onClick,
 ).apply {
@@ -598,12 +612,13 @@ fun ViewGroup.liveDivider(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
 ) = divider(
-    width, height, style, id, tag, foreground, background, padding, onClick = onClick,
+    width, height, style, id, tag, foreground, background, margin, padding, onClick = onClick,
 ).apply {
     context.inMyLifecycle {
         visibility?.bindNotNull(this) {

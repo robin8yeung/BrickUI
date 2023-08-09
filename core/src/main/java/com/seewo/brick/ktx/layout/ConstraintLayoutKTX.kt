@@ -8,6 +8,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.view.ConstraintHelper
@@ -26,6 +27,7 @@ fun ViewGroup.constraintLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -48,7 +50,7 @@ fun ViewGroup.constraintLayout(
     block
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建约束布局
@@ -87,7 +89,11 @@ fun <T: View> ConstraintLayout.layoutParams(
     block: (ConstraintLayout.() -> T)? = null
 ) = attach(block)?.apply {
     apply?.let {
-        layoutParams = LayoutParams(layoutParams).apply {
+        layoutParams = when(layoutParams) {
+            is LayoutParams -> layoutParams as LayoutParams
+            is ViewGroup.MarginLayoutParams -> LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+            else -> LayoutParams(layoutParams)
+        }.apply {
             it()
         }
     }

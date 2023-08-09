@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayout.Tab
 import com.google.android.material.tabs.TabLayout.TabGravity
 import com.google.android.material.tabs.TabLayout.TabIndicatorGravity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -42,6 +43,7 @@ fun <T> ViewGroup.tabLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
@@ -81,7 +83,7 @@ fun <T> ViewGroup.tabLayout(
     block,
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建TabLayout布局

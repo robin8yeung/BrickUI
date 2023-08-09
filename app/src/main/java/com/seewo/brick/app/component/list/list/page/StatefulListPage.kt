@@ -8,11 +8,22 @@ import android.widget.LinearLayout
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.color
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.data
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.live
+import com.seewo.brick.ktx.liveSimpleRecyclerView
+import com.seewo.brick.ktx.rectDrawable
+import com.seewo.brick.ktx.row
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
 import com.seewo.brick.params.CornerRadius
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.RecyclerItemData
-import java.util.*
+import java.util.UUID
 
 private class StatefulListPage(context: Context, attrs: AttributeSet? = null) :
     BrickPreview(context, attrs) {
@@ -61,15 +72,13 @@ private fun LinearLayout.statefulList() {
                 maxLines = 1,
                 ellipsize = TextUtils.TruncateAt.END,
             )
-            layoutParams(
-                margins = EdgeInsets.symmetric(horizontal = 8.dp),
-                weight = 1f,
-            ) {
+            expand {
                 textView(
                     MATCH_PARENT,
                     text = person.name,
                     textColor = Color.BLACK,
                     textSize = 14.dp,
+                    margin = EdgeInsets.symmetric(horizontal = 8.dp),
                 )
             }
             textView(
@@ -153,15 +162,13 @@ private fun LinearLayout.statefulList() {
                 maxLines = 1,
                 ellipsize = TextUtils.TruncateAt.END,
             )
-            layoutParams(
-                margins = EdgeInsets.symmetric(horizontal = 8.dp),
-                weight = 1f,
-            ) {
+            expand {
                 textView(
                     MATCH_PARENT,
                     text = person.name,
                     textColor = Color.BLACK,
                     textSize = 14.dp,
+                    margin = EdgeInsets.symmetric(horizontal = 8.dp),
                 )
             }
             textView(

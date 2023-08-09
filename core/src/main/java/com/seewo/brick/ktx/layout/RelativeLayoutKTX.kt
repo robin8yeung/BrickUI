@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 
@@ -23,6 +24,7 @@ fun ViewGroup.relativeLayout(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -46,7 +48,7 @@ fun ViewGroup.relativeLayout(
     block
 ).also {
     addView(it)
-}
+}.applyMargin(margin)
 
 /**
  * 构建相对布局
@@ -82,7 +84,11 @@ fun RelativeLayout.layoutParams(
     rules: (RelativeLayout.LayoutParams.() -> Unit)? = null,
     block: (RelativeLayout.() -> View)? = null
 ) = attach(block)?.apply {
-    layoutParams = RelativeLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is RelativeLayout.LayoutParams -> layoutParams as RelativeLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> RelativeLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> RelativeLayout.LayoutParams(layoutParams)
+    }.apply {
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
         rules?.invoke(this)
     }
@@ -96,7 +102,11 @@ fun <T: View> T.inRelativeLayout(
     margins: EdgeInsets? = null,
     rules: (RelativeLayout.LayoutParams.() -> Unit)? = null,
 ) = apply {
-    layoutParams = RelativeLayout.LayoutParams(layoutParams).apply {
+    layoutParams = when(layoutParams) {
+        is RelativeLayout.LayoutParams -> layoutParams as RelativeLayout.LayoutParams
+        is ViewGroup.MarginLayoutParams -> RelativeLayout.LayoutParams(layoutParams as ViewGroup.MarginLayoutParams)
+        else -> RelativeLayout.LayoutParams(layoutParams)
+    }.apply {
         margins?.let { setMargins(it.start, it.top, it.end, it.bottom) }
         rules?.invoke(this)
     }

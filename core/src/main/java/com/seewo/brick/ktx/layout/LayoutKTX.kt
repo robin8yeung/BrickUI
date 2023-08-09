@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ScrollView
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.init.setup
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.Shadow
@@ -27,6 +27,7 @@ fun ViewGroup.scrollView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -47,7 +48,7 @@ fun ViewGroup.scrollView(
     fitsSystemWindows,
     overScrollMode,
     block,
-).also { addView(it) }
+).also { addView(it) }.applyMargin(margin)
 
 /**
  * 构建scrollView
@@ -132,6 +133,7 @@ fun ViewGroup.shadowBox(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -152,7 +154,7 @@ fun ViewGroup.shadowBox(
     shadowOffsetY = shadow.offsetY.toFloat()
     shadowColor = shadow.color
     shadowRadius = shadow.blur.toFloat()
-}.also { addView(it) }.attach(block)
+}.also { addView(it) }.attach(block).applyMargin(margin)
 
 internal fun <T : ViewGroup> T.attach(block: (T.() -> Unit)?): T = apply {
     block?.let { it() }

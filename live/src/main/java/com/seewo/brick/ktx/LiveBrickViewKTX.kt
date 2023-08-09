@@ -66,6 +66,7 @@ fun ViewGroup.liveShadowBox(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
+    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
@@ -77,7 +78,7 @@ fun ViewGroup.liveShadowBox(
 
     block: (ShadowLayout.() -> Unit)? = null
 ) = shadowBox(
-    width, height, id, tag, foreground, background, padding,
+    width, height, id, tag, foreground, background, margin, padding,
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {

@@ -8,7 +8,17 @@ import android.widget.LinearLayout
 import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.drawable
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.imageView
+import com.seewo.brick.ktx.ovalClip
+import com.seewo.brick.ktx.row
+import com.seewo.brick.ktx.runAnimator
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
 import com.seewo.brick.params.EdgeInsets
 
 private class AnimatorPage(context: Context, attrs: AttributeSet? = null) :
