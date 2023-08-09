@@ -14,6 +14,44 @@ import com.seewo.brick.params.EdgeInsets
 
 /**
  * SmartRefresh的BrickUI封装
+ *
+ * 示例：
+ * smartRefresh(
+ *     MATCH_PARENT, WRAP_CONTENT,
+ *     refreshHeader = ClassicsHeader(context)
+ *         .setDrawableSize(12f)
+ *         .setDrawableMarginRight(8f)
+ *         .setTextSizeTitle(TypedValue.COMPLEX_UNIT_DIP, 12f)
+ *         .setAccentColor(Color.parseColor("#AAAAAA"))
+ *         .setEnableLastTime(false),
+ *     refreshFooter = ClassicsFooter(context)
+ *         .setDrawableSize(12f)
+ *         .setDrawableMarginRight(8f)
+ *         .setTextSizeTitle(TypedValue.COMPLEX_UNIT_DIP, 12f)
+ *         .setAccentColor(Color.parseColor("#AAAAAA")),
+ *     onRefresh = {
+ *         MainScope().launch {
+ *             // 模拟刷新耗时
+ *             delay(1000)
+ *             it.finishRefresh(true)
+ *         }
+ *     },
+ *     onLoadMore = {
+ *         MainScope().launch {
+ *             // 模拟加载更多耗时
+ *             delay(1000)
+ *             it.finishLoadMore(true)
+ *         }
+ *     },
+ *     autoLoadMore = false,
+ * ) {
+ *     column(
+ *         MATCH_PARENT, MATCH_PARENT,
+ *         gravity = Gravity.CENTER_HORIZONTAL,
+ *     ) {
+ *         // 内容
+ *     }
+ * }
  */
 fun ViewGroup.smartRefresh(
     width: Int = MATCH_PARENT, height: Int = MATCH_PARENT,

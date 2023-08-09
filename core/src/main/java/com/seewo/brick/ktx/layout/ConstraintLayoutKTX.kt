@@ -82,6 +82,17 @@ fun Context.constraintLayout(
 /**
  * 声明约束布局的布局属性
  *
+ * 示例：
+ * layoutParams(
+ *     apply = {
+ *         startToStart = parentId
+ *         endToEnd = parentId
+ *         dimensionRatio = "h, 9:16"
+ *     },
+ * ) {
+ *    // childView
+ * }
+ *
  * @param apply 布局规则，通过ConstraintLayout.LayoutParams设置
  */
 fun <T: View> ConstraintLayout.layoutParams(

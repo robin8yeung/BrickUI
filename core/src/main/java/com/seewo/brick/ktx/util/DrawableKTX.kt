@@ -106,7 +106,21 @@ val Drawable.clipOval: Drawable
  */
 fun Drawable.clipRect(radius: Int) = RectClipDrawable(this, radius.toFloat())
 
-
+/**
+ * 构建LayerDrawable
+ * 示例：
+ * layerDrawable(
+ *     arrayOf(
+ *         rectDrawable(
+ *             fillColor = R.color.primary.color,
+ *             corners = CornerRadius.all(1.5.dp),
+ *         )
+ *     ),
+ *     layerWidth = 30.dp,
+ *     layerHeight = 2.dp,
+ *     layerGravity = Gravity.CENTER_HORIZONTAL,
+ * )
+ */
 fun layerDrawable(
     layers: Array<Drawable>,
     layerWidth: Int? = null,
@@ -122,6 +136,18 @@ fun layerDrawable(
 
 /**
  * 等效于selector
+ *
+ * 示例：
+ * stateListDrawable(mapOf(
+ *     intArrayOf(android.R.attr.state_pressed) to rectDrawable(
+ *         fillColor = Color.RED,
+ *         corners = CornerRadius.all(8.dp)
+ *     ),
+ *     intArrayOf(-android.R.attr.state_pressed) to rectDrawable(
+ *         fillColor = Color.GREEN,
+ *         corners =CornerRadius.all(8.dp),
+ *     )
+ * )
  *
  * @see android.R.attr.state_checked
  * @see android.R.attr.state_selected
@@ -141,6 +167,12 @@ fun stateListDrawable(
 
 /**
  * 等效于selector
+ *
+ * 示例：
+ * stateListColor(mapOf(
+ *     intArrayOf(-android.R.attr.state_pressed) to R.color.primary.color,
+ *     intArrayOf(android.R.attr.state_pressed) to Color.RED,
+ * ))
  *
  * @see android.R.attr.state_checked
  * @see android.R.attr.state_selected
