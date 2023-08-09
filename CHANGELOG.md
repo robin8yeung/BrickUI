@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.16
+
+- Improve: 移除`Fragment.fragmentPager()`方法，改用参数`parentFragment`参数来实现此功能
+
 ### 0.2.15
 
 - Improve: `smartRefresh`提到单独module：com.github.robin8yeung.BrickUI:brick-ui-smart-refresh。**（注意：用到smartRefresh的话必须引入此依赖）**

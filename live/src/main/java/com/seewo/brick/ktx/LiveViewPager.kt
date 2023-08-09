@@ -99,6 +99,7 @@ fun <T> ViewGroup.liveViewPager(
 /**
  * ViewPager的LiveData封装(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
  *
+ * @param parentFragment 生命周期是否从属于指定Fragment，默认从属于Activity。
  * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  * @param currentIndex 当前页控制
@@ -116,6 +117,7 @@ fun <T> Context.liveFragmentPager(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
+    parentFragment: Fragment? = null,
 
     isUserInputEnable: Boolean? = null,
     offscreenPageLimit: Int? = null,
@@ -132,52 +134,7 @@ fun <T> Context.liveFragmentPager(
     block: Context.(List<T>, Int) -> Fragment,
 ) = fragmentPager(
     width, height, style, id, tag, foreground, background, padding,
-    fitsSystemWindows = fitsSystemWindows,
-    isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
-    overScrollMode = overScrollMode, itemDecoration = itemDecoration,
-    onClick = onClick, block = block,
-).initLiveFragmentPager(
-    data, visibility, currentIndex, smoothScroll,
-    onPageScrolled, onPageSelected, onPageScrollStateChanged,
-)
-
-/**
- * ViewPager的LiveData封装(从属于fragment.getChildFragmentManager()，生命周期跟随指定Fragment)
- *
- * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
- * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
- * @param currentIndex 当前页控制
- * @param smoothScroll 当currentIndex变化时，是否展示动画滑动效果。
- *
- * @see ViewGroup.fragmentPager
- */
-fun <T> Fragment.liveFragmentPager(
-    width: Int, height: Int,
-    @StyleRes style: Int = 0,
-    @IdRes id: Int? = null,
-    tag: Any? = null,
-    foreground: Drawable? = null,
-    background: Drawable? = null,
-    padding: EdgeInsets? = null,
-    visibility: LiveData<Int>? = null,
-    fitsSystemWindows: Boolean = false,
-
-    isUserInputEnable: Boolean? = null,
-    offscreenPageLimit: Int? = null,
-    overScrollMode: Int? = null,
-    itemDecoration: RecyclerView.ItemDecoration? = null,
-    currentIndex: LiveData<Int>? = null,
-    smoothScroll: Boolean = true,
-    data: LiveData<List<T>>? = null,
-    onClick: View.OnClickListener? = null,
-
-    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
-    onPageSelected: ((position: Int) -> Unit)? = null,
-    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
-    block: Context.(List<T>, Int) -> Fragment,
-) = fragmentPager(
-    width, height, style, id, tag, foreground, background, padding,
-    fitsSystemWindows = fitsSystemWindows,
+    fitsSystemWindows = fitsSystemWindows, parentFragment = parentFragment,
     isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,
     onClick = onClick, block = block,
@@ -189,6 +146,7 @@ fun <T> Fragment.liveFragmentPager(
 /**
  * ViewPager的LiveData封装(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
  *
+ * @param parentFragment 生命周期是否从属于指定Fragment，默认从属于Activity。
  * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  * @param currentIndex 当前页控制
@@ -206,6 +164,7 @@ fun <T> ViewGroup.liveFragmentPager(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
+    parentFragment: Fragment? = null,
 
     isUserInputEnable: Boolean? = null,
     offscreenPageLimit: Int? = null,
@@ -222,7 +181,7 @@ fun <T> ViewGroup.liveFragmentPager(
     block: Context.(List<T>, Int) -> Fragment,
 ) = fragmentPager(
     width, height, style, id, tag, foreground, background, padding,
-    fitsSystemWindows = fitsSystemWindows,
+    fitsSystemWindows = fitsSystemWindows, parentFragment = parentFragment,
     isUserInputEnable = isUserInputEnable, offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,
     onClick = onClick, block = block,

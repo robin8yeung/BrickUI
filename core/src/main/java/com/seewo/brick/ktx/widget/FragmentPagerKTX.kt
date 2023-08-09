@@ -18,6 +18,7 @@ import com.seewo.brick.params.EdgeInsets
 /**
  * 基于Fragment构造ViewPager(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
  *
+ * @param parentFragment 生命周期是否从属于指定Fragment，默认从属于Activity。
  * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
@@ -31,6 +32,7 @@ fun <T> Context.fragmentPager(
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
+    parentFragment: Fragment? = null,
 
     isUserInputEnable: Boolean? = null,
     offscreenPageLimit: Int? = null,
@@ -49,7 +51,11 @@ fun <T> Context.fragmentPager(
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }
-    loadData(context as FragmentActivity, data ?: listOf(), block)
+    if (parentFragment != null) {
+        loadData(parentFragment, data ?: listOf(), block)
+    } else {
+        loadData(context as FragmentActivity, data ?: listOf(), block)
+    }
     initFragmentPager(
         overScrollMode,
         offscreenPageLimit,
@@ -61,53 +67,9 @@ fun <T> Context.fragmentPager(
 }
 
 /**
- * 基于Fragment构造ViewPager(从属于fragment.getChildFragmentManager()，生命周期跟随指定Fragment)
+ * 基于Fragment构造ViewPager
  *
- * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
- * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
- */
-fun <T> Fragment.fragmentPager(
-    width: Int, height: Int,
-    @StyleRes style: Int = 0,
-    @IdRes id: Int? = null,
-    tag: Any? = null,
-    foreground: Drawable? = null,
-    background: Drawable? = null,
-    padding: EdgeInsets? = null,
-    visibility: Int? = null,
-    fitsSystemWindows: Boolean = false,
-
-    isUserInputEnable: Boolean? = null,
-    offscreenPageLimit: Int? = null,
-    overScrollMode: Int? = null,
-    itemDecoration: RecyclerView.ItemDecoration? = null,
-    data: List<T>? = null,
-    onClick: View.OnClickListener? = null,
-
-    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
-    onPageSelected: ((position: Int) -> Unit)? = null,
-    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
-    block: Context.(List<T>, Int) -> Fragment,
-) = ViewPager2(requireContext(), null, 0, style).apply {
-    setup(
-        width, height, id, tag, foreground, background, padding, visibility,
-        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
-    )
-    itemDecoration?.let { addItemDecoration(it) }
-    loadData(this@fragmentPager, data ?: listOf(), block)
-    initFragmentPager(
-        overScrollMode,
-        offscreenPageLimit,
-        isUserInputEnable,
-        onPageScrolled,
-        onPageSelected,
-        onPageScrollStateChanged
-    )
-}
-
-/**
- * 基于Fragment构造ViewPager(从属于fragmentActivity.getSupportFragmentManager()，生命周期跟随Activity)
- *
+ * @param parentFragment 生命周期是否从属于指定Fragment，默认从属于Activity。
  * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
@@ -121,6 +83,7 @@ fun <T> ViewGroup.fragmentPager(
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
+    parentFragment: Fragment? = null,
 
     isUserInputEnable: Boolean? = null,
     offscreenPageLimit: Int? = null,
@@ -139,7 +102,11 @@ fun <T> ViewGroup.fragmentPager(
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
     itemDecoration?.let { addItemDecoration(it) }
-    loadData(context as FragmentActivity, data ?: listOf(), block)
+    if (parentFragment != null) {
+        loadData(parentFragment, data ?: listOf(), block)
+    } else {
+        loadData(context as FragmentActivity, data ?: listOf(), block)
+    }
     initFragmentPager(
         overScrollMode,
         offscreenPageLimit,
