@@ -267,10 +267,6 @@ class CounterActivity : AppCompatActivity() {
 class CounterPageViewModel(application: Application): AndroidViewModel(application) {
     val count: LiveData<Int> = 0.live
 
-    override fun onCleared() {
-        Log.e("brick", "onCleared")
-    }
-
     fun plus() {
         count.data = count.data + 1
     }
