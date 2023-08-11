@@ -247,6 +247,21 @@ val text = 1.static
 val color = R.color.red.COLOR // 相当于 R.color.red.color.static
 ```
 
+#### 如果需要自定义绑定LiveData的View属性
+```kotlin
+val liveData = "Hello".live
+
+textView().apply {
+    // 绑定liveData响应到TextView的text属性
+    liveData.bindNotNull(context) { text = it }
+}
+
+// textView的文案将响应以下变化
+liveData.data = "Hello BrickUI"
+```
+
+**特别注意**：bind()和bindNotNull()要求传入的context必须为LifecycleOwner的子类，如FragmentActivity，否则将无法响应绑定
+
 ## 架构
 
 ### BrickUI的mvvm demo

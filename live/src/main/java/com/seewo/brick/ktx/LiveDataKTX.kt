@@ -30,6 +30,9 @@ fun <I, O> LiveData<I>.map(mapper: (I) -> O) =
         mapper(it)
     }
 
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> =
+    Transformations.distinctUntilChanged(this)
+
 fun <I1, I2, O> LiveData<I1>.combine(liveData: LiveData<I2>, block: (I1?, I2?) -> O): LiveData<O> =
     MediatorLiveData<O>().apply {
         addSource(this@combine) { value = block(it, liveData.value) }
@@ -46,7 +49,7 @@ fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, binder: (T?) -> Unit) {
     if (this is StaticData) {
         binder(value)
     } else {
-        observe(lifecycleOwner) {
+        distinctUntilChanged().observe(lifecycleOwner) {
             binder(it)
         }
     }
@@ -63,7 +66,7 @@ fun <T> LiveData<T>.bind(context: Context, binder: (T?) -> Unit) {
         if (this@bind is StaticData) {
             binder(value)
         } else {
-            observe(this) {
+            distinctUntilChanged().observe(this) {
                 binder(it)
             }
         }

@@ -1,8 +1,9 @@
 # Change LOG
 
-### 0.2.18
+### 0.2.19
 
-- feature: 提供更易调用的`LiveData.bind()`和`LiveData.bindNotNull()`方法，方便开发者绑定LiveData到View。
+- feature: 提供更易调用的`LiveData.bind(context, block)`和`LiveData.bindNotNull(context, block)`方法，方便开发者绑定LiveData到View。
+- improve: 优化`LiveData.bind(context, block)`和`LiveData.bindNotNull(context, block)`方法的实现，如果value无变化，不会重复调用`block`方法
 > **注意**，以上两个方法所接收的Context必须是FragmentActivity一类的`LifecycleOwner`，否则绑定无法生效
 
 ### 0.2.17
