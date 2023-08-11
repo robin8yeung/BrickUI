@@ -61,21 +61,19 @@ fun <T> ViewGroup.liveViewPager(
     overScrollMode = overScrollMode, itemDecoration = itemDecoration, viewHolder = viewHolder,
     onClick = onClick, block = block,
 ).apply {
+    data?.bindNotNull(context) {
+        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    currentIndex?.bindNotNull(context) {
+        if (it == currentItem) return@bindNotNull
+        if (abs(it - currentItem) == 1) {
+            setCurrentItem(it, smoothScroll)
+        } else setCurrentItem(it, false)
+    }
     context.inMyLifecycle {
-        data?.bind(this) {
-            it ?: return@bind
-            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
-        }
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        currentIndex?.bindNotNull(this) {
-            if (it == currentItem) return@bindNotNull
-            if (abs(it - currentItem) == 1) {
-                setCurrentItem(it, smoothScroll)
-            } else setCurrentItem(it, false)
-        }
         val onPageChangeCallback = BrickOnPageChangeCallback(
             currentIndex, onPageScrolled, onPageSelected, onPageScrollStateChanged)
         registerOnPageChangeCallback(onPageChangeCallback)
@@ -201,19 +199,17 @@ private fun <T> ViewPager2.initLiveFragmentPager(
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
 ) = apply {
+    data?.bindNotNull(context) {
+        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    currentIndex?.bindNotNull(context) {
+        if (it == currentItem) return@bindNotNull
+        setCurrentItem(it, smoothScroll)
+    }
     context.inMyLifecycle {
-        data?.bind(this) {
-            it ?: return@bind
-            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
-        }
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        currentIndex?.bindNotNull(this) {
-            if (it == currentItem) return@bindNotNull
-            setCurrentItem(it, smoothScroll)
-        }
         val onPageChangeCallback = BrickOnPageChangeCallback(
             currentIndex, onPageScrolled, onPageSelected, onPageScrollStateChanged)
         registerOnPageChangeCallback(onPageChangeCallback)

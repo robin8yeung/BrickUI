@@ -1,5 +1,10 @@
 # Change LOG
 
+### 0.2.18
+
+- feature: 提供更易调用的`LiveData.bind()`和`LiveData.bindNotNull()`方法，方便开发者绑定LiveData到View。
+> **注意**，以上两个方法所接收的Context必须是FragmentActivity一类的`LifecycleOwner`，否则绑定无法生效
+
 ### 0.2.17
 
 - feature: 统一为ViewGroup构造的View添加`margin`参数

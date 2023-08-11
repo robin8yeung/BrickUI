@@ -45,15 +45,11 @@ fun Context.liveColumn(
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -82,15 +78,11 @@ fun ViewGroup.liveColumn(
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -118,15 +110,11 @@ fun Context.liveRow(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -155,15 +143,11 @@ fun ViewGroup.liveRow(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -199,15 +183,11 @@ fun Context.liveConstraintLayout(
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -245,15 +225,11 @@ fun ViewGroup.liveConstraintLayout(
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -279,15 +255,11 @@ fun Context.liveRelativeLayout(
     width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -314,15 +286,11 @@ fun ViewGroup.liveRelativeLayout(
     width, height, style, id, tag, foreground, background, margin, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -349,15 +317,11 @@ fun Context.liveFrameLayout(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -385,15 +349,11 @@ fun ViewGroup.liveFrameLayout(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -421,15 +381,11 @@ fun ViewGroup.liveGridLayout(
     orientation = orientation, rowCount = rowCount, columnCount = columnCount,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -455,15 +411,11 @@ fun ViewGroup.liveScrollView(
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
 }
 
@@ -521,14 +473,12 @@ fun <T> ViewGroup.liveTabLayout(
     onTabReselected = onTabReleased,
     block = block,
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        currentIndex.bindNotNull(this) {
-            if (this@apply.selectedTabPosition != it) {
-                this@apply.selectTab(this@apply.getTabAt(it))
-            }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    currentIndex.bindNotNull(context) {
+        if (this@apply.selectedTabPosition != it) {
+            this@apply.selectTab(this@apply.getTabAt(it))
         }
     }
 }

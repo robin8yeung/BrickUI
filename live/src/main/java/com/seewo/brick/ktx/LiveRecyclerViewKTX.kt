@@ -52,15 +52,11 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     viewTypeBuilder = viewTypeBuilder, viewBuilder = viewBuilder,
     dataBinder = dataBinder, onClick = onClick,
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        data?.bind(this) {
-            it ?: return@bind
-            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    data?.bindNotNull(context) {
+        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
     }
 }
 
@@ -99,14 +95,10 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     itemDecoration = itemDecoration, block = block, onClick = onClick,
     overScrollMode = overScrollMode, viewHolderCreator = viewHolderCreator,
 ).apply {
-    context.inMyLifecycle {
-        data?.bind(this) {
-            it ?: return@bind
-            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
-        }
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
+    data?.bindNotNull(context) {
+        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
     }
 }

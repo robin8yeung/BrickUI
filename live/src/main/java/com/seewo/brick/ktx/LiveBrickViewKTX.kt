@@ -41,15 +41,13 @@ fun Context.liveShadowBox(
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bind(context) {
+        it ?: return@bind
+        this@apply.visibility = it
+    }
+    isSelected?.bind(context) {
+        it ?: return@bind
+        this@apply.isSelected = it
     }
 }
 
@@ -82,14 +80,12 @@ fun ViewGroup.liveShadowBox(
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bind(this) {
-            it ?: return@bind
-            this@apply.visibility = it
-        }
-        isSelected?.bind(this) {
-            it ?: return@bind
-            this@apply.isSelected = it
-        }
+    visibility?.bind(context) {
+        it ?: return@bind
+        this@apply.visibility = it
+    }
+    isSelected?.bind(context) {
+        it ?: return@bind
+        this@apply.isSelected = it
     }
 }

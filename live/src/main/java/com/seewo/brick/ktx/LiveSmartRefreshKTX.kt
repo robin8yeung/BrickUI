@@ -46,18 +46,16 @@ fun ViewGroup.liveSmartRefresh(
     refreshFooter = refreshFooter, footerHeight = footerHeight,
     block = block
 ).apply {
-    context.inMyLifecycle {
-        refreshEnable?.bindNotNull(this) {
-            setEnableRefresh(it)
-        }
-        loadMoreEnable?.bindNotNull(this) {
-            setEnableLoadMore(it)
-        }
-        noMoreData?.bindNotNull(this) {
-            setNoMoreData(it)
-        }
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
+    refreshEnable?.bindNotNull(context) {
+        setEnableRefresh(it)
+    }
+    loadMoreEnable?.bindNotNull(context) {
+        setEnableLoadMore(it)
+    }
+    noMoreData?.bindNotNull(context) {
+        setNoMoreData(it)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
     }
 }

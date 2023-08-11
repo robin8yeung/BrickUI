@@ -47,16 +47,14 @@ fun ViewGroup.liveImage(
     width, height, style, id, tag, foreground, background, margin, padding,
     onClick = onClick, scaleType = scaleType, fitsSystemWindows = fitsSystemWindows,
 ).apply {
-    context.inMyLifecycle {
-        drawable?.bind(this) {
-            setImageDrawable(it)
-        }
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
+    drawable?.bind(context) {
+        setImageDrawable(it)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
@@ -120,25 +118,23 @@ fun ViewGroup.liveText(
     highLightColor = highLightColor,
     fitsSystemWindows = fitsSystemWindows
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
-        isEnabled?.bindNotNull(this) {
-            this@apply.isEnabled = it
-        }
-        text?.bind(this) {
-            this@apply.text = it
-        }
-        textColor?.bindNotNull(this) {
-            setTextColor(it)
-        }
-        compoundDrawables?.bindNotNull(this) {
-            setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
+    }
+    isEnabled?.bindNotNull(context) {
+        this@apply.isEnabled = it
+    }
+    text?.bind(context) {
+        this@apply.text = it
+    }
+    textColor?.bindNotNull(context) {
+        setTextColor(it)
+    }
+    compoundDrawables?.bindNotNull(context) {
+        setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
@@ -225,24 +221,22 @@ fun ViewGroup.liveEdit(
         }
     }
     addTextChangedListener(textWatcher)
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
-        text?.bind(this) {
-            val newText = it ?: ""
-            if (newText.toString() == this@apply.text.toString()) return@bind
-            removeTextChangedListener(textWatcher)
-            this@apply.setText(it)
-            setSelection(getText().length)
-            addTextChangedListener(textWatcher)
-        }
-        textColor?.bindNotNull(this) {
-            setTextColor(it)
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
+    }
+    text?.bind(context) {
+        val newText = it ?: ""
+        if (newText.toString() == this@apply.text.toString()) return@bind
+        removeTextChangedListener(textWatcher)
+        this@apply.setText(it)
+        setSelection(getText().length)
+        addTextChangedListener(textWatcher)
+    }
+    textColor?.bindNotNull(context) {
+        setTextColor(it)
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
@@ -300,27 +294,25 @@ fun ViewGroup.liveCheckbox(
         onCheckedChange?.onCheckedChanged(v, checked)
     }
     setOnCheckedChangeListener(onCheckedChangeListener)
-    context.inMyLifecycle {
-        isChecked?.bindNotNull(this) {
-            setOnCheckedChangeListener(null)
-            this@apply.isChecked = it
-            setOnCheckedChangeListener(onCheckedChangeListener)
-        }
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
-        text?.bind(this) {
-            this@apply.text = it
-        }
-        textColor?.bindNotNull(this) {
-            setTextColor(it)
-        }
-        compoundDrawables?.bindNotNull(this) {
-            setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
-        }
+    isChecked?.bindNotNull(context) {
+        setOnCheckedChangeListener(null)
+        this@apply.isChecked = it
+        setOnCheckedChangeListener(onCheckedChangeListener)
+    }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
+    }
+    text?.bind(context) {
+        this@apply.text = it
+    }
+    textColor?.bindNotNull(context) {
+        setTextColor(it)
+    }
+    compoundDrawables?.bindNotNull(context) {
+        setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
     }
     if (isInEditMode) {
         isChecked?.value?.let { this.isChecked = it }
@@ -368,15 +360,13 @@ fun ViewGroup.liveSwitch(
         onCheckedChange?.onCheckedChanged(v, checked)
     }
     setOnCheckedChangeListener(onCheckedChange)
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isChecked?.bindNotNull(this) {
-            setOnCheckedChangeListener(null)
-            this@apply.isChecked = it
-            setOnCheckedChangeListener(onCheckedChangeListener)
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isChecked?.bindNotNull(context) {
+        setOnCheckedChangeListener(null)
+        this@apply.isChecked = it
+        setOnCheckedChangeListener(onCheckedChangeListener)
     }
     if (isInEditMode) {
         isChecked?.value?.let { this.isChecked = it }
@@ -436,43 +426,41 @@ fun ViewGroup.liveHorizontalProgressBar(
     fitsSystemWindows = fitsSystemWindows,
 ).apply {
     var animator: Animator? = null
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        if (animateDuration != null) {
-            // 避免max只有100时，离散不够密集导致动画卡顿
-            this@apply.max = this@apply.max * 1000
-            progress?.bindNotNull(this) {
-                if (this@apply.progress != it * 1000) {
-                    animator?.cancel()
-                    var currentUiProgress = this@apply.progress / 1000
-                    animator = runAnimator(
-                        values = intArrayOf(this@apply.progress, it * 1000),
-                        duration = animateDuration
-                    ) { value ->
-                        val intValue = value / 1000
-                        if (currentUiProgress != intValue) {
-                            onProgressChanged?.invoke(intValue)
-                        }
-                        this@apply.progress = value
-                        currentUiProgress = intValue
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    if (animateDuration != null) {
+        // 避免max只有100时，离散不够密集导致动画卡顿
+        this@apply.max = this@apply.max * 1000
+        progress?.bindNotNull(context) {
+            if (this@apply.progress != it * 1000) {
+                animator?.cancel()
+                var currentUiProgress = this@apply.progress / 1000
+                animator = runAnimator(
+                    values = intArrayOf(this@apply.progress, it * 1000),
+                    duration = animateDuration
+                ) { value ->
+                    val intValue = value / 1000
+                    if (currentUiProgress != intValue) {
+                        onProgressChanged?.invoke(intValue)
                     }
+                    this@apply.progress = value
+                    currentUiProgress = intValue
                 }
             }
-        } else {
-            progress?.bindNotNull(this) {
-                this@apply.progress = it
-            }
         }
+    } else {
+        progress?.bindNotNull(context) {
+            this@apply.progress = it
+        }
+    }
 
 
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
-        isEnabled?.bindNotNull(this) {
-            this@apply.isEnabled = it
-        }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
+    }
+    isEnabled?.bindNotNull(context) {
+        this@apply.isEnabled = it
     }
     if (isInEditMode) {
         progress?.value?.let { this.progress = it }
@@ -548,19 +536,17 @@ fun ViewGroup.liveSeekBar(
     },
     fitsSystemWindows = fitsSystemWindows,
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        progress?.bindNotNull(this) {
-            this@apply.progress = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
-        isEnabled?.bindNotNull(this) {
-            this@apply.isEnabled = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    progress?.bindNotNull(context) {
+        this@apply.progress = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
+    }
+    isEnabled?.bindNotNull(context) {
+        this@apply.isEnabled = it
     }
     if (isInEditMode) {
         progress?.value?.let { this.progress = it }
@@ -590,10 +576,8 @@ fun ViewGroup.livePlaceHolder(
     fitsSystemWindows = fitsSystemWindows,
     onClick = onClick,
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
@@ -620,13 +604,11 @@ fun ViewGroup.liveDivider(
 ) = divider(
     width, height, style, id, tag, foreground, background, margin, padding, onClick = onClick,
 ).apply {
-    context.inMyLifecycle {
-        visibility?.bindNotNull(this) {
-            this@apply.visibility = it
-        }
-        isSelected?.bindNotNull(this) {
-            this@apply.isSelected = it
-        }
+    visibility?.bindNotNull(context) {
+        this@apply.visibility = it
+    }
+    isSelected?.bindNotNull(context) {
+        this@apply.isSelected = it
     }
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }

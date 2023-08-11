@@ -10,7 +10,22 @@ import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
 import com.seewo.brick.app.widget.SeekValue
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.bindNotNull
+import com.seewo.brick.ktx.color
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.data
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.layoutParams
+import com.seewo.brick.ktx.live
+import com.seewo.brick.ktx.placeholder
+import com.seewo.brick.ktx.rectDrawable
+import com.seewo.brick.ktx.row
+import com.seewo.brick.ktx.shadowBox
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.view
+import com.seewo.brick.ktx.withAlpha
 import com.seewo.brick.params.CornerRadius
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.Shadow
@@ -67,22 +82,20 @@ private fun LinearLayout.ShowdowControlView() {
                 )
             }.apply {
                 // 不建议动态修改阴影参数，此处仅为了demo展示
-                context.inMyLifecycle {
-                    cornerRadius.bindNotNull(this) {
-                        backgroundRadius = it.dp.toFloat()
-                    }
-                    blur.bindNotNull(this) {
-                        shadowRadius = it.dp.toFloat()
-                    }
-                    offsetX.bindNotNull(this) {
-                        shadowOffsetX = it.dp.toFloat()
-                    }
-                    offsetY.bindNotNull(this) {
-                        shadowOffsetY = it.dp.toFloat()
-                    }
-                    color.bindNotNull(this) {
-                        shadowColor = it.withAlpha(0.3f)
-                    }
+                cornerRadius.bindNotNull(context) {
+                    backgroundRadius = it.dp.toFloat()
+                }
+                blur.bindNotNull(context) {
+                    shadowRadius = it.dp.toFloat()
+                }
+                offsetX.bindNotNull(context) {
+                    shadowOffsetX = it.dp.toFloat()
+                }
+                offsetY.bindNotNull(context) {
+                    shadowOffsetY = it.dp.toFloat()
+                }
+                color.bindNotNull(context) {
+                    shadowColor = it.withAlpha(0.3f)
                 }
             }
         }

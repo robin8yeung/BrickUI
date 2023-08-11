@@ -1,5 +1,6 @@
 package com.seewo.brick.ktx
 
+import android.content.Context
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -53,6 +54,24 @@ fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, binder: (T?) -> Unit) {
 
 fun <T> LiveData<T>.bindNotNull(lifecycleOwner: LifecycleOwner, binder: (T) -> Unit) =
     bind(lifecycleOwner) {
+        it ?: return@bind
+        binder(it)
+    }
+
+fun <T> LiveData<T>.bind(context: Context, binder: (T?) -> Unit) {
+    context.inMyLifecycle {
+        if (this@bind is StaticData) {
+            binder(value)
+        } else {
+            observe(this) {
+                binder(it)
+            }
+        }
+    }
+}
+
+fun <T> LiveData<T>.bindNotNull(context: Context, binder: (T) -> Unit) =
+    bind(context) {
         it ?: return@bind
         binder(it)
     }
