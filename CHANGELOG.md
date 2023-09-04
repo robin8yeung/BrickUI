@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.20
+
+- improve: runAnimator增加生命周期监听并自动取消动画
+
 ### 0.2.19
 
 - feature: 提供更易调用的`LiveData.bind(context, block)`和`LiveData.bindNotNull(context, block)`方法，方便开发者绑定LiveData到View。

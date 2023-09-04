@@ -2,7 +2,11 @@ package com.seewo.brick.ktx // 包名别改
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 
 /**
  * 创建数值动画
@@ -139,7 +143,7 @@ fun <T> T.createAnimator(
  * @see ValueAnimator.RESTART
  * @see ValueAnimator.REVERSE
  */
-fun<T> T.runAnimator(
+fun <T : View> T.runAnimator(
     values: IntArray,
     duration: Long = 200L,
     startDelay: Long = 0L,
@@ -150,6 +154,7 @@ fun<T> T.runAnimator(
 ) = createAnimator(
     values, duration, startDelay, repeatCount, repeatMode, interpolator, block
 ).apply {
+    this@runAnimator.runOnDestroy { cancel() }
     start()
 }
 
@@ -168,7 +173,7 @@ fun<T> T.runAnimator(
  * @see ValueAnimator.RESTART
  * @see ValueAnimator.REVERSE
  */
-fun<T> T.createAnimator(
+fun <T> T.createAnimator(
     values: FloatArray,
     duration: Long = 200L,
     startDelay: Long = 0L,
@@ -208,7 +213,7 @@ fun<T> T.createAnimator(
  * @see ValueAnimator.RESTART
  * @see ValueAnimator.REVERSE
  */
-fun<T> T.runAnimator(
+fun <T : View> T.runAnimator(
     values: FloatArray,
     duration: Long = 200L,
     startDelay: Long = 0L,
@@ -219,5 +224,21 @@ fun<T> T.runAnimator(
 ) = createAnimator(
     values, duration, startDelay, repeatCount, repeatMode, interpolator, block
 ).run {
+    this@runAnimator.runOnDestroy { cancel() }
     start()
+}
+
+private fun View.runOnDestroy(block: () -> Unit) {
+    context.run {
+        if (this is LifecycleOwner) {
+            lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        lifecycle.removeObserver(this)
+                        block()
+                    }
+                }
+            })
+        }
+    }
 }
