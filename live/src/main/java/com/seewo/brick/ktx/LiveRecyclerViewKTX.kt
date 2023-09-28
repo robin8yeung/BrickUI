@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.AttrRes
 import androidx.annotation.IdRes
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
         context, LinearLayoutManager.VERTICAL, false
@@ -52,11 +54,20 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     viewTypeBuilder = viewTypeBuilder, viewBuilder = viewBuilder,
     dataBinder = dataBinder, onClick = onClick,
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    data?.bindNotNull(context) {
-        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        data?.bindNotNull(lifecycleOwner) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        data?.bindNotNull(context) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
     }
 }
 
@@ -80,6 +91,7 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     overScrollMode: Int? = null,
     viewHolderCreator: (Context.() -> ViewGroup)? = null,
@@ -95,10 +107,19 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     itemDecoration = itemDecoration, block = block, onClick = onClick,
     overScrollMode = overScrollMode, viewHolderCreator = viewHolderCreator,
 ).apply {
-    data?.bindNotNull(context) {
-        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
-    }
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
+    if (lifecycleOwner != null) {
+        data?.bindNotNull(lifecycleOwner) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+    } else {
+        data?.bindNotNull(context) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
     }
 }

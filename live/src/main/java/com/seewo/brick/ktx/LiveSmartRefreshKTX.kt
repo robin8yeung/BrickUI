@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.scwang.smart.refresh.layout.api.RefreshFooter
 import com.scwang.smart.refresh.layout.api.RefreshHeader
@@ -26,6 +27,7 @@ fun ViewGroup.liveSmartRefresh(
     margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
+    lifecycleOwner: LifecycleOwner? = null,
 
     refreshEnable: LiveData<Boolean>? = null,
     loadMoreEnable: LiveData<Boolean>? = null,
@@ -46,16 +48,31 @@ fun ViewGroup.liveSmartRefresh(
     refreshFooter = refreshFooter, footerHeight = footerHeight,
     block = block
 ).apply {
-    refreshEnable?.bindNotNull(context) {
-        setEnableRefresh(it)
-    }
-    loadMoreEnable?.bindNotNull(context) {
-        setEnableLoadMore(it)
-    }
-    noMoreData?.bindNotNull(context) {
-        setNoMoreData(it)
-    }
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
+    if (lifecycleOwner != null) {
+        refreshEnable?.bindNotNull(lifecycleOwner) {
+            setEnableRefresh(it)
+        }
+        loadMoreEnable?.bindNotNull(lifecycleOwner) {
+            setEnableLoadMore(it)
+        }
+        noMoreData?.bindNotNull(lifecycleOwner) {
+            setNoMoreData(it)
+        }
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+    } else {
+        refreshEnable?.bindNotNull(context) {
+            setEnableRefresh(it)
+        }
+        loadMoreEnable?.bindNotNull(context) {
+            setEnableLoadMore(it)
+        }
+        noMoreData?.bindNotNull(context) {
+            setNoMoreData(it)
+        }
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
     }
 }

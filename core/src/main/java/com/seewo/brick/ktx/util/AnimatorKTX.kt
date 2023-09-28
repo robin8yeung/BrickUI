@@ -137,6 +137,7 @@ fun <T> T.createAnimator(
  * @param repeatCount 动画重复播放次数，0为不重复，-1(ValueAnimator.INFINITE)为无限重复
  * @param repeatMode 动画重播模式，可选重新开始(ValueAnimator.RESTART)或反向(ValueAnimator.REVERSE)
  * @param interpolator 插值器
+ * @param lifecycleOwner 生命周期拥有者，当其销毁时，动画会自动取消，不设置时，则取View.context
  * @param block 动画数值更新回调
  *
  * @see ValueAnimator.INFINITE
@@ -150,11 +151,13 @@ fun <T : View> T.runAnimator(
     repeatCount: Int? = null,
     repeatMode: Int? = null,
     interpolator: TimeInterpolator = LinearInterpolator(),
+    lifecycleOwner: LifecycleOwner? = null,
     block: (T.(Int) -> Unit)? = null
 ) = createAnimator(
     values, duration, startDelay, repeatCount, repeatMode, interpolator, block
 ).apply {
-    this@runAnimator.runOnDestroy { cancel() }
+    lifecycleOwner?.runOnDestroy { cancel() }
+        ?: this@runAnimator.runOnDestroy { cancel() }
     start()
 }
 
@@ -207,6 +210,7 @@ fun <T> T.createAnimator(
  * @param repeatCount 动画重复播放次数，0为不重复，-1(ValueAnimator.INFINITE)为无限重复
  * @param repeatMode 动画重播模式，可选重新开始(ValueAnimator.RESTART)或反向(ValueAnimator.REVERSE)
  * @param interpolator 插值器
+ * @param lifecycleOwner 生命周期拥有者，当其销毁时，动画会自动取消，不设置时，则取View.context
  * @param block 动画数值更新回调
  *
  * @see ValueAnimator.INFINITE
@@ -220,25 +224,31 @@ fun <T : View> T.runAnimator(
     repeatCount: Int? = null,
     repeatMode: Int? = null,
     interpolator: TimeInterpolator = LinearInterpolator(),
+    lifecycleOwner: LifecycleOwner? = null,
     block: (T.(Float) -> Unit)? = null
 ) = createAnimator(
     values, duration, startDelay, repeatCount, repeatMode, interpolator, block
 ).run {
-    this@runAnimator.runOnDestroy { cancel() }
+    lifecycleOwner?.runOnDestroy { cancel() }
+        ?: this@runAnimator.runOnDestroy { cancel() }
     start()
 }
 
 private fun View.runOnDestroy(block: () -> Unit) {
     context.run {
         if (this is LifecycleOwner) {
-            lifecycle.addObserver(object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    if (event == Lifecycle.Event.ON_DESTROY) {
-                        lifecycle.removeObserver(this)
-                        block()
-                    }
-                }
-            })
+            runOnDestroy(block)
         }
     }
+}
+
+private fun LifecycleOwner.runOnDestroy(block: () -> Unit) {
+    lifecycle.addObserver(object : LifecycleEventObserver {
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                lifecycle.removeObserver(this)
+                block()
+            }
+        }
+    })
 }

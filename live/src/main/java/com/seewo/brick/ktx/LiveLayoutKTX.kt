@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.google.android.material.tabs.TabLayout
 import com.seewo.brick.params.EdgeInsets
@@ -37,6 +38,7 @@ fun Context.liveColumn(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     gravity: Int? = null,
     block: (LinearLayout.() -> Unit)? = null
@@ -45,11 +47,20 @@ fun Context.liveColumn(
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -70,6 +81,7 @@ fun ViewGroup.liveColumn(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     gravity: Int? = null,
     block: (LinearLayout.() -> Unit)? = null
@@ -78,11 +90,20 @@ fun ViewGroup.liveColumn(
     onClick = onClick,
     fitsSystemWindows = fitsSystemWindows, gravity = gravity, block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -102,6 +123,7 @@ fun Context.liveRow(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     gravity: Int = Gravity.CENTER_VERTICAL,
     block: (LinearLayout.() -> Unit)? = null
@@ -110,11 +132,20 @@ fun Context.liveRow(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -135,6 +166,7 @@ fun ViewGroup.liveRow(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     gravity: Int = Gravity.CENTER_VERTICAL,
     block: (LinearLayout.() -> Unit)? = null
@@ -143,11 +175,20 @@ fun ViewGroup.liveRow(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, gravity = gravity,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -169,6 +210,7 @@ fun Context.liveConstraintLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
     block: (ConstraintLayout.() -> Unit)? = null
 ) = constraintLayout(
     width,
@@ -183,11 +225,20 @@ fun Context.liveConstraintLayout(
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -210,6 +261,7 @@ fun ViewGroup.liveConstraintLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
     block: (ConstraintLayout.() -> Unit)? = null
 ) = constraintLayout(
     width,
@@ -225,11 +277,20 @@ fun ViewGroup.liveConstraintLayout(
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -249,17 +310,27 @@ fun Context.liveRelativeLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     block: (RelativeLayout.() -> Unit)? = null
 ) = relativeLayout(
     width, height, style, id, tag, foreground, background, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -280,17 +351,27 @@ fun ViewGroup.liveRelativeLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     block: (RelativeLayout.() -> Unit)? = null
 ) = relativeLayout(
     width, height, style, id, tag, foreground, background, margin, padding,
     onClick = onClick, fitsSystemWindows = fitsSystemWindows, block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -310,6 +391,7 @@ fun Context.liveFrameLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     block: (FrameLayout.() -> Unit)? = null
 ) = frameLayout(
@@ -317,11 +399,20 @@ fun Context.liveFrameLayout(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -342,6 +433,7 @@ fun ViewGroup.liveFrameLayout(
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     block: (FrameLayout.() -> Unit)? = null
 ) = frameLayout(
@@ -349,11 +441,20 @@ fun ViewGroup.liveFrameLayout(
     onClick = onClick, fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -375,17 +476,27 @@ fun ViewGroup.liveGridLayout(
     orientation: Int = GridLayout.VERTICAL,
     rowCount: Int = 2,
     columnCount: Int? = null,
+    lifecycleOwner: LifecycleOwner? = null,
     block: (GridLayout.() -> Unit)? = null
 ) = gridLayout(
     width, height, style, id, tag, foreground, background, margin, padding,
     orientation = orientation, rowCount = rowCount, columnCount = columnCount,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -405,17 +516,27 @@ fun ViewGroup.liveScrollView(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
     block: (ScrollView.() -> Unit)? = null
 ) = scrollView(
     width, height, style, id, tag, foreground, background, margin, padding,
     fitsSystemWindows = fitsSystemWindows,
     block = block
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    isSelected?.bindNotNull(context) {
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(lifecycleOwner) {
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        isSelected?.bindNotNull(context) {
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -442,6 +563,7 @@ fun <T> ViewGroup.liveTabLayout(
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
 
     data: List<T> = listOf(),
     currentIndex: LiveData<Int> = 0.static,
@@ -473,12 +595,23 @@ fun <T> ViewGroup.liveTabLayout(
     onTabReselected = onTabReleased,
     block = block,
 ).apply {
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    currentIndex.bindNotNull(context) {
-        if (this@apply.selectedTabPosition != it) {
-            this@apply.selectTab(this@apply.getTabAt(it))
+    if (lifecycleOwner != null) {
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        currentIndex.bindNotNull(lifecycleOwner) {
+            if (this@apply.selectedTabPosition != it) {
+                this@apply.selectTab(this@apply.getTabAt(it))
+            }
+        }
+    } else {
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        currentIndex.bindNotNull(context) {
+            if (this@apply.selectedTabPosition != it) {
+                this@apply.selectTab(this@apply.getTabAt(it))
+            }
         }
     }
 }

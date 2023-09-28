@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.21
+
+- improve: runAnimator和live组件允许传入LifecycleOwner，避免在Fragment使用时造成内存泄露
+
 ### 0.2.20
 
 - improve: runAnimator增加生命周期监听并自动取消动画

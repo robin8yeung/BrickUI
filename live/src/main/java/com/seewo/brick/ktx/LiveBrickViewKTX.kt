@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.Shadow
@@ -30,6 +31,7 @@ fun Context.liveShadowBox(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
+    lifecycleOwner: LifecycleOwner? = null,
 
     @ColorInt color: Int = Color.WHITE,
     radius: Int = 0,
@@ -41,13 +43,24 @@ fun Context.liveShadowBox(
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {
-    visibility?.bind(context) {
-        it ?: return@bind
-        this@apply.visibility = it
-    }
-    isSelected?.bind(context) {
-        it ?: return@bind
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bind(lifecycleOwner) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(lifecycleOwner) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bind(context) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(context) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
     }
 }
 
@@ -69,6 +82,7 @@ fun ViewGroup.liveShadowBox(
     visibility: LiveData<Int>? = null,
     isSelected: LiveData<Boolean>? = null,
     onClick: View.OnClickListener? = null,
+    lifecycleOwner: LifecycleOwner? = null,
 
     @ColorInt color: Int = Color.WHITE,
     radius: Int = 0,
@@ -80,12 +94,23 @@ fun ViewGroup.liveShadowBox(
     onClick = onClick,
     color = color, radius = radius, shadow = shadow, block = block
 ).apply {
-    visibility?.bind(context) {
-        it ?: return@bind
-        this@apply.visibility = it
-    }
-    isSelected?.bind(context) {
-        it ?: return@bind
-        this@apply.isSelected = it
+    if (lifecycleOwner != null) {
+        visibility?.bind(lifecycleOwner) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(lifecycleOwner) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
+    } else {
+        visibility?.bind(context) {
+            it ?: return@bind
+            this@apply.visibility = it
+        }
+        isSelected?.bind(context) {
+            it ?: return@bind
+            this@apply.isSelected = it
+        }
     }
 }

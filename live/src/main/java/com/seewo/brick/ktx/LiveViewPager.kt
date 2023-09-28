@@ -48,6 +48,7 @@ fun <T> ViewGroup.liveViewPager(
     currentIndex: LiveData<Int>? = null,
     smoothScroll: Boolean = true,
     data: LiveData<List<T>>? = null,
+    lifecycleOwner: LifecycleOwner? = null,
     onClick: View.OnClickListener? = null,
 
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
@@ -61,19 +62,34 @@ fun <T> ViewGroup.liveViewPager(
     overScrollMode = overScrollMode, itemDecoration = itemDecoration, viewHolder = viewHolder,
     onClick = onClick, block = block,
 ).apply {
-    data?.bindNotNull(context) {
-        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    if (lifecycleOwner != null) {
+        data?.bindNotNull(lifecycleOwner) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        currentIndex?.bindNotNull(lifecycleOwner) {
+            if (it == currentItem) return@bindNotNull
+            if (abs(it - currentItem) == 1) {
+                setCurrentItem(it, smoothScroll)
+            } else setCurrentItem(it, false)
+        }
+    } else {
+        data?.bindNotNull(context) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        currentIndex?.bindNotNull(context) {
+            if (it == currentItem) return@bindNotNull
+            if (abs(it - currentItem) == 1) {
+                setCurrentItem(it, smoothScroll)
+            } else setCurrentItem(it, false)
+        }
     }
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    currentIndex?.bindNotNull(context) {
-        if (it == currentItem) return@bindNotNull
-        if (abs(it - currentItem) == 1) {
-            setCurrentItem(it, smoothScroll)
-        } else setCurrentItem(it, false)
-    }
-    context.inMyLifecycle {
+    val block: LifecycleOwner.() -> Unit = {
         val onPageChangeCallback = BrickOnPageChangeCallback(
             currentIndex, onPageScrolled, onPageSelected, onPageScrollStateChanged)
         registerOnPageChangeCallback(onPageChangeCallback)
@@ -86,6 +102,8 @@ fun <T> ViewGroup.liveViewPager(
             }
         })
     }
+    lifecycleOwner?.block() ?: context.inMyLifecycle(block)
+
     if (isInEditMode) {
         visibility?.value?.let { this.visibility = it }
         data?.value?.let {  (adapter as? BrickRecyclerViewAdapter<T>)?.update(it) }
@@ -125,6 +143,7 @@ fun <T> Context.liveFragmentPager(
     currentIndex: LiveData<Int>? = null,
     smoothScroll: Boolean = true,
     data: LiveData<List<T>>? = null,
+    lifecycleOwner: LifecycleOwner? = null,
     onClick: View.OnClickListener? = null,
 
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
@@ -138,7 +157,7 @@ fun <T> Context.liveFragmentPager(
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,
     onClick = onClick, block = block,
 ).initLiveFragmentPager(
-    data, visibility, currentIndex, smoothScroll,
+    data, visibility, currentIndex, smoothScroll, lifecycleOwner,
     onPageScrolled, onPageSelected, onPageScrollStateChanged,
 )
 
@@ -173,6 +192,7 @@ fun <T> ViewGroup.liveFragmentPager(
     currentIndex: LiveData<Int>? = null,
     smoothScroll: Boolean = true,
     data: LiveData<List<T>>? = null,
+    lifecycleOwner: LifecycleOwner? = null,
     onClick: View.OnClickListener? = null,
 
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
@@ -186,7 +206,7 @@ fun <T> ViewGroup.liveFragmentPager(
     overScrollMode = overScrollMode, itemDecoration = itemDecoration,
     onClick = onClick, block = block,
 ).initLiveFragmentPager(
-    data, visibility, currentIndex, smoothScroll,
+    data, visibility, currentIndex, smoothScroll, lifecycleOwner,
     onPageScrolled, onPageSelected, onPageScrollStateChanged,
 )
 
@@ -195,21 +215,35 @@ private fun <T> ViewPager2.initLiveFragmentPager(
     visibility: LiveData<Int>? = null,
     currentIndex: LiveData<Int>? = null,
     smoothScroll: Boolean = true,
+    lifecycleOwner: LifecycleOwner? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
 ) = apply {
-    data?.bindNotNull(context) {
-        (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+    if (lifecycleOwner != null) {
+        data?.bindNotNull(lifecycleOwner) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(lifecycleOwner) {
+            this@apply.visibility = it
+        }
+        currentIndex?.bindNotNull(lifecycleOwner) {
+            if (it == currentItem) return@bindNotNull
+            setCurrentItem(it, smoothScroll)
+        }
+    } else {
+        data?.bindNotNull(context) {
+            (adapter as? BrickRecyclerViewAdapter<T>)?.update(it)
+        }
+        visibility?.bindNotNull(context) {
+            this@apply.visibility = it
+        }
+        currentIndex?.bindNotNull(context) {
+            if (it == currentItem) return@bindNotNull
+            setCurrentItem(it, smoothScroll)
+        }
     }
-    visibility?.bindNotNull(context) {
-        this@apply.visibility = it
-    }
-    currentIndex?.bindNotNull(context) {
-        if (it == currentItem) return@bindNotNull
-        setCurrentItem(it, smoothScroll)
-    }
-    context.inMyLifecycle {
+    val block: LifecycleOwner.() -> Unit = {
         val onPageChangeCallback = BrickOnPageChangeCallback(
             currentIndex, onPageScrolled, onPageSelected, onPageScrollStateChanged)
         registerOnPageChangeCallback(onPageChangeCallback)
@@ -222,6 +256,7 @@ private fun <T> ViewPager2.initLiveFragmentPager(
             }
         })
     }
+    lifecycleOwner?.block() ?: context.inMyLifecycle(block)
 }
 
 private class BrickOnPageChangeCallback(
