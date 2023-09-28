@@ -11,6 +11,8 @@ BrickUI是一套Kotlin实现的基于原生View体系的声明式UI框架。与�
 
 加油搬砖人！
 
+> 相关文章 [BrickUI，基于Android View体系撸一个声明式UI框架](https://juejin.cn/post/7243725397858336805)
+
 ### 引入
 
 Latest Version: [![](https://jitpack.io/v/robin8yeung/BrickUI.svg)](https://jitpack.io/#robin8yeung/BrickUI)
