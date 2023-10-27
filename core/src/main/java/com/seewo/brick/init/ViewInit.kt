@@ -9,7 +9,7 @@ import com.seewo.brick.ktx.WRAP_CONTENT
 import com.seewo.brick.ktx.init
 import com.seewo.brick.params.EdgeInsets
 
-internal fun View.setup(
+fun View.setup(
     width: Int = WRAP_CONTENT,
     height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
@@ -40,7 +40,7 @@ internal fun View.setup(
     fitsSystemWindows?.let { this.fitsSystemWindows = fitsSystemWindows }
 }
 
-internal fun <T : View> T.applyMargin(
+fun <T : View> T.applyMargin(
     margin: EdgeInsets? = null,
 ): T = apply {
     margin?.let {

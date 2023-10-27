@@ -53,6 +53,39 @@ fun gridSpaceDecoration(
  *
  * @see ViewGroup.simpleRecyclerView 构造方法更简单
  */
+fun <T> Context.recyclerView(
+    width: Int, height: Int,
+    @AttrRes attr: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: Int? = null,
+    fitsSystemWindows: Boolean = false,
+
+    overScrollMode: Int? = null,
+    layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
+        this, LinearLayoutManager.VERTICAL, false
+    ),
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: List<T>? = null,
+    onClick: View.OnClickListener? = null,
+
+    viewTypeBuilder: (Int) -> Int = { 0 },
+    viewBuilder: Context.(Int) -> View,
+    dataBinder: (List<T>, Int, View) -> Unit,
+) = RecyclerView(this, null, attr).apply {
+    setup(
+        width, height, id, tag, foreground, background, padding, visibility,
+        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
+    )
+    this.layoutManager = layoutManager
+    itemDecoration?.let { addItemDecoration(it) }
+    loadData(data ?: listOf(), viewTypeBuilder, viewBuilder, dataBinder)
+    overScrollMode?.let { this.overScrollMode = it }
+}
+
 fun <T> ViewGroup.recyclerView(
     width: Int, height: Int,
     @AttrRes attr: Int = 0,
@@ -76,17 +109,26 @@ fun <T> ViewGroup.recyclerView(
     viewTypeBuilder: (Int) -> Int = { 0 },
     viewBuilder: Context.(Int) -> View,
     dataBinder: (List<T>, Int, View) -> Unit,
-) = RecyclerView(context, null, attr).apply {
-    setup(
-        width, height, id, tag, foreground, background, padding, visibility,
-        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
-    )
-    this.layoutManager = layoutManager
-    itemDecoration?.let { addItemDecoration(it) }
-    loadData(data ?: listOf(), viewTypeBuilder, viewBuilder, dataBinder)
-    overScrollMode?.let { this.overScrollMode = it }
-    this@recyclerView.addView(this)
-}.applyMargin(margin)
+) = context.recyclerView(
+    width,
+    height,
+    attr,
+    id,
+    tag,
+    foreground,
+    background,
+    padding,
+    visibility,
+    fitsSystemWindows,
+    overScrollMode,
+    layoutManager,
+    itemDecoration,
+    data,
+    onClick,
+    viewTypeBuilder,
+    viewBuilder,
+    dataBinder
+).also { addView(it) }.applyMargin(margin)
 
 private fun <T> RecyclerView.loadData(
     data: List<T>,

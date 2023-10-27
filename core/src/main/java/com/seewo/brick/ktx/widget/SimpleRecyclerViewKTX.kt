@@ -25,6 +25,37 @@ import com.seewo.brick.params.RecyclerItemData
  *
  * @see ViewGroup.recyclerView 性能开销更少，但使用复杂不灵活，更建议使用simpleRecyclerView
  */
+fun <T> Context.simpleRecyclerView(
+    width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT,
+    @AttrRes attr: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: Int? = null,
+    fitsSystemWindows: Boolean = false,
+
+    overScrollMode: Int? = null,
+    viewHolderCreator: (Context.() -> ViewGroup)? = null,
+    layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
+        this, LinearLayoutManager.VERTICAL, false
+    ),
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: List<T>? = null,
+    onClick: View.OnClickListener? = null,
+    block: ViewGroup.(List<T>, Int) -> Unit,
+) = RecyclerView(this, null, attr).apply {
+    setup(
+        width, height, id, tag, foreground, background, padding, visibility,
+        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
+    )
+    this.layoutManager = layoutManager
+    itemDecoration?.let { addItemDecoration(it) }
+    loadData(viewHolderCreator, data ?: listOf(), block)
+    overScrollMode?.let { this.overScrollMode = it }
+}
+
 fun <T> ViewGroup.simpleRecyclerView(
     width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT,
     @AttrRes attr: Int = 0,
@@ -46,17 +77,25 @@ fun <T> ViewGroup.simpleRecyclerView(
     data: List<T>? = null,
     onClick: View.OnClickListener? = null,
     block: ViewGroup.(List<T>, Int) -> Unit,
-) = RecyclerView(context, null, attr).apply {
-    setup(
-        width, height, id, tag, foreground, background, padding, visibility,
-        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
-    )
-    this.layoutManager = layoutManager
-    itemDecoration?.let { addItemDecoration(it) }
-    loadData(viewHolderCreator, data ?: listOf(), block)
-    overScrollMode?.let { this.overScrollMode = it }
-    this@simpleRecyclerView.addView(this)
-}.applyMargin(margin)
+) = context.simpleRecyclerView(
+    width,
+    height,
+    attr,
+    id,
+    tag,
+    foreground,
+    background,
+    padding,
+    visibility,
+    fitsSystemWindows,
+    overScrollMode,
+    viewHolderCreator,
+    layoutManager,
+    itemDecoration,
+    data,
+    onClick,
+    block
+).also { addView(it) }.applyMargin(margin)
 
 private fun <T> RecyclerView.loadData(
     viewHolderCreator: (Context.() -> ViewGroup)?,

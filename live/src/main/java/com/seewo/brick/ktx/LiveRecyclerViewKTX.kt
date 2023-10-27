@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.seewo.brick.init.applyMargin
 import com.seewo.brick.params.EdgeInsets
 import com.seewo.brick.params.RecyclerItemData
 
@@ -47,8 +48,51 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
     viewTypeBuilder: (Int) -> Int = { 0 },
     viewBuilder: Context.(Int) -> View,
     dataBinder: (List<T>, Int, View) -> Unit,
+) = context.liveRecyclerView(
+    width,
+    height,
+    attr,
+    id,
+    tag,
+    foreground,
+    background,
+    padding,
+    visibility,
+    fitsSystemWindows,
+    lifecycleOwner,
+    layoutManager,
+    itemDecoration,
+    data,
+    onClick,
+    viewTypeBuilder,
+    viewBuilder,
+    dataBinder
+).applyMargin(margin)
+
+fun <T : RecyclerItemData> Context.liveRecyclerView(
+    width: Int, height: Int,
+    @AttrRes attr: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
+
+    layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
+        this, LinearLayoutManager.VERTICAL, false
+    ),
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: LiveData<List<T>>? = null,
+    onClick: View.OnClickListener? = null,
+
+    viewTypeBuilder: (Int) -> Int = { 0 },
+    viewBuilder: Context.(Int) -> View,
+    dataBinder: (List<T>, Int, View) -> Unit,
 ) = recyclerView(
-    width, height, attr, id, tag, foreground, background, margin, padding,
+    width, height, attr, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows, layoutManager = layoutManager,
     itemDecoration = itemDecoration,
     viewTypeBuilder = viewTypeBuilder, viewBuilder = viewBuilder,
@@ -72,7 +116,7 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
 }
 
 /**
- * 构造RecyclerView，构建方法较简单，但基本无法利用RecyclerView的重用特性，滚动会造成内存都懂。谨慎使用
+ * 构造RecyclerView，构建方法较简单，但基本无法利用RecyclerView的重用特性，滚动会造成内存抖动。谨慎使用
  *
  * @param viewHolderCreator ViewHolder默认宽为MATCH_PARENT，若不满足需求，可通过此参数自行创建（如横向RecyclerView）
  * @param data 列表数据【建议数据实现RecyclerItemData接口，这样可以借助DiffUtil自动判断数据是否变化，减少不必要的刷新】
@@ -80,14 +124,13 @@ fun <T: RecyclerItemData> ViewGroup.liveRecyclerView(
  *
  * @see ViewGroup.recyclerView 性能开销更少
  */
-fun <T> ViewGroup.liveSimpleRecyclerView(
+fun <T> Context.liveSimpleRecyclerView(
     width: Int, height: Int,
     @AttrRes attr: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: LiveData<Int>? = null,
     fitsSystemWindows: Boolean = false,
@@ -96,13 +139,14 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
     overScrollMode: Int? = null,
     viewHolderCreator: (Context.() -> ViewGroup)? = null,
     layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
-        context, LinearLayoutManager.VERTICAL, false),
+        this, LinearLayoutManager.VERTICAL, false
+    ),
     itemDecoration: RecyclerView.ItemDecoration? = null,
     data: LiveData<List<T>>? = null,
     onClick: View.OnClickListener? = null,
     block: ViewGroup.(List<T>, Int) -> Unit,
 ) = simpleRecyclerView(
-    width, height, attr, id, tag, foreground, background, margin, padding,
+    width, height, attr, id, tag, foreground, background, padding,
     fitsSystemWindows = fitsSystemWindows, layoutManager = layoutManager,
     itemDecoration = itemDecoration, block = block, onClick = onClick,
     overScrollMode = overScrollMode, viewHolderCreator = viewHolderCreator,
@@ -123,3 +167,46 @@ fun <T> ViewGroup.liveSimpleRecyclerView(
         }
     }
 }
+
+fun <T> ViewGroup.liveSimpleRecyclerView(
+    width: Int, height: Int,
+    @AttrRes attr: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    margin: EdgeInsets? = null,
+    padding: EdgeInsets? = null,
+    visibility: LiveData<Int>? = null,
+    fitsSystemWindows: Boolean = false,
+    lifecycleOwner: LifecycleOwner? = null,
+
+    overScrollMode: Int? = null,
+    viewHolderCreator: (Context.() -> ViewGroup)? = null,
+    layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
+        context, LinearLayoutManager.VERTICAL, false
+    ),
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: LiveData<List<T>>? = null,
+    onClick: View.OnClickListener? = null,
+    block: ViewGroup.(List<T>, Int) -> Unit,
+) = context.liveSimpleRecyclerView(
+    width,
+    height,
+    attr,
+    id,
+    tag,
+    foreground,
+    background,
+    padding,
+    visibility,
+    fitsSystemWindows,
+    lifecycleOwner,
+    overScrollMode,
+    viewHolderCreator,
+    layoutManager,
+    itemDecoration,
+    data,
+    onClick,
+    block
+).also { addView(it) }.applyMargin(margin)
