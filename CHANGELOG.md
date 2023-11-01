@@ -1,5 +1,10 @@
 # Change LOG
 
+### 0.2.22
+
+- improve: 为资源相关扩展函数添加类型注解
+- improve: RecyclerView,SmartRefresh等添加Receiver为Context的扩展函数
+
 ### 0.2.21
 
 - improve: runAnimator和live组件允许传入LifecycleOwner，避免在Fragment使用时造成内存泄露
