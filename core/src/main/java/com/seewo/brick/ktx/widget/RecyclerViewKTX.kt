@@ -88,6 +88,50 @@ fun <T> ViewGroup.recyclerView(
     this@recyclerView.addView(this)
 }.applyMargin(margin)
 
+/**
+ * 构造RecyclerView，构建方法较复杂，但可以充分利用RecyclerView的重用特性，性能高
+ *
+ * @param data 列表数据。【建议数据实现RecyclerItemData接口，这样可以借助DiffUtil自动判断数据是否变化，减少不必要的刷新】
+ * @param viewTypeBuilder 列表index与ViewType的映射关系。如果列表只存在一种ItemView可以不传
+ * @param viewBuilder ViewType与View的映射关系，这里的View将作为复用模板。ItemView模板必须用recyclerItem包裹，否则会抛异常
+ * @param dataBinder 绑定每一个Item的数据到ItemView模板。回调输入为数据列表，列表index和viewBuilder所创建的View模板
+ *
+ * @see ViewGroup.simpleRecyclerView 构造方法更简单
+ */
+fun <T> Context.recyclerView(
+    width: Int, height: Int,
+    @AttrRes attr: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    margin: EdgeInsets? = null,
+    padding: EdgeInsets? = null,
+    visibility: Int? = null,
+    fitsSystemWindows: Boolean = false,
+
+    overScrollMode: Int? = null,
+    layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
+        this, LinearLayoutManager.VERTICAL, false
+    ),
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: List<T>? = null,
+    onClick: View.OnClickListener? = null,
+
+    viewTypeBuilder: (Int) -> Int = { 0 },
+    viewBuilder: Context.(Int) -> View,
+    dataBinder: (List<T>, Int, View) -> Unit,
+) = RecyclerView(this, null, attr).apply {
+    setup(
+        width, height, id, tag, foreground, background, padding, visibility,
+        fitsSystemWindows = fitsSystemWindows, onClick = onClick,
+    )
+    this.layoutManager = layoutManager
+    itemDecoration?.let { addItemDecoration(it) }
+    loadData(data ?: listOf(), viewTypeBuilder, viewBuilder, dataBinder)
+    overScrollMode?.let { this.overScrollMode = it }
+}.applyMargin(margin)
+
 private fun <T> RecyclerView.loadData(
     data: List<T>,
     viewTypeBuilder: (Int) -> Int,
