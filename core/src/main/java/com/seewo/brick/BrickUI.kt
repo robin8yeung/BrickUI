@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.util.TypedValue
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -51,6 +52,7 @@ object BrickUI {
 
     fun string(@StringRes id: Int, vararg params: Any) = context.getString(id, *params)
 
+    @ColorInt
     fun color(@ColorRes color: Int, theme: Resources.Theme? = null) =
         ResourcesCompat.getColor(context.resources, color, theme)
 

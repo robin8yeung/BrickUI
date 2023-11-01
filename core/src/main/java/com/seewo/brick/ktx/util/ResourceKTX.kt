@@ -2,6 +2,10 @@ package com.seewo.brick.ktx // 包名别改
 
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import com.seewo.brick.BrickUI
 
 
@@ -44,34 +48,35 @@ val Int.sp: Int
 /**
  * 资源id转drawable
  */
-val Int.drawable: Drawable?
+val @receiver:DimenRes Int.drawable: Drawable?
     get() = BrickUI.drawable(this)
 
 /**
  * 资源id转颜色类型drawable
  */
-val Int.colorDrawable: Drawable?
+val @receiver:ColorRes Int.colorDrawable: Drawable?
     get() = runCatching { ColorDrawable(color) }.getOrNull()
 
 /**
  * 资源id转color
  */
-val Int.color: Int
+@get:ColorInt
+val @receiver:ColorRes Int.color: Int
     get() = BrickUI.color(this)
 
 /**
  * 资源id转String。如需携带参数，可使用 Int.getString(vararg params: Any)
  */
-val Int.string: String
+val @receiver:StringRes Int.string: String
     get() = BrickUI.string(this)
 
 /**
  * 资源id转String，可携带参数
  */
-fun Int.getString(vararg params: Any): String = BrickUI.string(this, *params)
+fun @receiver:StringRes Int.getString(vararg params: Any): String = BrickUI.string(this, *params)
 
 /**
  * 资源id转dimension
  */
-val Int.dimension: Int
+val @receiver:DimenRes Int.dimension: Int
     get() = BrickUI.dimension(this)
