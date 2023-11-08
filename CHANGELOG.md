@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.23
+
+- improve: 对于LiveData<Boolean>添加了toVisibility()扩展函数，inverse扩展属性，并重载了not操作符
+
 ### 0.2.22
 
 - improve: 为资源相关扩展函数添加类型注解

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -16,7 +15,26 @@ import com.seewo.brick.BrickPreview
 import com.seewo.brick.app.R
 import com.seewo.brick.app.widget.Markdown
 import com.seewo.brick.app.widget.buttonBackGround
-import com.seewo.brick.ktx.*
+import com.seewo.brick.ktx.COLOR
+import com.seewo.brick.ktx.MATCH_PARENT
+import com.seewo.brick.ktx.PROGRESS_TYPE_SCALE
+import com.seewo.brick.ktx.color
+import com.seewo.brick.ktx.column
+import com.seewo.brick.ktx.data
+import com.seewo.brick.ktx.dp
+import com.seewo.brick.ktx.expand
+import com.seewo.brick.ktx.live
+import com.seewo.brick.ktx.liveCheckbox
+import com.seewo.brick.ktx.liveHorizontalProgressBar
+import com.seewo.brick.ktx.liveRow
+import com.seewo.brick.ktx.liveText
+import com.seewo.brick.ktx.map
+import com.seewo.brick.ktx.rectDrawable
+import com.seewo.brick.ktx.row
+import com.seewo.brick.ktx.static
+import com.seewo.brick.ktx.textView
+import com.seewo.brick.ktx.toVisibility
+import com.seewo.brick.ktx.view
 import com.seewo.brick.params.CornerRadius
 import com.seewo.brick.params.EdgeInsets
 import kotlinx.coroutines.delay
@@ -101,7 +119,7 @@ private fun LinearLayout.ProgressBar(
     // 需要根据下载状态控制整行显隐，所以使用liveRow
     liveRow(
         MATCH_PARENT,
-        visibility = downloading.map { if (it) View.VISIBLE else View.GONE },
+        visibility = downloading.toVisibility(),
     ) {
         textView(text = "下载进度")
         expand(
@@ -220,7 +238,7 @@ private fun LinearLayout.ProgressBar(
     // 需要根据下载状态控制整行显隐，所以使用liveRow
     liveRow(
         MATCH_PARENT,
-        visibility = downloading.map { if (it) View.VISIBLE else View.GONE },
+        visibility = downloading.toVisibility(),
     ) {
         textView(text = "下载进度")
         expand(

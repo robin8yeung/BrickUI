@@ -2,6 +2,7 @@ package com.seewo.brick.ktx
 
 import android.content.Context
 import android.os.Looper
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -25,19 +26,57 @@ var <T> LiveData<T>.data: T
     }
     get() = value!!
 
+/**
+ * 对LiveData进行重新映射
+ */
 fun <I, O> LiveData<I>.map(mapper: (I) -> O) =
     Transformations.map(this) {
         mapper(it)
     }
 
+/**
+ * 过滤掉重复的数据
+ */
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> =
     Transformations.distinctUntilChanged(this)
 
+/**
+ * 组合多个LiveData
+ */
 fun <I1, I2, O> LiveData<I1>.combine(liveData: LiveData<I2>, block: (I1?, I2?) -> O): LiveData<O> =
     MediatorLiveData<O>().apply {
         addSource(this@combine) { value = block(it, liveData.value) }
         addSource(liveData) { value = block(this@combine.value, it) }
     }
+
+/**
+ * 把Boolean类型的LiveData取反，可以结合toVisibility使用。
+ *
+ * 举例：
+ * val isGone = true.live
+ * val visibility = isGone.inverse.toVisibility()
+ */
+val LiveData<Boolean>.inverse: LiveData<Boolean>
+    get() = map { !it }
+
+/**
+ * LiveData<Boolean>的操作符重载，作用与LiveData<Boolean>.inverse相同
+ *
+ * 举例：
+ * val isGone = true.live
+ * val visibility = !isGone.toVisibility()
+ */
+operator fun LiveData<Boolean>.not() = map { !it }
+
+/**
+ * 把Boolean类型的LiveData映射成View的Visibility类型
+ * true对应View.VISIBLE
+ *
+ * @param whenFalse 当LiveData的值为false时，View的Visibility状态。默认为GONE
+ */
+fun LiveData<Boolean>.toVisibility(whenFalse: Int = View.GONE) = map { show ->
+    View.VISIBLE.takeIf { show } ?: whenFalse
+}
 
 val <T> T.live: MutableLiveData<T>
     get() = MutableLiveData(this)
