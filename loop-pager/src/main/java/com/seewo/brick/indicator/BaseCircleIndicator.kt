@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.Size
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Interpolator
@@ -45,6 +46,11 @@ abstract class BaseCircleIndicator(context: Context) : LinearLayout(context) {
     private fun initialize() {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
+    }
+
+    fun setIndicatorSize(size: Size) {
+        mIndicatorWidth = size.width
+        mIndicatorHeight = size.height
     }
 
     fun setIndicatorPadding(padding: Int) {

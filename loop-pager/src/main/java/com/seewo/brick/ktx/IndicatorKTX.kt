@@ -3,6 +3,7 @@ package com.seewo.brick.ktx // 包名别改
 import android.animation.Animator
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Size
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.viewpager.widget.ViewPager
@@ -28,6 +29,7 @@ import com.seewo.brick.params.EdgeInsets
 fun Context.indicator(
     width: Int, height: Int,
     viewPager: ViewPager,
+    indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
     animatorIn: Animator? = R.animator.scale_with_alpha.animator,
     animatorOut: Animator? = null,
@@ -49,6 +51,7 @@ fun Context.indicator(
         visibility = visibility,
         padding = padding,
     )
+    indicatorSize?.let { setIndicatorSize(it) }
     indicatorPadding?.let { setIndicatorPadding(it) }
     setIndicatorAnimator(animatorIn, animatorOut)
     setIndicatorDrawable(selected, unselected)
@@ -73,6 +76,7 @@ fun Context.indicator(
 fun ViewGroup.indicator(
     width: Int, height: Int,
     viewPager: ViewPager,
+    indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
     animatorIn: Animator? = R.animator.scale_with_alpha.animator,
     animatorOut: Animator? = null,
@@ -87,7 +91,7 @@ fun ViewGroup.indicator(
     visibility: Int? = null,
     margin: EdgeInsets? = null,
 ) = context.indicator(
-    width, height, viewPager, indicatorPadding, animatorIn, animatorOut, selected, unselected,
+    width, height, viewPager, indicatorSize, indicatorPadding, animatorIn, animatorOut, selected, unselected,
     orientation, gravity, padding,
     id, tag, visibility, margin,
 ).also { addView(it) }.applyMargin(margin)
@@ -108,6 +112,7 @@ fun ViewGroup.indicator(
 fun Context.indicator(
     width: Int, height: Int,
     viewPager: ViewPager2,
+    indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
     animatorIn: Animator? = R.animator.scale_with_alpha.animator,
     animatorOut: Animator? = null,
@@ -129,6 +134,7 @@ fun Context.indicator(
         visibility = visibility,
         padding = padding,
     )
+    indicatorSize?.let { setIndicatorSize(it) }
     indicatorPadding?.let { setIndicatorPadding(it) }
     setIndicatorAnimator(animatorIn, animatorOut)
     setIndicatorDrawable(selected, unselected)
@@ -153,6 +159,7 @@ fun Context.indicator(
 fun ViewGroup.indicator(
     width: Int, height: Int,
     viewPager: ViewPager2,
+    indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
     animatorIn: Animator? = R.animator.scale_with_alpha.animator,
     animatorOut: Animator? = null,
@@ -167,7 +174,7 @@ fun ViewGroup.indicator(
     visibility: Int? = null,
     margin: EdgeInsets? = null,
 ) = context.indicator(
-    width, height, viewPager, indicatorPadding, animatorIn, animatorOut, selected, unselected,
+    width, height, viewPager, indicatorSize, indicatorPadding, animatorIn, animatorOut, selected, unselected,
     orientation, gravity, padding,
     id, tag, visibility, margin,
 ).also { addView(it) }.applyMargin(margin)
