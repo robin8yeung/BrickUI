@@ -27,7 +27,7 @@ import com.seewo.brick.params.EdgeInsets
  * @param gravity 指示器位置
  */
 fun Context.indicator(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     viewPager: ViewPager,
     indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
@@ -110,7 +110,7 @@ fun ViewGroup.indicator(
  * @param gravity 指示器位置
  */
 fun Context.indicator(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     viewPager: ViewPager2,
     indicatorSize: Size? = null,
     indicatorPadding: Int? = null,
@@ -157,7 +157,7 @@ fun Context.indicator(
  * @param gravity 指示器位置
  */
 fun ViewGroup.indicator(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     viewPager: ViewPager2,
     indicatorSize: Size? = null,
     indicatorPadding: Int? = null,

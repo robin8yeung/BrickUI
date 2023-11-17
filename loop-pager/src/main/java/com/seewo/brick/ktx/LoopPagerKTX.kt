@@ -81,7 +81,7 @@ fun <T> Context.loopPager(
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> ViewGroup.loopPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
     foreground: Drawable? = null,
