@@ -54,11 +54,10 @@ fun Context.brick(
     isEnabled: Boolean? = null,
     onClick: View.OnClickListener? = null,
     fitsSystemWindows: Boolean? = null,
-    margin: EdgeInsets? = null,
     block: Context.() -> View
 ): View = block().apply {
     setup(width, height, id, tag, foreground, background, padding, visibility, isSelected, isEnabled, onClick, fitsSystemWindows)
-}.applyMargin(margin)
+}
 
 /**
  * 包裹普通View嵌入BrickUI声明式布局中，并可定义一些布局属性
@@ -80,9 +79,9 @@ fun <T : ViewGroup> T.brick(
     fitsSystemWindows: Boolean? = null,
     margin: EdgeInsets? = null,
     block: T.() -> View
-): View = brick(
-    width, height, id, tag, foreground, background, padding, visibility, isSelected, isEnabled, onClick, fitsSystemWindows, margin, block
-).also {
+): View = block().apply {
+    setup(width, height, id, tag, foreground, background, padding, visibility, isSelected, isEnabled, onClick, fitsSystemWindows)
+}.also {
     addView(it)
 }.applyMargin(margin)
 
