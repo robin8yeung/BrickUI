@@ -23,7 +23,7 @@ import kotlin.time.Duration
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> Context.loopPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @IdRes id: Int? = null,
     tag: Any? = null,
     foreground: Drawable? = null,
