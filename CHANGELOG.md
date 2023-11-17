@@ -1,6 +1,6 @@
 # Change LOG
 
-### 0.2.24
+### 0.2.25
 
 - [feature] 添加brick函数用于嵌入普通View，废弃view函数
 - [improve] 为ViewKTX中的函数均添加以Context为接收者的函数

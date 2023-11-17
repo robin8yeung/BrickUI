@@ -46,6 +46,11 @@ class LoopViewPager : ViewPager {
         super.addOnPageChangeListener(onPageChangeListener)
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setDuration(mDuration)
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         mDurationJob?.cancel()
