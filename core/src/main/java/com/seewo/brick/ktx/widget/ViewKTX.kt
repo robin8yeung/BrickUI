@@ -47,7 +47,6 @@ fun Context.divider(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -57,7 +56,7 @@ fun Context.divider(
         width, height, id, tag, foreground, background, padding, visibility, isSelected,
         onClick = onClick
     )
-}.applyMargin(margin)
+}
 
 /**
  * 分割线，默认为水平分割线
@@ -78,7 +77,7 @@ fun ViewGroup.divider(
     onClick: OnClickListener? = null,
 ) = context.divider(
     width, height, style, id, tag, foreground, background,
-    margin, padding, visibility, isSelected, onClick
+    padding, visibility, isSelected, onClick
 ).also { addView(it) }.applyMargin(margin)
 
 /**
@@ -92,7 +91,6 @@ fun Context.imageView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -120,7 +118,7 @@ fun Context.imageView(
     padding?.let { setPadding(it.start, it.top, it.end, it.bottom) }
     scaleType?.let { setScaleType(it) }
     drawable?.let { setImageDrawable(it) }
-}.applyMargin(margin)
+}
 
 /**
  * 构造ImageView
@@ -151,7 +149,6 @@ fun ViewGroup.imageView(
     tag,
     foreground,
     background,
-    margin,
     padding,
     visibility,
     isSelected,
@@ -173,7 +170,6 @@ fun Context.textView(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -227,8 +223,7 @@ fun Context.textView(
     compoundDrawables?.let {
         setCompoundDrawablesWithIntrinsicBounds(it.start, it.top, it.end, it.bottom)
     }
-
-}.applyMargin(margin)
+}
 
 /**
  * 构造TextView
@@ -270,7 +265,6 @@ fun ViewGroup.textView(
     tag,
     foreground,
     background,
-    margin,
     padding,
     visibility,
     isSelected,
@@ -303,7 +297,6 @@ fun Context.edittext(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -400,7 +393,7 @@ fun Context.edittext(
             }
         })
     }
-}.applyMargin(margin)
+}
 
 /**
  * 构造EditText
@@ -449,7 +442,6 @@ fun ViewGroup.edittext(
     tag,
     foreground,
     background,
-    margin,
     padding,
     visibility,
     isSelected,
@@ -487,7 +479,6 @@ fun Context.checkbox(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -536,7 +527,7 @@ fun Context.checkbox(
     this.isChecked = isChecked
 
     onCheckedChange?.let { setOnCheckedChangeListener(it) }
-}.applyMargin(margin)
+}
 
 /**
  * Checkbox控件
@@ -576,7 +567,6 @@ fun ViewGroup.checkbox(
     tag,
     foreground,
     background,
-    margin,
     padding,
     visibility,
     isSelected,
@@ -605,7 +595,6 @@ fun Context.switch(
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isEnabled: Boolean? = null,
@@ -626,7 +615,7 @@ fun Context.switch(
     )
     this.isChecked = isChecked
     onCheckedChange?.let { setOnCheckedChangeListener(it) }
-}.applyMargin(margin)
+}
 
 /**
  * Switch控件
@@ -652,7 +641,6 @@ fun ViewGroup.switch(
     style,
     id,
     tag,
-    margin,
     padding,
     visibility,
     isEnabled,
@@ -690,7 +678,6 @@ fun Context.horizontalProgressBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -731,7 +718,7 @@ fun Context.horizontalProgressBar(
             setId(1, android.R.id.progress)
         }
     }
-}.applyMargin(margin)
+}
 
 /**
  * 横向进度条
@@ -772,7 +759,7 @@ fun ViewGroup.horizontalProgressBar(
     progressDrawable: Drawable? = null,
     progressBackground: Drawable? = null,
 ) = context.horizontalProgressBar(
-    width, height, style, id, tag, foreground, background, margin, padding, visibility, isSelected, isEnabled, fitsSystemWindows,
+    width, height, style, id, tag, foreground, background, padding, visibility, isSelected, isEnabled, fitsSystemWindows,
     progress, progressType, max, progressDrawable, progressBackground
 ).also { addView(it) }.applyMargin(margin)
 
@@ -793,7 +780,6 @@ fun Context.seekBar(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     isSelected: Boolean? = null,
@@ -862,7 +848,7 @@ fun Context.seekBar(
             onStopTrackingTouch?.invoke(seekBar)
         }
     })
-}.applyMargin(margin)
+}
 
 /**
  * @param minHeight 进度条的最小高度，系统版本29以上才支持，低版本通过style传入
@@ -900,7 +886,7 @@ fun ViewGroup.seekBar(
     onStopTrackingTouch: ((SeekBar) -> Unit)? = null,
     onProgressChanged: ((seekBar: SeekBar, progress: Int, fromUser: Boolean) -> Unit)? = null,
 ) = context.seekBar(
-    width, height, style, id, tag, foreground, background, margin, padding, visibility, isSelected, isEnabled, fitsSystemWindows,
+    width, height, style, id, tag, foreground, background, padding, visibility, isSelected, isEnabled, fitsSystemWindows,
     minHeight, maxHeight, thumb, thumbOffset, progressDrawable, progressBackground, progress, max, onStartTrackingTouch, onStopTrackingTouch, onProgressChanged
 ).also { addView(it) }.applyMargin(margin)
 
@@ -921,7 +907,6 @@ fun Context.placeholder(
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean? = null,
@@ -939,7 +924,7 @@ fun Context.placeholder(
         onClick = onClick,
         fitsSystemWindows = fitsSystemWindows
     )
-}.applyMargin(margin)
+}
 
 /**
  * 构造透明占位符，也可以设置background
@@ -957,5 +942,5 @@ fun ViewGroup.placeholder(
     fitsSystemWindows: Boolean? = null,
     onClick: OnClickListener? = null,
 ) = context.placeholder(
-    width, height, id, tag, foreground, background, margin, padding, visibility, fitsSystemWindows, onClick
+    width, height, id, tag, foreground, background, padding, visibility, fitsSystemWindows, onClick
 ).also { addView(it) }.applyMargin(margin)
