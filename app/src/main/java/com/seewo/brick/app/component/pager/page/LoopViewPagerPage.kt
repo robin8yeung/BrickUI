@@ -21,7 +21,6 @@ import com.seewo.brick.ktx.indicator
 import com.seewo.brick.ktx.layoutParams
 import com.seewo.brick.ktx.loopPager
 import com.seewo.brick.ktx.view
-import com.seewo.brick.params.EdgeInsets
 import kotlin.time.Duration.Companion.seconds
 
 private class LoopViewPagerPage(context: Context, attrs: AttributeSet? = null) :
@@ -67,7 +66,6 @@ private fun LinearLayout.LoopViewPager() {
             indicator(
                 MATCH_PARENT, 48.dp,
                 viewPager,
-                margin = EdgeInsets.only(bottom = 40.dp),
             )
         }
     }
@@ -95,7 +93,7 @@ private fun LinearLayout.LoopViewPager() {
             ),
             duration = 1.seconds,
             onPageSelected = {
-                Log.i("BrickUI", "onPageSelected: $it")
+                Log.i("BrickUI", "onPageSelected: ${'$'}it")
             }
         ) { data, position ->
             imageView(
@@ -108,7 +106,6 @@ private fun LinearLayout.LoopViewPager() {
             indicator(
                 MATCH_PARENT, 48.dp,
                 viewPager,
-                margin = EdgeInsets.only(bottom = 40.dp),
             )
         }
     }
