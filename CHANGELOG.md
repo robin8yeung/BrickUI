@@ -1,5 +1,11 @@
 # Change LOG
 
+### 0.2.24
+
+- [feature] 添加brick函数用于嵌入普通View，废弃view函数
+- [improve] 为ViewKTX中的函数均添加以Context为接收者的函数
+- [feature] 封装loop-pager组件，提供轮播图和pager指示器的实现 （基于[CircleIndicator](https://github.com/ongakuer/CircleIndicator)实现）
+
 ### 0.2.23
 
 - improve: 对于LiveData<Boolean>添加了toVisibility()扩展函数，inverse扩展属性，并重载了not操作符

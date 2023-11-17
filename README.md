@@ -33,6 +33,7 @@ Step 2. Add the dependency
 dependencies {
         implementation 'com.github.robin8yeung.BrickUI:brick-ui:{VERSION}'
         implementation 'com.github.robin8yeung.BrickUI:brick-ui-smart-refresh:{VERSION}' // 非必须 基于BrickUI封装了SmartRefreshLayout
+        implementation 'com.github.robin8yeung.BrickUI:brick-ui-loop-pager:{VERSION}' // 非必须 基于BrickUI封装了CircleIndicator(CircleIndicator为内部修改并适配，非maven接入)
         implementation 'com.github.robin8yeung.BrickUI:brick-ui-live:{VERSION}' // 非必须 基于LiveData封装BrickUI
         implementation 'com.github.robin8yeung.BrickUI:brick-ui-glide:{VERSION}' // 非必须 基于Glide封装图片加载函数
 }
@@ -364,6 +365,12 @@ class MainPage(context: Context, attributeSet: AttributeSet?): BrickPreview(cont
 
 - 整体实现 [BrickUI实现](doc/BrickUI.md)
 - RecyclerView实现 [RecyclerView实现](doc/RecylerView.md)
+
+## 封装或适配的一些第三方库
+
+- [Glide](https://github.com/bumptech/glide)
+- [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
+- [CircleIndicator](https://github.com/ongakuer/CircleIndicator)
 
 
 ## License
