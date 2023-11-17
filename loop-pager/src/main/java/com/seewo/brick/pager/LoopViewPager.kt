@@ -48,7 +48,12 @@ class LoopViewPager : ViewPager {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        setDuration(mDuration)
+        mDuration?.let {
+            if (currentItem == (adapter?.count ?: 0) - 1) {
+                setCurrentItem(0, false)
+            }
+            setDuration(it)
+        }
     }
 
     override fun onDetachedFromWindow() {
@@ -91,7 +96,7 @@ class LoopViewPager : ViewPager {
         mDurationJob = MainScope().launch {
             repeat(Int.MAX_VALUE) {
                 delay(duration)
-                setCurrentItem(currentItem + 1, true)
+                currentItem += 1
             }
         }
     }
