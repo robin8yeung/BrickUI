@@ -1,7 +1,10 @@
 package com.seewo.brick.ktx // 包名别改
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import androidx.annotation.AnimatorRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -80,3 +83,6 @@ fun @receiver:StringRes Int.getString(vararg params: Any): String = BrickUI.stri
  */
 val @receiver:DimenRes Int.dimension: Int
     get() = BrickUI.dimension(this)
+
+val @receiver:AnimatorRes Int.animator: Animator
+    get() = AnimatorInflater.loadAnimator(applicationContext, this)

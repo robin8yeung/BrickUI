@@ -3,6 +3,7 @@ package com.seewo.brick.app.component.pager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.seewo.brick.app.component.pager.page.FragmentPagerPage
+import com.seewo.brick.app.component.pager.page.LoopViewPagerPage
 import com.seewo.brick.app.component.pager.page.TabLayoutViewPagerPage
 import com.seewo.brick.app.component.pager.page.ViewPagerPage
 import com.seewo.brick.app.widget.multiTabViewPager
@@ -17,15 +18,17 @@ class PagerActivity : AppCompatActivity() {
         setStatusBarTransparent(true)
         setContentView(multiTabViewPager(
             data = listOf(
+                "轮播图",
+                "TabLayout分页切换",
                 "分页切换",
                 "Fragment分页切换",
-                "TabLayout分页切换",
             ),
             viewPagerBuilder = { _, index ->
                 when (index) {
-                    0 -> ViewPagerPage()
-                    1 -> FragmentPagerPage()
-                    2 -> TabLayoutViewPagerPage()
+                    0 -> LoopViewPagerPage()
+                    1 -> TabLayoutViewPagerPage()
+                    2 -> ViewPagerPage()
+                    3 -> FragmentPagerPage()
                     else -> frameLayout(
                         MATCH_PARENT, MATCH_PARENT,
                     )

@@ -52,6 +52,7 @@ dependencies {
     implementation project(':core')
     implementation project(':live')
     implementation project(':smart-refresh')
+    implementation project(':loop-pager')
     implementation project(':glide')
     implementation rootProject.ext.deps.glide
 
