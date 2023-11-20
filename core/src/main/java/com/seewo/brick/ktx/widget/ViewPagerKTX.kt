@@ -22,14 +22,13 @@ import com.seewo.brick.params.EdgeInsets
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  * @param viewHolder 自定义ItemView的容器。调用端需要确保传进来的是个ViewGroup【！如果使用BrickUI传入，需要用itemView包裹】
  */
-fun <T> ViewGroup.viewPager(
+fun <T> Context.viewPager(
     width: Int, height: Int,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
     foreground: Drawable? = null,
     background: Drawable? = null,
-    margin: EdgeInsets? = null,
     padding: EdgeInsets? = null,
     visibility: Int? = null,
     fitsSystemWindows: Boolean = false,
@@ -46,7 +45,7 @@ fun <T> ViewGroup.viewPager(
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
     block: Context.(List<T>, Int) -> View,
-) = ViewPager2(context, null, 0, style).apply {
+) = ViewPager2(this, null, 0, style).apply {
     setup(
         width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
@@ -78,7 +77,44 @@ fun <T> ViewGroup.viewPager(
             onPageScrollStateChanged?.invoke(state)
         }
     })
-}.also { addView(it) }.applyMargin(margin)
+}
+
+/**
+ * ViewPager的LiveData封装
+ *
+ * @param isUserInputEnable 是否允许用户操作翻页。默认允许。
+ * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
+ * @param viewHolder 自定义ItemView的容器。调用端需要确保传进来的是个ViewGroup【！如果使用BrickUI传入，需要用itemView包裹】
+ */
+fun <T> ViewGroup.viewPager(
+    width: Int, height: Int,
+    @StyleRes style: Int = 0,
+    @IdRes id: Int? = null,
+    tag: Any? = null,
+    foreground: Drawable? = null,
+    background: Drawable? = null,
+    margin: EdgeInsets? = null,
+    padding: EdgeInsets? = null,
+    visibility: Int? = null,
+    fitsSystemWindows: Boolean = false,
+
+    isUserInputEnable: Boolean? = null,
+    offscreenPageLimit: Int? = null,
+    overScrollMode: Int? = null,
+    viewHolder: ViewGroup? = null,
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+    data: List<T>? = null,
+    onClick: View.OnClickListener? = null,
+
+    onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
+    onPageSelected: ((position: Int) -> Unit)? = null,
+    onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
+    block: Context.(List<T>, Int) -> View,
+) = context.viewPager(
+    width, height, style, id, tag, foreground, background, padding, visibility, fitsSystemWindows,
+    isUserInputEnable, offscreenPageLimit, overScrollMode, viewHolder, itemDecoration, data, onClick,
+    onPageScrolled, onPageSelected, onPageScrollStateChanged, block
+).also { addView(it) }.applyMargin(margin)
 
 private fun <T> ViewPager2.loadData(
     viewHolderView: ViewGroup?,

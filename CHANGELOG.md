@@ -1,5 +1,10 @@
 # Change LOG
 
+### 0.2.31
+
+- [feature] 添加nestedScrollableChild，帮助解决ViewPager2等的嵌套导致的滑动冲突问题
+- [improve] 为viewPager添加以Context为接收者的函数
+
 ### 0.2.30
 
 - [feature] 添加brick函数用于嵌入普通View，废弃view函数
