@@ -37,6 +37,7 @@ dependencies {
 
     compileOnly project(':core')
     compileOnly project(':smart-refresh')
+    compileOnly project(':loop-pager')
 
     def lifecycle_version = "2.5.1"
 

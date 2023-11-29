@@ -23,7 +23,7 @@ import com.seewo.brick.params.EdgeInsets
  * @param viewHolder 自定义ItemView的容器。调用端需要确保传进来的是个ViewGroup【！如果使用BrickUI传入，需要用itemView包裹】
  */
 fun <T> Context.viewPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
@@ -87,7 +87,7 @@ fun <T> Context.viewPager(
  * @param viewHolder 自定义ItemView的容器。调用端需要确保传进来的是个ViewGroup【！如果使用BrickUI传入，需要用itemView包裹】
  */
 fun <T> ViewGroup.viewPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,

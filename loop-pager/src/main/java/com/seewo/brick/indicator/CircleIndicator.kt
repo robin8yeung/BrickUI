@@ -20,6 +20,7 @@ class CircleIndicator(context: Context) : BaseCircleIndicator(context) {
             removeOnPageChangeListener(mInternalPageChangeListener)
             addOnPageChangeListener(mInternalPageChangeListener)
             mInternalPageChangeListener.onPageSelected(currentItem)
+            mViewpager?.adapter?.registerDataSetObserver(dataSetObserver)
         }
     }
 

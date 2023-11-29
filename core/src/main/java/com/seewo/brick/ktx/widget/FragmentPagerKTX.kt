@@ -24,7 +24,7 @@ import com.seewo.brick.params.EdgeInsets
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> Context.fragmentPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
@@ -75,7 +75,7 @@ fun <T> Context.fragmentPager(
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> ViewGroup.fragmentPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,

@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.32
+
+- [feature] loop-pager提供live支持
+
 ### 0.2.31
 
 - [feature] 添加nestedScrollableChild，帮助解决ViewPager2等的嵌套导致的滑动冲突问题

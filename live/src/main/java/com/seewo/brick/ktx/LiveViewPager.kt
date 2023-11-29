@@ -29,7 +29,7 @@ import kotlin.math.abs
  * @see ViewGroup.viewPager
  */
 fun <T> ViewGroup.liveViewPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
@@ -125,7 +125,7 @@ fun <T> ViewGroup.liveViewPager(
  * @see ViewGroup.fragmentPager
  */
 fun <T> Context.liveFragmentPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,
@@ -173,7 +173,7 @@ fun <T> Context.liveFragmentPager(
  * @see ViewGroup.fragmentPager
  */
 fun <T> ViewGroup.liveFragmentPager(
-    width: Int, height: Int,
+    width: Int = MATCH_PARENT, height: Int = WRAP_CONTENT,
     @StyleRes style: Int = 0,
     @IdRes id: Int? = null,
     tag: Any? = null,

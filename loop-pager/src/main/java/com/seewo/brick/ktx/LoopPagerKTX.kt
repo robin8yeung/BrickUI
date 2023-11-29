@@ -113,7 +113,7 @@ private fun <T> ViewPager.loadData(
     if (adapter == null) {
         adapter = LoopPagerAdapterWrapper(SimpleViewPagerAdapter(data, block))
     } else {
-        (adapter as? BrickRecyclerViewAdapter<T>)?.update(data)
+        ((adapter as? LoopPagerAdapterWrapper)?.realAdapter as? BrickRecyclerViewAdapter<T>)?.update(data)
     }
 }
 
