@@ -1,8 +1,9 @@
 # Change LOG
 
-### 0.2.32
+### 0.2.33
 
 - [feature] loop-pager提供live支持
+- [feature] glideImage提供live支持
 
 ### 0.2.31
 

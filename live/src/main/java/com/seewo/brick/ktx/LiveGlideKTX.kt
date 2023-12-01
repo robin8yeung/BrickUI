@@ -1,33 +1,71 @@
 package com.seewo.brick.ktx
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
-import com.bumptech.glide.load.resource.bitmap.Rotate
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.seewo.brick.glide.exception.GlideBlurTransformation
-import com.seewo.brick.params.CornerRadius
 
-@SuppressLint("CheckResult")
-fun <T: ViewGroup> T.glideImage(
-    urlOrPath: String?,
+fun <T : ViewGroup> T.liveGlideImage(
+    urlOrPath: LiveData<String>,
     transition: DrawableTransitionOptions? = null,
     requestListener: RequestListener<Drawable>? = null,
     onLoadFailed: ((GlideException?) -> Unit)? = null,
     onResourceReady: ((Drawable) -> Unit)? = null,
     requestOptions: RequestOptions? = null,
+    lifecycleOwner: LifecycleOwner? = null,
     block: T.() -> ImageView,
-) = block().apply {
-    urlOrPath ?: return@apply
+) = glideImage(
+    null,
+    transition,
+    requestListener,
+    onLoadFailed,
+    onResourceReady,
+    requestOptions,
+    block,
+).apply {
+    if (lifecycleOwner != null) {
+        urlOrPath.bind(lifecycleOwner) {
+            loadImage(
+                it,
+                requestOptions,
+                transition,
+                requestListener,
+                onLoadFailed,
+                onResourceReady
+            )
+        }
+    } else {
+        urlOrPath.bind(context) {
+            loadImage(
+                it,
+                requestOptions,
+                transition,
+                requestListener,
+                onLoadFailed,
+                onResourceReady
+            )
+        }
+    }
+}
+
+private fun ImageView.loadImage(
+    urlOrPath: String?,
+    requestOptions: RequestOptions? = null,
+    transition: DrawableTransitionOptions? = null,
+    requestListener: RequestListener<Drawable>?,
+    onLoadFailed: ((GlideException?) -> Unit)?,
+    onResourceReady: ((Drawable) -> Unit)?
+) {
+    urlOrPath ?: return
     Glide.with(this)
         .load(urlOrPath)
         .apply {
@@ -54,7 +92,13 @@ fun <T: ViewGroup> T.glideImage(
                 isFirstResource: Boolean
             ): Boolean {
                 onResourceReady?.invoke(resource)
-                requestListener?.onResourceReady(resource, model, target, dataSource, isFirstResource)
+                requestListener?.onResourceReady(
+                    resource,
+                    model,
+                    target,
+                    dataSource,
+                    isFirstResource
+                )
                 return false
             }
 
@@ -62,14 +106,48 @@ fun <T: ViewGroup> T.glideImage(
         .into(this)
 }
 
-fun  <T: ViewGroup> T.glideGif(
+fun <T : ViewGroup> T.liveGlideGif(
+    urlOrPath: LiveData<String>,
+    requestListener: RequestListener<GifDrawable>? = null,
+    onLoadFailed: ((GlideException?) -> Unit)? = null,
+    onResourceReady: ((GifDrawable) -> Unit)? = null,
+    lifecycleOwner: LifecycleOwner? = null,
+    block: T.() -> ImageView
+) = glideGif(
+    null,
+    requestListener,
+    onLoadFailed,
+    onResourceReady,
+    block,
+).apply {
+    if (lifecycleOwner != null) {
+        urlOrPath.bind(lifecycleOwner) {
+            loadGif(
+                it,
+                requestListener,
+                onLoadFailed,
+                onResourceReady
+            )
+        }
+    } else {
+        urlOrPath.bind(context) {
+            loadGif(
+                it,
+                requestListener,
+                onLoadFailed,
+                onResourceReady
+            )
+        }
+    }
+}
+
+private fun ImageView.loadGif(
     urlOrPath: String?,
     requestListener: RequestListener<GifDrawable>? = null,
     onLoadFailed: ((GlideException?) -> Unit)? = null,
     onResourceReady: ((GifDrawable) -> Unit)? = null,
-    block: T.() -> ImageView
-) = block().apply {
-    urlOrPath ?: return@apply
+) {
+    urlOrPath ?: return
     Glide.with(this)
         .asGif()
         .load(urlOrPath)
@@ -100,17 +178,3 @@ fun  <T: ViewGroup> T.glideGif(
         })
         .into(this)
 }
-
-fun RequestOptions.roundedCorners(
-    radius: CornerRadius,
-) = transform(GranularRoundedCorners(
-    radius.leftTop, radius.rightTop, radius.rightBottom, radius.leftBottom)
-)
-
-fun RequestOptions.rotate(
-    degrees: Int,
-) = transform(Rotate(degrees))
-
-fun RequestOptions.blur(
-    radius: Float,
-) = transform(GlideBlurTransformation(applicationContext, radius))

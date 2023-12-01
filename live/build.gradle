@@ -38,6 +38,8 @@ dependencies {
     compileOnly project(':core')
     compileOnly project(':smart-refresh')
     compileOnly project(':loop-pager')
+    compileOnly project(':glide')
+    compileOnly rootProject.ext.deps.glide
 
     def lifecycle_version = "2.5.1"
 
