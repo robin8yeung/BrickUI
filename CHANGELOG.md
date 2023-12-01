@@ -1,8 +1,9 @@
 # Change LOG
 
-### 0.2.33
+### 0.2.34
 
 - [feature] loop-pager提供live支持
+- [feature] loop-pager支持设置滚动动画时长
 - [feature] glideImage提供live支持
 
 ### 0.2.31

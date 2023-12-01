@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.seewo.brick.pager.LoopPagerAdapterWrapper
 import com.seewo.brick.pager.LoopViewPager
 import com.seewo.brick.params.EdgeInsets
+import com.seewo.brick.view.trySetDuration
 import kotlin.time.Duration
 
 
@@ -20,6 +21,7 @@ import kotlin.time.Duration
  * 为适配BrickUI，引入到本项目中并做一定修改
  *
  * @param duration 轮播自动翻页间隔。null则不自动翻页
+ * @param scrollDuration viewPager滚动动画时长，单位毫秒
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> Context.loopPager(
@@ -38,6 +40,7 @@ fun <T> Context.loopPager(
     onClick: View.OnClickListener? = null,
 
     duration: Duration? = null,
+    scrollDuration: Int? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
@@ -73,11 +76,15 @@ fun <T> Context.loopPager(
         }
     })
     setDuration(duration)
+    scrollDuration?.let { trySetDuration(it) }
 }.applyMargin(margin)
 
 /**
- * LoopViewPager的LiveData封装
+ * 封装LoopViewPager：https://github.com/ongakuer/CircleIndicator
+ * 为适配BrickUI，引入到本项目中并做一定修改
  *
+ * @param duration 轮播自动翻页间隔。null则不自动翻页
+ * @param scrollDuration viewPager滚动动画时长，单位毫秒
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  */
 fun <T> ViewGroup.loopPager(
@@ -96,6 +103,7 @@ fun <T> ViewGroup.loopPager(
     onClick: View.OnClickListener? = null,
 
     duration: Duration? = null,
+    scrollDuration: Int? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
@@ -103,7 +111,7 @@ fun <T> ViewGroup.loopPager(
 ) = context.loopPager(
     width, height, id, tag, foreground, background, margin, padding, visibility,
     fitsSystemWindows, offscreenPageLimit, overScrollMode, data, onClick,
-    duration, onPageScrolled, onPageSelected, onPageScrollStateChanged, block,
+    duration, scrollDuration, onPageScrolled, onPageSelected, onPageScrollStateChanged, block,
 ).also { addView(it) }.applyMargin(margin)
 
 private fun <T> ViewPager.loadData(

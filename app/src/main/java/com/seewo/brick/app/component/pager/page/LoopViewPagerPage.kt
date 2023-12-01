@@ -52,6 +52,7 @@ private fun LinearLayout.LoopViewPager() {
                 R.drawable.page3,
             ),
             duration = 1.seconds,
+            scrollDuration = 300,
             onPageSelected = {
                 Log.i("BrickUI", "onPageSelected: $it")
             }

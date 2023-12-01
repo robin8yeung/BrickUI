@@ -18,6 +18,8 @@ import kotlin.time.Duration
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  * @param currentIndex 当前页控制
  * @param smoothScroll 当currentIndex变化时，在【相邻页】是否展示动画滑动效果。
+ * @param duration 轮播自动翻页间隔。null则不自动翻页
+ * @param scrollDuration viewPager滚动动画时长，单位毫秒
  *
  * @see ViewGroup.loopPager
  */
@@ -42,6 +44,7 @@ fun <T> ViewGroup.liveLoopPager(
     onClick: View.OnClickListener? = null,
 
     duration: Duration? = null,
+    scrollDuration: Int? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
@@ -59,6 +62,7 @@ fun <T> ViewGroup.liveLoopPager(
     offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode,
     duration = duration,
+    scrollDuration = scrollDuration,
     onClick = onClick,
     onPageScrolled = onPageScrolled,
     onPageSelected = onPageSelected,
@@ -118,6 +122,8 @@ fun <T> ViewGroup.liveLoopPager(
  * @param offscreenPageLimit 允许相邻几页进行离屏缓存。默认0.
  * @param currentIndex 当前页控制
  * @param smoothScroll 当currentIndex变化时，是否展示动画滑动效果。
+ * @param duration 轮播自动翻页间隔。null则不自动翻页
+ * @param scrollDuration viewPager滚动动画时长，单位毫秒
  *
  * @see ViewGroup.fragmentPager
  */
@@ -142,6 +148,7 @@ fun <T> Context.liveLoopPager(
     onClick: View.OnClickListener? = null,
 
     duration: Duration? = null,
+    scrollDuration: Int? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
     onPageScrollStateChanged: ((state: Int) -> Unit)? = null,
@@ -159,6 +166,7 @@ fun <T> Context.liveLoopPager(
     offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode,
     duration = duration,
+    scrollDuration = scrollDuration,
     onClick = onClick,
     onPageScrolled = onPageScrolled,
     onPageSelected = onPageSelected,
