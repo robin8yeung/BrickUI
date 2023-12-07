@@ -17,6 +17,8 @@ package com.seewo.brick.pager
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import kotlinx.coroutines.Job
@@ -34,21 +36,40 @@ class LoopViewPager : ViewPager {
     private var mDurationJob: Job? = null
 
     constructor(context: Context) : super(context) {
-        init()
+        init(context)
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init()
+        init(context)
     }
 
-    private fun init() {
+    private fun init(context: Context) {
         super.removeOnPageChangeListener(onPageChangeListener)
         super.addOnPageChangeListener(onPageChangeListener)
+        if (context is LifecycleOwner) {
+            context.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    if (!isAttachedToWindow) return
+                    mDuration?.let {
+                        setDuration(it)
+                    }
+                }
+
+                override fun onStop(owner: LifecycleOwner) {
+                    mDurationJob?.cancel()
+                }
+
+                override fun onDestroy(owner: LifecycleOwner) {
+                    owner.lifecycle.removeObserver(this)
+                }
+            })
+        }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         mDuration?.let {
+            // 避免出现奇怪的翻页动画
             if (currentItem == (adapter?.count ?: 0) - 1) {
                 setCurrentItem(0, false)
             }

@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.35
+
+- [improve] loop-pager在onStop时，停止轮播，onStart恢复轮播
+
 ### 0.2.34
 
 - [feature] loop-pager提供live支持
