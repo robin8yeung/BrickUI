@@ -9,6 +9,7 @@ import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Build
 import androidx.annotation.ColorInt
+import com.seewo.brick.cache.DrawableCache
 import com.seewo.brick.drawable.OvalClipDrawable
 import com.seewo.brick.drawable.RectClipDrawable
 import com.seewo.brick.params.CornerRadius
@@ -23,6 +24,7 @@ import com.seewo.brick.params.CornerRadius
  * @param shape 形状
  * @param corners 圆角（仅形状为 GradientDrawable.RECTANGLE 生效）
  * @param colors 颜色集 当传入多个颜色，则呈现为渐变
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
  *
  * @see GradientDrawable
  */
@@ -38,7 +40,8 @@ fun shapeDrawable(
     @ColorInt strokeColor: Int? = null,
     strokeWidth: Int? = null,
     alpha: Int? = null,
-) = GradientDrawable().apply {
+    cacheKey: String? = null,
+) = cacheKey.mayGetFormCache() ?: GradientDrawable().apply {
     this.shape = shape
     this.gradientType = gradientType
     this.orientation = orientation
@@ -57,10 +60,12 @@ fun shapeDrawable(
         setSize(width, height)
     }
     alpha?.let { this.alpha = alpha }
-}
+}.mayPutToCache(cacheKey)
 
 /**
  * 构建圆形/椭圆形Drawable
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
  */
 fun ovalDrawable(
     width: Int? = null, height: Int? = null,
@@ -68,16 +73,20 @@ fun ovalDrawable(
     @ColorInt strokeColor: Int? = null,
     strokeWidth: Int? = null,
     alpha: Int? = null,
+    cacheKey: String? = null,
 ) = shapeDrawable(
     width, height, GradientDrawable.OVAL,
     colors = intArrayOf(fillColor),
     strokeColor = strokeColor,
     strokeWidth = strokeWidth,
-    alpha = alpha
+    alpha = alpha,
+    cacheKey = cacheKey
 )
 
 /**
  * 构建矩形/圆角矩形Drawable
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
  */
 fun rectDrawable(
     width: Int? = null, height: Int? = null,
@@ -86,13 +95,15 @@ fun rectDrawable(
     @ColorInt strokeColor: Int? = null,
     strokeWidth: Int? = null,
     alpha: Int? = null,
+    cacheKey: String? = null,
 ) = shapeDrawable(
     width, height, GradientDrawable.RECTANGLE,
     corners = corners,
     colors = intArrayOf(fillColor),
     strokeColor = strokeColor,
     strokeWidth = strokeWidth,
-    alpha = alpha
+    alpha = alpha,
+    cacheKey = cacheKey
 )
 
 /**
@@ -102,12 +113,30 @@ val Drawable.clipOval: Drawable
     get() = OvalClipDrawable(this)
 
 /**
- * Drawable裁剪为圆角矩形
+ * Drawable裁剪为圆形
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
  */
-fun Drawable.clipRect(radius: Int) = RectClipDrawable(this, radius.toFloat())
+fun Drawable.clipOval(
+    cacheKey: String? = null,
+): Drawable = cacheKey.mayGetFormCache() ?: OvalClipDrawable(this).mayPutToCache(cacheKey)
+
+/**
+ * Drawable裁剪为圆角矩形
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
+ */
+fun Drawable.clipRect(
+    radius: Int,
+    cacheKey: String? = null,
+) = cacheKey.mayGetFormCache()
+    ?: RectClipDrawable(this, radius.toFloat()).mayPutToCache(cacheKey)
 
 /**
  * 构建LayerDrawable
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
+ *
  * 示例：
  * layerDrawable(
  *     arrayOf(
@@ -126,16 +155,19 @@ fun layerDrawable(
     layerWidth: Int? = null,
     layerHeight: Int? = null,
     layerGravity: Int? = null,
-): LayerDrawable = LayerDrawable(layers).apply {
+    cacheKey: String? = null,
+): LayerDrawable = cacheKey.mayGetFormCache() ?: LayerDrawable(layers).apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         layerWidth?.let { setLayerWidth(0, it) }
         layerHeight?.let { setLayerHeight(0, it) }
         layerGravity?.let { setLayerGravity(0, it) }
     }
-}
+}.mayPutToCache(cacheKey)
 
 /**
  * 等效于selector
+ *
+ * @param cacheKey 用于缓存Drawable的key，避免重复构建，调用方需要保证其唯一性
  *
  * 示例：
  * stateListDrawable(mapOf(
@@ -158,12 +190,13 @@ fun layerDrawable(
  *
  */
 fun stateListDrawable(
-    states: Map<IntArray, Drawable>
-): Drawable = StateListDrawable().apply {
+    states: Map<IntArray, Drawable>,
+    cacheKey: String? = null,
+): Drawable = cacheKey.mayGetFormCache() ?: StateListDrawable().apply {
     states.forEach { (k, v) ->
         addState(k, v)
     }
-}
+}.mayPutToCache(cacheKey)
 
 /**
  * 等效于selector
@@ -185,4 +218,12 @@ fun stateListColor(
     states: Map<IntArray, Int>
 ): ColorStateList {
     return ColorStateList(states.keys.toTypedArray(), states.values.toIntArray())
+}
+
+private inline fun <reified T: Drawable> String?.mayGetFormCache(): T? = this?.let {
+    DrawableCache.get(it)
+}
+
+private inline fun <T: Drawable> T.mayPutToCache(key: String?): T = apply {
+    DrawableCache.put(key ?: return@apply, this)
 }

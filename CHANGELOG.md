@@ -1,5 +1,9 @@
 # Change LOG
 
+### 0.2.36
+
+- [feature] 为DrawableKTX增加简单的缓存机制，调用方需要设置cacheKey以使其生效，并需要保证cacheKey不变且唯一
+
 ### 0.2.35
 
 - [improve] loop-pager在onStop时，停止轮播，onStart恢复轮播
