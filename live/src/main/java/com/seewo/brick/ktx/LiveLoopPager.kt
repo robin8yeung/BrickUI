@@ -43,7 +43,8 @@ fun <T> ViewGroup.liveLoopPager(
     lifecycleOwner: LifecycleOwner? = null,
     onClick: View.OnClickListener? = null,
 
-    duration: Duration? = null,
+    duration: LiveData<Duration>? = null,
+
     scrollDuration: Int? = null,
     onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null,
     onPageSelected: ((position: Int) -> Unit)? = null,
@@ -62,7 +63,6 @@ fun <T> ViewGroup.liveLoopPager(
     fitsSystemWindows = fitsSystemWindows,
     offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode,
-    duration = duration,
     scrollDuration = scrollDuration,
     onClick = onClick,
     onPageScrolled = onPageScrolled,
@@ -70,31 +70,21 @@ fun <T> ViewGroup.liveLoopPager(
     onPageScrollStateChanged = onPageScrollStateChanged,
     block = block,
 ).apply {
-    if (lifecycleOwner != null) {
-        data?.bindNotNull(lifecycleOwner) {
+    (lifecycleOwner ?: context as? LifecycleOwner)?.run {
+        data?.bindNotNull(this) {
             update(it)
         }
-        visibility?.bindNotNull(lifecycleOwner) {
+        visibility?.bindNotNull(this) {
             this@apply.visibility = it
         }
-        currentIndex?.bindNotNull(lifecycleOwner) {
+        currentIndex?.bindNotNull(this) {
             if (it == currentItem) return@bindNotNull
             if (abs(it - currentItem) == 1) {
                 setCurrentItem(it, smoothScroll)
             } else setCurrentItem(it, false)
         }
-    } else {
-        data?.bindNotNull(context) {
-            update(it)
-        }
-        visibility?.bindNotNull(context) {
-            this@apply.visibility = it
-        }
-        currentIndex?.bindNotNull(context) {
-            if (it == currentItem) return@bindNotNull
-            if (abs(it - currentItem) == 1) {
-                setCurrentItem(it, smoothScroll)
-            } else setCurrentItem(it, false)
+        duration?.bind(this) {
+            setDuration(it)
         }
     }
 
