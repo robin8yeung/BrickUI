@@ -18,6 +18,7 @@ package com.seewo.brick.pager
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
+import android.view.ViewGroup
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.PagerAdapter
@@ -99,7 +100,7 @@ class LoopViewPager : ViewPager {
 
     private fun LoopViewPager.fixBugViewPagerAnimationInterrupted() {
         // 当ViewPager在RecyclerView中，当detach时，ViewPager的动画会被中断
-        ViewPager::class.java.getDeclaredMethod("onDetachedFromWindow").runCatching {
+        ViewGroup::class.java.getDeclaredMethod("clearCachedLayoutMode").runCatching {
             isAccessible = true
             invoke(this@LoopViewPager)
         }

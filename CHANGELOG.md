@@ -1,6 +1,6 @@
 # Change LOG
 
-### 0.2.38
+### 0.2.39
 
 - [fix] 修复loopPager嵌套在RecyclerView或ViewPager中时，进行自动动画翻页时的几个经典bug，如翻页动画丢失，动画卡在一半
 - [fix] 修复liveLoopPager闪退问题，liveLoopPager的duration改为LiveData类型
