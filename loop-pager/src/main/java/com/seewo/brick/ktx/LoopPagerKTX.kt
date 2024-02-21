@@ -50,7 +50,7 @@ fun <T> Context.loopPager(
         width, height, id, tag, foreground, background, padding, visibility,
         fitsSystemWindows = fitsSystemWindows, onClick = onClick,
     )
-    loadData(data ?: listOf(), block)
+    loadData(data ?: emptyList(), block)
     overScrollMode?.let {
         this.overScrollMode = it
         this.runCatching {
@@ -114,21 +114,29 @@ fun <T> ViewGroup.loopPager(
     duration, scrollDuration, onPageScrolled, onPageSelected, onPageScrollStateChanged, block,
 ).also { addView(it) }.applyMargin(margin)
 
-private fun <T> ViewPager.loadData(
+private fun <T> LoopViewPager.loadData(
     data: List<T>,
     block: Context.(List<T>, Int) -> View,
 ) {
     if (adapter == null) {
         adapter = LoopPagerAdapterWrapper(SimpleViewPagerAdapter(data, block))
     } else {
-        ((adapter as? LoopPagerAdapterWrapper)?.realAdapter as? BrickRecyclerViewAdapter<T>)?.update(data)
+        update(data)
     }
+}
+
+fun <T> LoopViewPager.update(data: List<T>) {
+    ((adapter as? LoopPagerAdapterWrapper)?.realAdapter as? BrickRecyclerViewAdapter<T>)?.update(data)
 }
 
 private class SimpleViewPagerAdapter<T>(
     private var data: List<T>,
     private val block: Context.(List<T>, Int) -> View,
 ) : PagerAdapter(), BrickRecyclerViewAdapter<T> {
+
+    init {
+        if (data.isEmpty()) throw IllegalArgumentException("Data must not be empty")
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun update(data: List<T>) {

@@ -58,6 +58,7 @@ fun <T> ViewGroup.liveLoopPager(
     background,
     margin,
     padding,
+    data = data?.data,
     fitsSystemWindows = fitsSystemWindows,
     offscreenPageLimit = offscreenPageLimit,
     overScrollMode = overScrollMode,
@@ -71,9 +72,7 @@ fun <T> ViewGroup.liveLoopPager(
 ).apply {
     if (lifecycleOwner != null) {
         data?.bindNotNull(lifecycleOwner) {
-            ((adapter as? LoopPagerAdapterWrapper)?.realAdapter as? BrickRecyclerViewAdapter<T>)?.update(
-                it
-            )
+            update(it)
         }
         visibility?.bindNotNull(lifecycleOwner) {
             this@apply.visibility = it
@@ -86,9 +85,7 @@ fun <T> ViewGroup.liveLoopPager(
         }
     } else {
         data?.bindNotNull(context) {
-            ((adapter as? LoopPagerAdapterWrapper)?.realAdapter as? BrickRecyclerViewAdapter<T>)?.update(
-                it
-            )
+            update(it)
         }
         visibility?.bindNotNull(context) {
             this@apply.visibility = it

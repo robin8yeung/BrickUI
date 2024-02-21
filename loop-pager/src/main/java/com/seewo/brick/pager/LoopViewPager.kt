@@ -15,6 +15,7 @@
  */
 package com.seewo.brick.pager
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -34,6 +35,7 @@ class LoopViewPager : ViewPager {
     private var mOnPageChangeListeners: MutableList<OnPageChangeListener>? = null
     private var mDuration: Duration? = null
     private var mDurationJob: Job? = null
+    private var mFirstAttach = true
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -68,18 +70,39 @@ class LoopViewPager : ViewPager {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        fixBugResetFirstLayout()
         mDuration?.let {
-            // 避免出现奇怪的翻页动画
-            if (currentItem == (adapter?.count ?: 0) - 1) {
-                setCurrentItem(0, false)
-            }
             setDuration(it)
         }
     }
 
+    private fun LoopViewPager.fixBugResetFirstLayout() {
+        if (!mFirstAttach) {
+            // 避免在RecyclerView或父级ViewPager中，二次attach后，首次smoothScroll时丢失动画
+            ViewPager::class.java.getDeclaredField("mFirstLayout").runCatching {
+                isAccessible = true
+                setBoolean(this@LoopViewPager, false)
+            }
+        } else {
+            mFirstAttach = false
+        }
+    }
+
     override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
+        if ((context as? Activity)?.isDestroyed != false) {
+            super.onDetachedFromWindow()
+        } else {
+            fixBugViewPagerAnimationInterrupted()
+        }
         mDurationJob?.cancel()
+    }
+
+    private fun LoopViewPager.fixBugViewPagerAnimationInterrupted() {
+        // 当ViewPager在RecyclerView中，当detach时，ViewPager的动画会被中断
+        ViewPager::class.java.getDeclaredMethod("onDetachedFromWindow").runCatching {
+            isAccessible = true
+            invoke(this@LoopViewPager)
+        }
     }
 
     /**
