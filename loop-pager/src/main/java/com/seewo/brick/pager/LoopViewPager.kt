@@ -15,6 +15,7 @@
  */
 package com.seewo.brick.pager
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
@@ -79,10 +80,12 @@ class LoopViewPager : ViewPager {
 
     private fun LoopViewPager.fixBugResetFirstLayout() {
         if (!mFirstAttach) {
-            // 避免在RecyclerView或父级ViewPager中，二次attach后，首次smoothScroll时丢失动画
-            ViewPager::class.java.getDeclaredField("mFirstLayout").runCatching {
-                isAccessible = true
-                setBoolean(this@LoopViewPager, false)
+            runCatching {
+                // 避免在RecyclerView或父级ViewPager中，二次attach后，首次smoothScroll时丢失动画
+                ViewPager::class.java.getDeclaredField("mFirstLayout").run {
+                    isAccessible = true
+                    setBoolean(this@LoopViewPager, false)
+                }
             }
         } else {
             mFirstAttach = false
@@ -98,12 +101,16 @@ class LoopViewPager : ViewPager {
         mDurationJob?.cancel()
     }
 
+    @SuppressLint("SoonBlockedPrivateApi")
     private fun LoopViewPager.fixBugViewPagerAnimationInterrupted() {
         // 当ViewPager在RecyclerView中，当detach时，ViewPager的动画会被中断
-        ViewGroup::class.java.getDeclaredMethod("clearCachedLayoutMode").runCatching {
-            isAccessible = true
-            invoke(this@LoopViewPager)
+        runCatching {
+            ViewGroup::class.java.getDeclaredMethod("clearCachedLayoutMode").run {
+                isAccessible = true
+                invoke(this@LoopViewPager)
+            }
         }
+
     }
 
     /**
