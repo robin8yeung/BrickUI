@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.google.android.material.tabs.TabLayout
@@ -573,6 +574,7 @@ fun <T> ViewGroup.liveTabLayout(
     selectedTabIndicator: LayerDrawable? = null,
     @DrawableRes selectedTabIndicatorRes: Int? = null,
     @TabLayout.TabGravity tabGravity: Int? = null,
+    fixedItemWidth: Int? = null,
     onTabSelected: ((TabLayout.Tab) -> Unit)? = null,
     onTabUnselected: ((TabLayout.Tab) -> Unit)? = null,
     onTabReleased: ((TabLayout.Tab) -> Unit)? = null,
@@ -587,6 +589,7 @@ fun <T> ViewGroup.liveTabLayout(
     selectedTabIndicator = selectedTabIndicator,
     selectedTabIndicatorRes = selectedTabIndicatorRes,
     tabGravity = tabGravity,
+    fixedItemWidth = fixedItemWidth,
     onTabSelected = {
         onTabSelected?.invoke(it)
         currentIndex.data = it.position
@@ -605,7 +608,7 @@ fun <T> ViewGroup.liveTabLayout(
             }
         }
         data.bindNotNull(lifecycleOwner) {
-            updateTabs(it, block)
+            updateTabs(it, fixedItemWidth, block)
         }
     } else {
         visibility?.bindNotNull(context) {
@@ -617,14 +620,15 @@ fun <T> ViewGroup.liveTabLayout(
             }
         }
         data.bindNotNull(context) {
-            updateTabs(it, block)
+            updateTabs(it, fixedItemWidth, block)
         }
     }
 }
 
 private fun <T> TabLayout.updateTabs(
     it: List<T>,
-    block: (Context.(index: Int, item: T) -> View)?
+    fixedItemWidth: Int? = null,
+    block: (Context.(index: Int, item: T) -> View)? = null,
 ) {
     removeAllTabs()
     it.forEachIndexed { index, item ->
@@ -632,6 +636,19 @@ private fun <T> TabLayout.updateTabs(
             newTab().apply {
                 customView = itemView
             }.also { addTab(it) }
+        }
+    }
+    fixedItemWidth?.let {
+        children.forEach {
+            (it as? ViewGroup)?.children?.forEachIndexed { _, tab ->
+                tab.post {
+                    tab.setPadding(0, 0, 0, 0)
+                    tab.minimumWidth = 0
+                    tab.layoutParams = tab.layoutParams.apply {
+                        this?.width = fixedItemWidth
+                    }
+                }
+            }
         }
     }
 }

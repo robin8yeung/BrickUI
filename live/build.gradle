@@ -35,6 +35,8 @@ dependencies {
     implementation rootProject.ext.deps.android.appcompat
     implementation rootProject.ext.deps.android.material
 
+    implementation rootProject.ext.deps.ktx.core
+
     compileOnly project(':core')
     compileOnly project(':smart-refresh')
     compileOnly project(':loop-pager')

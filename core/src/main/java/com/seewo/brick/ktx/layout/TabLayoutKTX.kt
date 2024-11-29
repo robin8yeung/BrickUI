@@ -55,6 +55,7 @@ fun <T> ViewGroup.tabLayout(
     selectedTabIndicator: LayerDrawable? = null,
     @DrawableRes selectedTabIndicatorRes: Int? = null,
     @TabGravity tabGravity: Int? = null,
+    fixedItemWidth: Int? = null,
     onTabSelected: ((Tab) -> Unit)? = null,
     onTabUnselected: ((Tab) -> Unit)? = null,
     onTabReselected: ((Tab) -> Unit)? = null,
@@ -77,6 +78,7 @@ fun <T> ViewGroup.tabLayout(
     selectedTabIndicator,
     selectedTabIndicatorRes,
     tabGravity,
+    fixedItemWidth,
     onTabSelected,
     onTabUnselected,
     onTabReselected,
@@ -115,6 +117,7 @@ fun <T> Context.tabLayout(
     selectedTabIndicator: LayerDrawable? = null,
     @DrawableRes selectedTabIndicatorRes: Int? = null,
     @TabGravity tabGravity: Int? = null,
+    fixedItemWidth: Int? = null,
     onTabSelected: ((Tab) -> Unit)? = null,
     onTabUnselected: ((Tab) -> Unit)? = null,
     onTabReselected: ((Tab) -> Unit)? = null,
@@ -165,6 +168,20 @@ fun <T> Context.tabLayout(
             onTabReselected?.invoke(tab)
         }
     })
+}.apply {
+    fixedItemWidth?.let {
+        children.forEach {
+            (it as? ViewGroup)?.children?.forEachIndexed { _, tab ->
+                tab.post {
+                    tab.setPadding(0, 0, 0, 0)
+                    tab.minimumWidth = 0
+                    tab.layoutParams = tab.layoutParams.apply {
+                        this?.width = fixedItemWidth
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
