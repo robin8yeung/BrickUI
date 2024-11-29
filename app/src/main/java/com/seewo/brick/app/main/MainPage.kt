@@ -43,11 +43,11 @@ fun Context.mainPage() = column(
         Pair(R.drawable.selector_icon_tabbar_component, "控件"),
         Pair(R.drawable.selector_icon_tabbar_util, "工具"),
         Pair(R.drawable.selector_icon_tabbar_expand, "扩展"),
-    )
+    ).static
     expand {
         liveViewPager(
             MATCH_PARENT, MATCH_PARENT,
-            data = tabs.static,
+            data = tabs,
             currentIndex = currentIndex,
             smoothScroll = false,
             isUserInputEnable = false,

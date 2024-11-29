@@ -1,5 +1,10 @@
 # Change LOG
 
+### 0.2.41
+
+- [fix] liveTabLayout的data参数改为LiveData类型
+- [fix] 修复设置阴影的blur较小，offset较大时，内容被裁剪的问题
+
 ### 0.2.40
 
 - [fix] 修复loopPager嵌套在RecyclerView或ViewPager中时，进行自动动画翻页时的几个经典bug，如翻页动画丢失，动画卡在一半

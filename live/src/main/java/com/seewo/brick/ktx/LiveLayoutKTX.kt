@@ -565,7 +565,7 @@ fun <T> ViewGroup.liveTabLayout(
     fitsSystemWindows: Boolean = false,
     lifecycleOwner: LifecycleOwner? = null,
 
-    data: List<T> = listOf(),
+    data: LiveData<List<T>> = listOf<T>().static,
     currentIndex: LiveData<Int> = 0.static,
     @TabLayout.Mode tabMode: Int? = null,
     @TabLayout.TabIndicatorGravity tabIndicatorGravity: Int? = null,
@@ -580,7 +580,7 @@ fun <T> ViewGroup.liveTabLayout(
 ) = tabLayout(
     width, height, style, id, tag, foreground, background, margin, padding,
     fitsSystemWindows = fitsSystemWindows,
-    data = data,
+    data = data.data,
     tabMode = tabMode,
     tabIndicatorGravity = tabIndicatorGravity,
     tabIndicatorColor = tabIndicatorColor,
@@ -602,6 +602,16 @@ fun <T> ViewGroup.liveTabLayout(
         currentIndex.bindNotNull(lifecycleOwner) {
             if (this@apply.selectedTabPosition != it) {
                 this@apply.selectTab(this@apply.getTabAt(it))
+            }
+        }
+        data.bindNotNull(lifecycleOwner) {
+            it.forEachIndexed { index, item ->
+                block?.invoke(context, index, item)?.let { itemView ->
+                    removeAllTabs()
+                    newTab().apply {
+                        customView = itemView
+                    }.also { addTab(it) }
+                }
             }
         }
     } else {

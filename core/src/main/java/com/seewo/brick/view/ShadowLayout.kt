@@ -1,12 +1,17 @@
 package com.seewo.brick.view
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.seewo.brick.ktx.dp
+import kotlin.math.max
 
 
 class ShadowLayout : FrameLayout {
@@ -82,8 +87,8 @@ class ShadowLayout : FrameLayout {
 
     private fun updateRect() {
         setPadding(
-            (initPaddingRect.left + shadowRadius - shadowOffsetX).toInt(),
-            (initPaddingRect.top + shadowRadius - shadowOffsetY).toInt(),
+            (initPaddingRect.left + max((shadowRadius - shadowOffsetX), 0f)).toInt(),
+            (initPaddingRect.top + max((shadowRadius - shadowOffsetY), 0f)).toInt(),
             (shadowRadius + initPaddingRect.right + shadowOffsetX).toInt(),
             (shadowRadius + initPaddingRect.bottom + shadowOffsetY).toInt(),
         )
