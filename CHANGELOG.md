@@ -2,6 +2,7 @@
 
 ### 0.2.43
 
+- [feature] TabLayout增加fixedItemWidth参数：当tabMode为MODE_SCROLLABLE时，设置每个Tab的固定宽度（如果不设置，可能控件自带奇怪的padding）
 - [fix] liveTabLayout的data参数改为LiveData类型
 - [fix] 修复设置阴影的blur较小，offset较大时，内容被裁剪的问题
 

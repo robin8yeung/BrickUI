@@ -30,6 +30,7 @@ import com.seewo.brick.params.EdgeInsets
  * @param data 传入一个列表用于构造TabLayout
  * @param selectedTabIndicator 自定义选中下划线样式，仅Android 5.1以上支持自定义。建议用layerDrawable来构造，但需要Android M以上才能很好支持。如果考虑Android 5.1，建议使用selectedTabIndicatorRes
  * @param selectedTabIndicatorRes 自定义选中下划线样式，仅Android 5.1以上支持自定义。
+ * @param fixedItemWidth tabMode为MODE_SCROLLABLE时，设置每个Tab的固定宽度（如果不设置，可能控件自带奇怪的padding）
  * @param block 为data的每一项创建一个TabView
  *
  * @see layerDrawable
@@ -93,6 +94,7 @@ fun <T> ViewGroup.tabLayout(
  * @param data 传入一个列表用于构造TabLayout
  * @param selectedTabIndicator 自定义选中下划线样式，仅Android 5.1以上支持自定义。建议用layerDrawable来构造，但需要Android M以上才能很好支持。如果考虑Android 5.1，建议使用selectedTabIndicatorRes
  * @param selectedTabIndicatorRes 自定义选中下划线样式，仅Android 5.1以上支持自定义。
+ * @param fixedItemWidth tabMode为MODE_SCROLLABLE时，设置每个Tab的固定宽度（如果不设置，可能控件自带奇怪的padding）
  * @param block 为data的每一项创建一个TabView
  *
  * @see layerDrawable
