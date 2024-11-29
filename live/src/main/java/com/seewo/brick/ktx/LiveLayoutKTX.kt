@@ -605,14 +605,7 @@ fun <T> ViewGroup.liveTabLayout(
             }
         }
         data.bindNotNull(lifecycleOwner) {
-            it.forEachIndexed { index, item ->
-                block?.invoke(context, index, item)?.let { itemView ->
-                    removeAllTabs()
-                    newTab().apply {
-                        customView = itemView
-                    }.also { addTab(it) }
-                }
-            }
+            updateTabs(it, block)
         }
     } else {
         visibility?.bindNotNull(context) {
@@ -622,6 +615,23 @@ fun <T> ViewGroup.liveTabLayout(
             if (this@apply.selectedTabPosition != it) {
                 this@apply.selectTab(this@apply.getTabAt(it))
             }
+        }
+        data.bindNotNull(context) {
+            updateTabs(it, block)
+        }
+    }
+}
+
+private fun <T> TabLayout.updateTabs(
+    it: List<T>,
+    block: (Context.(index: Int, item: T) -> View)?
+) {
+    removeAllTabs()
+    it.forEachIndexed { index, item ->
+        block?.invoke(context, index, item)?.let { itemView ->
+            newTab().apply {
+                customView = itemView
+            }.also { addTab(it) }
         }
     }
 }

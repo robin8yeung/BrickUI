@@ -1,6 +1,6 @@
 # Change LOG
 
-### 0.2.41
+### 0.2.42
 
 - [fix] liveTabLayout的data参数改为LiveData类型
 - [fix] 修复设置阴影的blur较小，offset较大时，内容被裁剪的问题
